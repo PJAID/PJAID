@@ -1,0 +1,236 @@
+Index: pjaidApp/tsconfig.app.json
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/pjaidApp/tsconfig.app.json b/pjaidApp/src/app/ts_angular/tsconfig.app.json
+rename from pjaidApp/tsconfig.app.json
+rename to pjaidApp/src/app/ts_angular/tsconfig.app.json
+--- a/pjaidApp/tsconfig.app.json	(revision 1f006f8e9a7476af3e6c6456d3bf3202dad3877f)
++++ b/pjaidApp/src/app/ts_angular/tsconfig.app.json	(date 1741872827671)
+@@ -7,7 +7,7 @@
+     "types": []
+   },
+   "files": [
+-    "src/main.ts"
++    "../main.ts"
+   ],
+   "include": [
+     "src/**/*.d.ts"
+Index: pjaidApp/.gitignore
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+># See https://docs.github.com/get-started/getting-started-with-git/ignoring-files for more about ignoring files.\n\n# Compiled output\n/dist\n/tmp\n/out-tsc\n/bazel-out\n\n# Node\n/node_modules\nnpm-debug.log\nyarn-error.log\n\n# IDEs and editors\n.idea/\n.project\n.classpath\n.c9/\n*.launch\n.settings/\n*.sublime-workspace\n\n# Visual Studio Code\n.vscode/*\n!.vscode/settings.json\n!.vscode/tasks.json\n!.vscode/launch.json\n!.vscode/extensions.json\n.history/*\n\n# Miscellaneous\n/.angular/cache\n.sass-cache/\n/connect.lock\n/coverage\n/libpeerconnection.log\ntestem.log\n/typings\n\n# System files\n.DS_Store\nThumbs.db\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/pjaidApp/.gitignore b/pjaidApp/.gitignore
+--- a/pjaidApp/.gitignore	(revision 1f006f8e9a7476af3e6c6456d3bf3202dad3877f)
++++ b/pjaidApp/.gitignore	(date 1741870452491)
+@@ -40,3 +40,6 @@
+ # System files
+ .DS_Store
+ Thumbs.db
++/.idea/
++/.mvn/
++/.vscode/
+Index: pjaidApp/src/main.ts
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/pjaidApp/src/main.ts b/pjaidApp/src/app/main.ts
+rename from pjaidApp/src/main.ts
+rename to pjaidApp/src/app/main.ts
+--- a/pjaidApp/src/main.ts	(revision 1f006f8e9a7476af3e6c6456d3bf3202dad3877f)
++++ b/pjaidApp/src/app/main.ts	(date 1741872073330)
+@@ -1,6 +1,6 @@
+ import { bootstrapApplication } from '@angular/platform-browser';
+-import { appConfig } from './app/app.config';
+-import { AppComponent } from './app/app.component';
++import { appConfig } from './angular/app.config';
++import { AppComponent } from './angular/app.component';
+ 
+ bootstrapApplication(AppComponent, appConfig)
+   .catch((err) => console.error(err));
+Index: pjaidApp/README.md
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+># PjaidApp\n\nThis project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 19.2.1.\n\n## Development server\n\nTo start a local development server, run:\n\n```bash\nng serve\n```\n\nOnce the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.\n\n## Code scaffolding\n\nAngular CLI includes powerful code scaffolding tools. To generate a new component, run:\n\n```bash\nng generate component component-name\n```\n\nFor a complete list of available schematics (such as `components`, `directives`, or `pipes`), run:\n\n```bash\nng generate --help\n```\n\n## Building\n\nTo build the project run:\n\n```bash\nng build\n```\n\nThis will compile your project and store the build artifacts in the `dist/` directory. By default, the production build optimizes your application for performance and speed.\n\n## Running unit tests\n\nTo execute unit tests with the [Karma](https://karma-runner.github.io) test runner, use the following command:\n\n```bash\nng test\n```\n\n## Running end-to-end tests\n\nFor end-to-end (e2e) testing, run:\n\n```bash\nng e2e\n```\n\nAngular CLI does not come with an end-to-end testing framework by default. You can choose one that suits your needs.\n\n## Additional Resources\n\nFor more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/pjaidApp/README.md b/pjaidApp/README.md
+--- a/pjaidApp/README.md	(revision 1f006f8e9a7476af3e6c6456d3bf3202dad3877f)
++++ b/pjaidApp/README.md	(date 1741872720579)
+@@ -1,8 +1,3 @@
+-# PjaidApp
+-
+-This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 19.2.1.
+-
+-## Development server
+ 
+ To start a local development server, run:
+ 
+@@ -10,50 +5,3 @@
+ ng serve
+ ```
+ 
+-Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
+-
+-## Code scaffolding
+-
+-Angular CLI includes powerful code scaffolding tools. To generate a new component, run:
+-
+-```bash
+-ng generate component component-name
+-```
+-
+-For a complete list of available schematics (such as `components`, `directives`, or `pipes`), run:
+-
+-```bash
+-ng generate --help
+-```
+-
+-## Building
+-
+-To build the project run:
+-
+-```bash
+-ng build
+-```
+-
+-This will compile your project and store the build artifacts in the `dist/` directory. By default, the production build optimizes your application for performance and speed.
+-
+-## Running unit tests
+-
+-To execute unit tests with the [Karma](https://karma-runner.github.io) test runner, use the following command:
+-
+-```bash
+-ng test
+-```
+-
+-## Running end-to-end tests
+-
+-For end-to-end (e2e) testing, run:
+-
+-```bash
+-ng e2e
+-```
+-
+-Angular CLI does not come with an end-to-end testing framework by default. You can choose one that suits your needs.
+-
+-## Additional Resources
+-
+-For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+Index: pjaidApp/angular.json
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>{\n  \"$schema\": \"./node_modules/@angular/cli/lib/config/schema.json\",\n  \"version\": 1,\n  \"newProjectRoot\": \"projects\",\n  \"projects\": {\n    \"pjaidApp\": {\n      \"projectType\": \"application\",\n      \"schematics\": {},\n      \"root\": \"\",\n      \"sourceRoot\": \"src\",\n      \"prefix\": \"app\",\n      \"architect\": {\n        \"build\": {\n          \"builder\": \"@angular-devkit/build-angular:application\",\n          \"options\": {\n            \"outputPath\": \"dist/pjaid-app\",\n            \"index\": \"src/index.html\",\n            \"browser\": \"src/main.ts\",\n            \"polyfills\": [\n              \"zone.js\"\n            ],\n            \"tsConfig\": \"tsconfig.app.json\",\n            \"assets\": [\n              {\n                \"glob\": \"**/*\",\n                \"input\": \"public\"\n              }\n            ],\n            \"styles\": [\n              \"src/styles.css\"\n            ],\n            \"scripts\": []\n          },\n          \"configurations\": {\n            \"production\": {\n              \"budgets\": [\n                {\n                  \"type\": \"initial\",\n                  \"maximumWarning\": \"500kB\",\n                  \"maximumError\": \"1MB\"\n                },\n                {\n                  \"type\": \"anyComponentStyle\",\n                  \"maximumWarning\": \"4kB\",\n                  \"maximumError\": \"8kB\"\n                }\n              ],\n              \"outputHashing\": \"all\"\n            },\n            \"development\": {\n              \"optimization\": false,\n              \"extractLicenses\": false,\n              \"sourceMap\": true\n            }\n          },\n          \"defaultConfiguration\": \"production\"\n        },\n        \"serve\": {\n          \"builder\": \"@angular-devkit/build-angular:dev-server\",\n          \"configurations\": {\n            \"production\": {\n              \"buildTarget\": \"pjaidApp:build:production\"\n            },\n            \"development\": {\n              \"buildTarget\": \"pjaidApp:build:development\"\n            }\n          },\n          \"defaultConfiguration\": \"development\"\n        },\n        \"extract-i18n\": {\n          \"builder\": \"@angular-devkit/build-angular:extract-i18n\"\n        },\n        \"test\": {\n          \"builder\": \"@angular-devkit/build-angular:karma\",\n          \"options\": {\n            \"polyfills\": [\n              \"zone.js\",\n              \"zone.js/testing\"\n            ],\n            \"tsConfig\": \"tsconfig.spec.json\",\n            \"assets\": [\n              {\n                \"glob\": \"**/*\",\n                \"input\": \"public\"\n              }\n            ],\n            \"styles\": [\n              \"src/styles.css\"\n            ],\n            \"scripts\": []\n          }\n        }\n      }\n    }\n  },\n  \"cli\": {\n    \"analytics\": \"94c22950-8480-4587-81ce-04620c974529\"\n  }\n}\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/pjaidApp/angular.json b/pjaidApp/angular.json
+--- a/pjaidApp/angular.json	(revision 1f006f8e9a7476af3e6c6456d3bf3202dad3877f)
++++ b/pjaidApp/angular.json	(date 1741873128047)
+@@ -14,12 +14,12 @@
+           "builder": "@angular-devkit/build-angular:application",
+           "options": {
+             "outputPath": "dist/pjaid-app",
+-            "index": "src/index.html",
+-            "browser": "src/main.ts",
++            "index": "src/app/index.html",
++            "browser": "src/app/main.ts",
+             "polyfills": [
+               "zone.js"
+             ],
+-            "tsConfig": "tsconfig.app.json",
++            "tsConfig": "src/app/ts_angular/tsconfig.app.json",
+             "assets": [
+               {
+                 "glob": "**/*",
+@@ -27,7 +27,7 @@
+               }
+             ],
+             "styles": [
+-              "src/styles.css"
++              "src/app/styles.css"
+             ],
+             "scripts": []
+           },
+@@ -77,7 +77,7 @@
+               "zone.js",
+               "zone.js/testing"
+             ],
+-            "tsConfig": "tsconfig.spec.json",
++            "tsConfig": "src/app/ts_angular/tsconfig.spec.json",
+             "assets": [
+               {
+                 "glob": "**/*",
+Index: pjaidApp/package-lock.json
+===================================================================
+diff --git a/pjaidApp/package-lock.json b/pjaidApp/package-lock.json
+deleted file mode 100644
+--- a/pjaidApp/package-lock.json	(revision 1f006f8e9a7476af3e6c6456d3bf3202dad3877f)
++++ /dev/null	(revision 1f006f8e9a7476af3e6c6456d3bf3202dad3877f)
+@@ -1,6 +0,0 @@
+-{
+-  "name": "PJAID",
+-  "lockfileVersion": 2,
+-  "requires": true,
+-  "packages": {}
+-}
+Index: pjaidApp/.editorconfig
+===================================================================
+diff --git a/pjaidApp/.editorconfig b/pjaidApp/.editorconfig
+deleted file mode 100644
+--- a/pjaidApp/.editorconfig	(revision 1f006f8e9a7476af3e6c6456d3bf3202dad3877f)
++++ /dev/null	(revision 1f006f8e9a7476af3e6c6456d3bf3202dad3877f)
+@@ -1,17 +0,0 @@
+-# Editor configuration, see https://editorconfig.org
+-root = true
+-
+-[*]
+-charset = utf-8
+-indent_style = space
+-indent_size = 2
+-insert_final_newline = true
+-trim_trailing_whitespace = true
+-
+-[*.ts]
+-quote_type = single
+-ij_typescript_use_double_quotes = false
+-
+-[*.md]
+-max_line_length = off
+-trim_trailing_whitespace = false
+diff --git a/pjaidApp/src/app/app.component.html b/pjaidApp/src/app/angular/app.component.html
+rename from pjaidApp/src/app/app.component.html
+rename to pjaidApp/src/app/angular/app.component.html
+diff --git a/pjaidApp/src/app/app.routes.ts b/pjaidApp/src/app/angular/app.routes.ts
+rename from pjaidApp/src/app/app.routes.ts
+rename to pjaidApp/src/app/angular/app.routes.ts
+diff --git a/pjaidApp/src/app/app.component.spec.ts b/pjaidApp/src/app/angular/app.component.spec.ts
+rename from pjaidApp/src/app/app.component.spec.ts
+rename to pjaidApp/src/app/angular/app.component.spec.ts
+diff --git a/pjaidApp/src/app/app.component.ts b/pjaidApp/src/app/angular/app.component.ts
+rename from pjaidApp/src/app/app.component.ts
+rename to pjaidApp/src/app/angular/app.component.ts
+diff --git a/pjaidApp/src/app/app.config.ts b/pjaidApp/src/app/angular/app.config.ts
+rename from pjaidApp/src/app/app.config.ts
+rename to pjaidApp/src/app/angular/app.config.ts
+diff --git a/pjaidApp/src/app/app.component.css b/pjaidApp/src/app/angular/app.component.css
+rename from pjaidApp/src/app/app.component.css
+rename to pjaidApp/src/app/angular/app.component.css
+diff --git a/pjaidApp/tsconfig.spec.json b/pjaidApp/src/app/ts_angular/tsconfig.spec.json
+rename from pjaidApp/tsconfig.spec.json
+rename to pjaidApp/src/app/ts_angular/tsconfig.spec.json
+diff --git a/pjaidApp/src/styles.css b/pjaidApp/src/app/styles.css
+rename from pjaidApp/src/styles.css
+rename to pjaidApp/src/app/styles.css
+diff --git a/pjaidApp/src/index.html b/pjaidApp/src/app/index.html
+rename from pjaidApp/src/index.html
+rename to pjaidApp/src/app/index.html
+diff --git a/pjaidApp/tsconfig.json b/pjaidApp/src/app/ts_angular/tsconfig.json
+rename from pjaidApp/tsconfig.json
+rename to pjaidApp/src/app/ts_angular/tsconfig.json
