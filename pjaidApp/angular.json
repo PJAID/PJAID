@@ -14,12 +14,12 @@
           "builder": "@angular-devkit/build-angular:application",
           "options": {
             "outputPath": "dist/pjaid-app",
-            "index": "src/index.html",
-            "browser": "src/main.ts",
+            "index": "src/app/index.html",
+            "browser": "src/app/main.ts",
             "polyfills": [
               "zone.js"
             ],
-            "tsConfig": "tsconfig.app.json",
+            "tsConfig": "src/app/ts_angular/tsconfig.app.json",
             "assets": [
               {
                 "glob": "**/*",
@@ -27,7 +27,7 @@
               }
             ],
             "styles": [
-              "src/styles.css"
+              "src/app/styles.css"
             ],
             "scripts": []
           },
@@ -77,7 +77,7 @@
               "zone.js",
               "zone.js/testing"
             ],
-            "tsConfig": "tsconfig.spec.json",
+            "tsConfig": "src/app/ts_angular/tsconfig.spec.json",
             "assets": [
               {
                 "glob": "**/*",

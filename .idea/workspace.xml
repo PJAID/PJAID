@@ -1,19 +1,32 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
   <component name="ChangeListManager">
     <list default="true" id="a01f0ae2-0523-4ad2-9da8-00a24cf4aa7c" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/PJAID.iml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/profiles_settings.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/pjaidApp/.idea/.gitignore" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/pjaidApp/.idea/inspectionProfiles/Project_Default.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/pjaidApp/.idea/inspectionProfiles/profiles_settings.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/pjaidApp/.idea/misc.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/pjaidApp/.idea/modules.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/pjaidApp/.idea/pjaidApp.iml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/pjaidApp/.idea/vcs.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/vcs.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pjaidApp/.editorconfig" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/pjaidApp/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/pjaidApp/.gitignore" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pjaidApp/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/pjaidApp/README.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pjaidApp/angular.json" beforeDir="false" afterPath="$PROJECT_DIR$/pjaidApp/angular.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pjaidApp/mvnw" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/pjaidApp/mvnw.cmd" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/pjaidApp/package-lock.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/pjaidApp/public/favicon.ico" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/pjaidApp/src/app/app.component.css" beforeDir="false" afterPath="$PROJECT_DIR$/pjaidApp/src/app/angular/app.component.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pjaidApp/src/app/app.component.html" beforeDir="false" afterPath="$PROJECT_DIR$/pjaidApp/src/app/angular/app.component.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pjaidApp/src/app/app.component.spec.ts" beforeDir="false" afterPath="$PROJECT_DIR$/pjaidApp/src/app/angular/app.component.spec.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pjaidApp/src/app/app.component.ts" beforeDir="false" afterPath="$PROJECT_DIR$/pjaidApp/src/app/angular/app.component.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pjaidApp/src/app/app.config.ts" beforeDir="false" afterPath="$PROJECT_DIR$/pjaidApp/src/app/angular/app.config.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pjaidApp/src/app/app.routes.ts" beforeDir="false" afterPath="$PROJECT_DIR$/pjaidApp/src/app/angular/app.routes.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pjaidApp/src/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/pjaidApp/src/app/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pjaidApp/src/main.ts" beforeDir="false" afterPath="$PROJECT_DIR$/pjaidApp/src/app/main.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pjaidApp/src/styles.css" beforeDir="false" afterPath="$PROJECT_DIR$/pjaidApp/src/app/styles.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pjaidApp/tsconfig.app.json" beforeDir="false" afterPath="$PROJECT_DIR$/pjaidApp/src/app/ts_angular/tsconfig.app.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pjaidApp/tsconfig.json" beforeDir="false" afterPath="$PROJECT_DIR$/pjaidApp/src/app/ts_angular/tsconfig.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pjaidApp/tsconfig.spec.json" beforeDir="false" afterPath="$PROJECT_DIR$/pjaidApp/src/app/ts_angular/tsconfig.spec.json" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -21,11 +34,12 @@
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
   <component name="Git.Settings">
-    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/pjaidApp" />
+    <option name="ROOT_SYNC" value="SYNC" />
   </component>
-  <component name="ProjectColorInfo"><![CDATA[{
-  "associatedIndex": 6
-}]]></component>
+  <component name="ProjectColorInfo">{
+  &quot;associatedIndex&quot;: 6
+}</component>
   <component name="ProjectId" id="2uAj7rQ5LR0DvtrhRZykmfOw8Xs" />
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="ProjectViewState">
@@ -35,38 +49,62 @@
   </component>
   <component name="PropertiesComponent"><![CDATA[{
   "keyToString": {
+    "Karma.AppComponent.executor": "Run",
+    "Karma.app.component.spec.ts.executor": "Run",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "com.codeium.enabled": "true",
-    "git-widget-placeholder": "main",
-    "nodejs_interpreter_path": "/Users/jakubmarcinkowski/.nvm/versions/node/v20.18.3/bin/node",
+    "git-widget-placeholder": "feature/angular-setup",
+    "last_opened_file_path": "/Users/jakubmarcinkowski/Desktop/PJAID",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_interpreter_path": "/usr/local/bin/node",
     "nodejs_package_manager_path": "npm",
+    "settings.editor.selected.configurable": "vcs.Git",
+    "ts.external.directory.path": "/Users/jakubmarcinkowski/Desktop/PJAID/pjaidApp/node_modules/typescript/lib",
     "vue.rearranger.settings.migration": "true"
   }
 }]]></component>
-  <component name="RunManager">
-    <configuration default="true" type="PythonConfigurationType" factoryName="Python">
-      <module name="PJAID" />
-      <option name="ENV_FILES" value="" />
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <envs>
-        <env name="PYTHONUNBUFFERED" value="1" />
-      </envs>
-      <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="" />
-      <option name="IS_MODULE_SDK" value="false" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
-      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
-      <option name="SCRIPT_NAME" value="" />
-      <option name="PARAMETERS" value="" />
-      <option name="SHOW_COMMAND_LINE" value="false" />
-      <option name="EMULATE_TERMINAL" value="false" />
-      <option name="MODULE_MODE" value="false" />
-      <option name="REDIRECT_INPUT" value="false" />
-      <option name="INPUT_FILE" value="" />
+  <component name="RecentsManager">
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/pjaidApp/src/app" />
+      <recent name="$PROJECT_DIR$/pjaidApp/src/app/angular" />
+      <recent name="$PROJECT_DIR$/pjaidApp" />
+      <recent name="$PROJECT_DIR$/pjaidApp/src/app/ts_angular" />
+      <recent name="$PROJECT_DIR$/pjaidApp/src" />
+    </key>
+  </component>
+  <component name="RunManager" selected="Karma.app.component.spec.ts">
+    <configuration name="AppComponent" type="JavaScriptTestRunnerKarma" temporary="true" nameIsGenerated="true">
+      <config-file value="" />
+      <karma-package-dir value="$PROJECT_DIR$/pjaidApp/node_modules/@angular/cli" />
+      <working-directory value="$PROJECT_DIR$" />
+      <node-interpreter value="project" />
+      <envs />
+      <scope-kind value="SUITE" />
+      <test-file-path value="$PROJECT_DIR$/pjaidApp/src/app/app.component.spec.ts" />
+      <test-names>
+        <test-name value="AppComponent" />
+      </test-names>
       <method v="2" />
     </configuration>
+    <configuration name="app.component.spec.ts" type="JavaScriptTestRunnerKarma" temporary="true" nameIsGenerated="true">
+      <config-file value="" />
+      <karma-package-dir value="$PROJECT_DIR$/pjaidApp/node_modules/@angular/cli" />
+      <working-directory value="$PROJECT_DIR$" />
+      <node-interpreter value="project" />
+      <envs />
+      <scope-kind value="TEST_FILE" />
+      <test-file-path value="$PROJECT_DIR$/pjaidApp/src/app/app.component.spec.ts" />
+      <method v="2" />
+    </configuration>
+    <recent_temporary>
+      <list>
+        <item itemvalue="Karma.app.component.spec.ts" />
+        <item itemvalue="Karma.AppComponent" />
+      </list>
+    </recent_temporary>
   </component>
   <component name="SharedIndexes">
     <attachedChunks>
@@ -85,6 +123,8 @@
       <option name="presentableId" value="Default" />
       <updated>1741698108474</updated>
       <workItem from="1741698109486" duration="124000" />
+      <workItem from="1741698740713" duration="4809000" />
+      <workItem from="1741869997676" duration="3945000" />
     </task>
     <servers />
   </component>
