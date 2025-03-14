@@ -6,26 +6,6 @@
   <component name="ChangeListManager">
     <list default="true" id="a01f0ae2-0523-4ad2-9da8-00a24cf4aa7c" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pjaidApp/.editorconfig" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/pjaidApp/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/pjaidApp/.gitignore" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pjaidApp/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/pjaidApp/README.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pjaidApp/angular.json" beforeDir="false" afterPath="$PROJECT_DIR$/pjaidApp/angular.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pjaidApp/mvnw" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/pjaidApp/mvnw.cmd" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/pjaidApp/package-lock.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/pjaidApp/public/favicon.ico" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/pjaidApp/src/app/app.component.css" beforeDir="false" afterPath="$PROJECT_DIR$/pjaidApp/src/main/angular/app.component.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pjaidApp/src/app/app.component.html" beforeDir="false" afterPath="$PROJECT_DIR$/pjaidApp/src/main/angular/app.component.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pjaidApp/src/app/app.component.spec.ts" beforeDir="false" afterPath="$PROJECT_DIR$/pjaidApp/src/main/angular/app.component.spec.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pjaidApp/src/app/app.component.ts" beforeDir="false" afterPath="$PROJECT_DIR$/pjaidApp/src/main/angular/app.component.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pjaidApp/src/app/app.config.ts" beforeDir="false" afterPath="$PROJECT_DIR$/pjaidApp/src/main/angular/app.config.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pjaidApp/src/app/app.routes.ts" beforeDir="false" afterPath="$PROJECT_DIR$/pjaidApp/src/main/angular/app.routes.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pjaidApp/src/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/pjaidApp/src/main/angular/app/index.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pjaidApp/src/main.ts" beforeDir="false" afterPath="$PROJECT_DIR$/pjaidApp/src/main/angular/app/main.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pjaidApp/src/styles.css" beforeDir="false" afterPath="$PROJECT_DIR$/pjaidApp/src/main/angular/app/styles.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pjaidApp/tsconfig.app.json" beforeDir="false" afterPath="$PROJECT_DIR$/pjaidApp/src/main/angular/ts_angular/tsconfig.app.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pjaidApp/tsconfig.json" beforeDir="false" afterPath="$PROJECT_DIR$/pjaidApp/src/main/angular/ts_angular/tsconfig.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pjaidApp/tsconfig.spec.json" beforeDir="false" afterPath="$PROJECT_DIR$/pjaidApp/src/main/angular/ts_angular/tsconfig.spec.json" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -46,32 +26,32 @@
     <option name="showLibraryContents" value="true" />
     <option name="showMembers" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "Karma.AppComponent.executor": "Run",
-    "Karma.app.component.spec.ts.executor": "Run",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "com.codeium.enabled": "true",
-    "git-widget-placeholder": "feature/angular-setup",
-    "last_opened_file_path": "/Users/jakubmarcinkowski/Desktop/PJAID",
-    "node.js.detected.package.eslint": "true",
-    "node.js.detected.package.tslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "node.js.selected.package.tslint": "(autodetect)",
-    "nodejs_interpreter_path": "/usr/local/bin/node",
-    "nodejs_package_manager_path": "npm",
-    "settings.editor.selected.configurable": "vcs.Git",
-    "ts.external.directory.path": "/Users/jakubmarcinkowski/Desktop/PJAID/pjaidApp/node_modules/typescript/lib",
-    "vue.rearranger.settings.migration": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;Karma.AppComponent.executor&quot;: &quot;Run&quot;,
+    &quot;Karma.app.component.spec.ts.executor&quot;: &quot;Run&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;com.codeium.enabled&quot;: &quot;true&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;feature/angular-setup&quot;,
+    &quot;last_opened_file_path&quot;: &quot;/Users/jakubmarcinkowski/Desktop/PJAID&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_interpreter_path&quot;: &quot;/usr/local/bin/node&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;vcs.Git&quot;,
+    &quot;ts.external.directory.path&quot;: &quot;/Users/jakubmarcinkowski/Desktop/PJAID/pjaidApp/node_modules/typescript/lib&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/pjaidApp/frontend/src" />
+      <recent name="$PROJECT_DIR$/pjaidApp/frontend" />
       <recent name="$PROJECT_DIR$/pjaidApp/src/main/angular/ts_angular" />
       <recent name="$PROJECT_DIR$/pjaidApp/src/main/angular" />
       <recent name="$PROJECT_DIR$/pjaidApp/src/main" />
-      <recent name="$PROJECT_DIR$/pjaidApp/src/app" />
-      <recent name="$PROJECT_DIR$/pjaidApp/src/app/angular" />
     </key>
   </component>
   <component name="RunManager" selected="Karma.app.component.spec.ts">
@@ -123,7 +103,8 @@
       <updated>1741698108474</updated>
       <workItem from="1741698109486" duration="124000" />
       <workItem from="1741698740713" duration="4809000" />
-      <workItem from="1741869997676" duration="5088000" />
+      <workItem from="1741869997676" duration="5922000" />
+      <workItem from="1741960826876" duration="762000" />
     </task>
     <servers />
   </component>
