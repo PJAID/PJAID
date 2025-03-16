@@ -5,6 +5,8 @@
 /tmp
 /out-tsc
 /bazel-out
+/backend/src/data
+/backend/target
 
 # Node
 /node_modules
