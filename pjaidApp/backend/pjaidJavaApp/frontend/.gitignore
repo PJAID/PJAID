@@ -6,18 +6,6 @@
 /out-tsc
 /bazel-out
 
-# Local generated file after build
-/backend/src/data
-/backend/pjaidJavaApp/target
-/backend/pjaidJavaApp/frontend/node
-/backend/pjaidJavaApp/frontend/node_modules
-/backend/pjaidJavaApp/frontend/.angular
-/backend/pjaidJavaApp/frontend/.vscode
-/backend/pjaidJavaApp/frontend/package-lock.json
-/backend/pjaidJavaApp/src/main/resources/static
-
-!/backend/pjaidJavaApp/src/main/resources/static/.gitkeep
-
 # Node
 /node_modules
 npm-debug.log
@@ -52,6 +40,3 @@ testem.log
 # System files
 .DS_Store
 Thumbs.db
-/.idea/
-/.mvn/
-/.vscode/
