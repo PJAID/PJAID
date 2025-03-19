@@ -3,7 +3,7 @@
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
-    "pjaidApp": {
+    "frontend": {
       "projectType": "application",
       "schematics": {},
       "root": "",
@@ -13,13 +13,16 @@
         "build": {
           "builder": "@angular-devkit/build-angular:application",
           "options": {
-            "outputPath": "dist/pjaid-app",
-            "index": "frontend/src/angular/app/index.html",
-            "browser": "frontend/src/angular/app/main.ts",
+            "outputPath": {
+            "base": "../src/main/resources/static",
+            "browser": ""
+          },
+            "index": "src/index.html",
+            "browser": "src/main.ts",
             "polyfills": [
               "zone.js"
             ],
-            "tsConfig": "frontend/src/angular/ts_angular/tsconfig.app.json",
+            "tsConfig": "tsconfig.app.json",
             "assets": [
               {
                 "glob": "**/*",
@@ -27,7 +30,7 @@
               }
             ],
             "styles": [
-              "frontend/src/angular/app/styles.css"
+              "src/styles.css"
             ],
             "scripts": []
           },
@@ -59,10 +62,10 @@
           "builder": "@angular-devkit/build-angular:dev-server",
           "configurations": {
             "production": {
-              "buildTarget": "pjaidApp:build:production"
+              "buildTarget": "frontend:build:production"
             },
             "development": {
-              "buildTarget": "pjaidApp:build:development"
+              "buildTarget": "frontend:build:development"
             }
           },
           "defaultConfiguration": "development"
@@ -77,7 +80,7 @@
               "zone.js",
               "zone.js/testing"
             ],
-            "tsConfig": "frontend/src/angular/ts_angular/tsconfig.spec.json",
+            "tsConfig": "tsconfig.spec.json",
             "assets": [
               {
                 "glob": "**/*",
@@ -85,15 +88,12 @@
               }
             ],
             "styles": [
-              "frontend/src/angular/app/styles.css"
+              "src/styles.css"
             ],
             "scripts": []
           }
         }
       }
     }
-  },
-  "cli": {
-    "analytics": "94c22950-8480-4587-81ce-04620c974529"
   }
 }
