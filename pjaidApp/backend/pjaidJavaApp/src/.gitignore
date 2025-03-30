@@ -1,0 +1,44 @@
+# === Java / Maven ===
+target/
+*.class
+*.jar
+*.war
+*.ear
+
+# === IDE (IntelliJ) ===
+.idea/
+*.iml
+*.iws
+out/
+
+# === Build tools ===
+/.gradle
+/build/
+/bin/
+/tmp/
+/.mvn/
+!.mvn/wrapper/maven-wrapper.jar
+
+# === Environment config ===
+.env
+*.env
+application-local.yml
+application-dev.yml
+application-test.yml
+
+# === Lombok / MapStruct ===
+generated/
+target/generated-sources/
+target/generated-test-sources/
+
+# === Test results ===
+/test-output/
+/surefire-reports/
+/jacoco.exec
+
+# === Flyway migrations output (optional) ===
+*.h2.db
+*.mv.db
+
+# === Project ===
+data/
