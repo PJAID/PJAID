@@ -11,6 +11,7 @@ import org.hibernate.annotations.UpdateTimestamp;
 
 import java.time.LocalDateTime;
 
+
 @Getter
 @Setter
 @NoArgsConstructor
@@ -23,7 +24,12 @@ public class Ticket {
     private int id;
     private String title;
     private String description;
-    private String status;
+
+
+   @Enumerated(EnumType.STRING)
+   private TicketStatus status;
+
+
 
     @CreationTimestamp
     @Column(name = "created_at", updatable = false)
@@ -33,5 +39,4 @@ public class Ticket {
     @Column(name = "updated_at")
     private LocalDateTime updatedAt;
 }
-
 
