@@ -1,12 +1,14 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { TicketService, Ticket } from '../../ticket.service';
+import { NgIf } from '@angular/common';
 
 @Component({
   selector: 'app-ticket-details',
-  templateUrl: './ticket-details.component.html',
   standalone: true,
-  styleUrls: ['./ticket-details.component.css']
+  templateUrl: './ticket-details.component.html',
+  styleUrls: ['./ticket-details.component.css'],
+  imports: [NgIf],
 })
 export class TicketDetailsComponent implements OnInit {
   ticket: Ticket | null = null;
@@ -18,7 +20,7 @@ export class TicketDetailsComponent implements OnInit {
 
   ngOnInit(): void {
     const id = Number(this.route.snapshot.paramMap.get('id'));
-    this.ticketService.getTicketById(id).subscribe({
+    this.ticketService.getTicket(id).subscribe({
       next: (data) => (this.ticket = data),
       error: (err) => console.error('Ticket not found:', err)
     });
