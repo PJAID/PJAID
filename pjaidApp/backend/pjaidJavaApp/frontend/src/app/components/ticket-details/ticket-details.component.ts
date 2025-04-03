@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import {HttpClient} from '@angular/common/http';
+import { TicketService, Ticket } from '../../ticket.service';
 
 @Component({
   selector: 'app-ticket-details',
@@ -9,14 +9,18 @@ import {HttpClient} from '@angular/common/http';
   styleUrls: ['./ticket-details.component.css']
 })
 export class TicketDetailsComponent implements OnInit {
-  ticket: any;
+  ticket: Ticket | null = null;
 
-  constructor(private route: ActivatedRoute, private http: HttpClient) {}
+  constructor(
+    private route: ActivatedRoute,
+    private ticketService: TicketService
+  ) {}
 
   ngOnInit(): void {
-    const id = this.route.snapshot.paramMap.get('id');
-    this.http.get(`/ticket/${id}`).subscribe((data) => {
-      this.ticket = data;
+    const id = Number(this.route.snapshot.paramMap.get('id'));
+    this.ticketService.getTicketById(id).subscribe({
+      next: (data) => (this.ticket = data),
+      error: (err) => console.error('Ticket not found:', err)
     });
   }
 }

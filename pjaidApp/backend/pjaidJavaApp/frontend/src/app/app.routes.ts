@@ -3,5 +3,5 @@ import { TicketDetailsComponent } from './components/ticket-details/ticket-detai
 
 export const routes: Routes = [
   { path: 'ticket/:id', component: TicketDetailsComponent },
-  { path: '', redirectTo: '/ticket/1', pathMatch: 'full' }, // tymczasowo dla testów
+  { path: '', redirectTo: 'ticket/1', pathMatch: 'full' },
 ];
