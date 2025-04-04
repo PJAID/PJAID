@@ -16,12 +16,12 @@ public class TicketController {
     public TicketController(TicketService ticketService) {
         this.ticketService = ticketService;
     }
-
+// szczegóły zgłoszeń
     @GetMapping("/{id}")
     public String getTicketById(@PathVariable int id, Model model) {
         TicketResponse ticket = ticketService.getTicketById(id);
         model.addAttribute("ticket", ticket);
-        return "ticket-details"; // nazwa szablonu .html
+        return "ticket-details"; // to jest przejscie do katalogu html
     }
 
     @PostMapping
