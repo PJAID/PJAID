@@ -8,6 +8,9 @@ import org.api.pjaidapp.model.Ticket;
 import org.api.pjaidapp.repository.TicketRepository;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 @Service
 public class TicketService {
 
@@ -23,6 +26,13 @@ public class TicketService {
         Ticket ticket = ticketRepository.findById(id)
                 .orElseThrow(() -> new TicketNotFoundException(id));
         return ticketMapper.toResponse(ticket);
+    }
+
+    public List<TicketResponse> getAllActiveTickets() {
+        return ticketRepository.findByStatusIn(List.of(Ticket.Status.NOWE, Ticket.Status.W_TRAKCIE))
+                .stream()
+                .map(ticketMapper::toResponse)
+                .collect(Collectors.toList());
     }
 
     public TicketResponse createTicket(TicketRequest request) {

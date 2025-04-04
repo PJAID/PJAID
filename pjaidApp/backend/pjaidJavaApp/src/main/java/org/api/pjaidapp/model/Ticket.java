@@ -23,7 +23,6 @@ public class Ticket {
     private int id;
     private String title;
     private String description;
-    private String status;
 
     @CreationTimestamp
     @Column(name = "created_at", updatable = false)
@@ -32,6 +31,13 @@ public class Ticket {
     @UpdateTimestamp
     @Column(name = "updated_at")
     private LocalDateTime updatedAt;
+
+    @Enumerated(EnumType.STRING)
+    private Status status;
+
+    public enum Status {
+        NOWE, W_TRAKCIE, ZAMKNIETE
+    }
 }
 
 
