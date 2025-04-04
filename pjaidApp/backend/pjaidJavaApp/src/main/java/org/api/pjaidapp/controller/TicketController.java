@@ -2,7 +2,7 @@ package org.api.pjaidapp.controller;
 
 import org.api.pjaidapp.dto.TicketRequest;
 import org.api.pjaidapp.dto.TicketResponse;
-import org.api.pjaidapp.model.Ticket;
+
 import org.api.pjaidapp.service.TicketService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
