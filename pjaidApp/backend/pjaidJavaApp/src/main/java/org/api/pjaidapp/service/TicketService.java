@@ -23,7 +23,7 @@ public class TicketService {
         this.ticketMapper = ticketMapper;
     }
 
-    public TicketResponse getTicketById(int id) {
+    public TicketResponse getTicketById(Long id) {
         Ticket ticket = ticketRepository.findById(id)
                 .orElseThrow(() -> new TicketNotFoundException(id));
         return ticketMapper.toResponse(ticket);
@@ -35,19 +35,18 @@ public class TicketService {
         return ticketMapper.toResponse(saved);
     }
 
-    public void deleteTicket(int id) {
+    public void deleteTicket(Long id) {
         if (!ticketRepository.existsById(id)) {
             throw new TicketNotFoundException(id);
         }
         ticketRepository.deleteById(id);
     }
-
     public TicketResponse updateTicketStatus(TicketStatusUpdateDTO updateDTO) {
         Ticket ticket = ticketRepository.findById(updateDTO.getId())
                 .orElseThrow(() -> new TicketNotFoundException(updateDTO.getId()));
 
         try {
-            TicketStatus newStatus = TicketStatus.valueOf(updateDTO.getStatus().toUpperCase());
+            TicketStatus newStatus = TicketStatus.valueOf(updateDTO.getStatus());
             ticket.setStatus(newStatus);
             // (opcjonalnie) logika komentarza itd.
             Ticket saved = ticketRepository.save(ticket);

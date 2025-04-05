@@ -8,28 +8,24 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
-
 import java.time.LocalDateTime;
-
 
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@Table(name = "ticket")
+@Table(name = "tickets")
 public class Ticket {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    private Long id;
     private String title;
     private String description;
 
 
    @Enumerated(EnumType.STRING)
    private TicketStatus status;
-
-
 
     @CreationTimestamp
     @Column(name = "created_at", updatable = false)
