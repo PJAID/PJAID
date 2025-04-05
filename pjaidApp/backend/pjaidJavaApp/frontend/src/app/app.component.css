@@ -1,0 +1,23 @@
+body, html {
+    height: 100vh;
+}
+.container {
+    display: flex;
+    height: 100vh;
+}
+app-navbar {
+  width: 10%;
+  position: fixed;
+}
+.content {
+  width:90%;
+  height: 100%;
+  margin-left: 11%;
+}
+app-top-navbar{
+  position:fixed;
+  left: 11%;
+}
+.top-navbar{
+  padding-bottom: 5vh;
+}

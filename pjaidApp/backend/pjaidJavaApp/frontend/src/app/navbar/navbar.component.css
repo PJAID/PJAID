@@ -1,0 +1,41 @@
+nav{
+  font-family: 'Telegraf', sans-serif;
+  background: linear-gradient(90deg, rgba(93,224,230,1) 0%, rgba(0,74,173,1) 100%);
+  border-radius: 5vh;
+  height: 100vh;
+  min-width: 170px;
+}
+.active{
+  position: relative;
+  /*text-decoration: underline;*/
+  /*text-decoration-color: ;*/
+  font-weight: bold;
+}
+.active::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  bottom: -5px; /* Dystans od tekstu */
+  width: 100%;
+  height: 4px; /* Grubość podkreślenia */
+  background: #1297e0; /* Kolor podkreślenia */
+  border-radius: 50%; /* Lekki łuk */
+  transform: scaleY(0.7); /* Wygięcie */
+}
+a{
+  color:inherit;
+  text-decoration: none;
+}
+a:visited{
+  color: inherit;
+}
+li{
+  list-style-type: none ;
+  padding-top: 40px;
+}
+.logo{
+  content: url("../../../public/Logo-PJAID-black.svg");
+  width: 80%;
+  padding-left: 10%;
+  padding-top: 5vh;
+}
