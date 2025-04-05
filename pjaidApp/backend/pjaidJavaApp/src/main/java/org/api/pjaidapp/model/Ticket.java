@@ -6,6 +6,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.api.pjaidapp.enums.Status;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
@@ -23,7 +24,6 @@ public class Ticket {
     private int id;
     private String title;
     private String description;
-    private String status;
 
     @CreationTimestamp
     @Column(name = "created_at", updatable = false)
@@ -32,6 +32,10 @@ public class Ticket {
     @UpdateTimestamp
     @Column(name = "updated_at")
     private LocalDateTime updatedAt;
+
+    @Enumerated(EnumType.STRING)
+    private Status status;
+
 }
 
 
