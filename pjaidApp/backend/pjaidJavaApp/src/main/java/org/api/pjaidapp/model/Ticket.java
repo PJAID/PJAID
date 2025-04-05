@@ -6,6 +6,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.api.pjaidapp.enums.Status;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
@@ -35,9 +36,6 @@ public class Ticket {
     @Enumerated(EnumType.STRING)
     private Status status;
 
-    public enum Status {
-        NOWE, W_TRAKCIE, ZAMKNIETE
-    }
 }
 
 

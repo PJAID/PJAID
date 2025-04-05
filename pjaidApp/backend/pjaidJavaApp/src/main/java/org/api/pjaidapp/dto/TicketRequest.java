@@ -5,6 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.api.pjaidapp.enums.Status;
 import org.api.pjaidapp.model.Ticket;
 
 @Getter
@@ -15,5 +16,5 @@ public class TicketRequest {
 
     private String title;
     private String description;
-    private Ticket.Status status;
+    private Status status;
 }

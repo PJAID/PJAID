@@ -2,6 +2,7 @@ package org.api.pjaidapp.service;
 
 import org.api.pjaidapp.dto.TicketRequest;
 import org.api.pjaidapp.dto.TicketResponse;
+import org.api.pjaidapp.enums.Status;
 import org.api.pjaidapp.exception.TicketNotFoundException;
 import org.api.pjaidapp.mapper.TicketMapper;
 import org.api.pjaidapp.model.Ticket;
@@ -29,7 +30,7 @@ public class TicketService {
     }
 
     public List<TicketResponse> getAllActiveTickets() {
-        return ticketRepository.findByStatusIn(List.of(Ticket.Status.NOWE, Ticket.Status.W_TRAKCIE))
+        return ticketRepository.findByStatusIn(List.of(Status.NOWE, Status.W_TRAKCIE))
                 .stream()
                 .map(ticketMapper::toResponse)
                 .collect(Collectors.toList());
