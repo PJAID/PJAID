@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import {UserService} from '../user.service';
 
 @Component({
   selector: 'app-top-navbar',
@@ -7,5 +8,9 @@ import { Component } from '@angular/core';
   styleUrl: './top-navbar.component.css'
 })
 export class TopNavbarComponent {
-logedPerson="Tomcio paluch"
+  loggedPerson=""
+  constructor(private userService: UserService) {}
+  ngOnInit(){
+    this.loggedPerson=this.userService.loggedPerson;
+  }
 }
