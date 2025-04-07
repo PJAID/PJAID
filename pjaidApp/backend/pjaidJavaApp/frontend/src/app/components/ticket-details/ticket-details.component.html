@@ -1,10 +1,7 @@
-<div *ngIf="ticket; else notFound">
-  <h2>Szczegóły zgłoszenia #{{ ticket.id }}</h2>
-  <p><strong>Tytuł:</strong> {{ ticket.title }}</p>
-  <p><strong>Opis:</strong> {{ ticket.description }}</p>
-  <p><strong>Status:</strong> {{ ticket.status }}</p>
+<div *ngIf="ticket" class="ticket">
+  <h2>{{ ticket.title }}</h2>
+  <p>{{ ticket.description }}</p>
+  <span class="status">Status: {{ ticket.status }}</span>
 </div>
 
-<ng-template #notFound>
-  <p>Nie znaleziono zgłoszenia.</p>
-</ng-template>
+<p *ngIf="!ticket">Ładowanie danych zgłoszenia...</p>

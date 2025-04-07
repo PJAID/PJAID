@@ -13,15 +13,13 @@
         "build": {
           "builder": "@angular-devkit/build-angular:application",
           "options": {
-            "outputPath": {
-            "base": "../src/main/resources/static",
-            "browser": ""
-          },
+            "outputPath": "../src/main/resources/static",
             "index": "src/index.html",
             "browser": "src/main.ts",
             "polyfills": [
               "zone.js"
             ],
+
             "tsConfig": "tsconfig.app.json",
             "assets": [
               {
@@ -64,8 +62,10 @@
             "production": {
               "buildTarget": "frontend:build:production"
             },
+
             "development": {
-              "buildTarget": "frontend:build:development"
+              "buildTarget": "frontend:build:development",
+              "proxyConfig": "src/proxy.conf.json"
             }
           },
           "defaultConfiguration": "development"
