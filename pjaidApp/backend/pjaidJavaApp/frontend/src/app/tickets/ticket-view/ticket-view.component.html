@@ -1,0 +1,11 @@
+<div *ngIf="ticket; else loading">
+  <h2>Ticket #{{ ticket.id }}</h2>
+  <p><strong>Title:</strong> {{ ticket.title }}</p>
+  <p><strong>Description:</strong> {{ ticket.description }}</p>
+  <p><strong>Status:</strong> {{ ticket.status }}</p>
+</div>
+<button (click)="goBack()">Powrót</button>
+
+<ng-template #loading>
+  <p>Ładowanie szczegółów biletu...</p>
+</ng-template>

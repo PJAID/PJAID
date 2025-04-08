@@ -1,0 +1,11 @@
+<h2>Lista biletów</h2>
+<ul *ngIf="tickets.length > 0; else loading">
+  <li *ngFor="let ticket of tickets">
+    <a [routerLink]="['/ticket', ticket.id]">
+      {{ ticket.title }} ({{ ticket.status }})
+    </a>
+  </li>
+</ul>
+<ng-template #loading>
+  <p>Ładowanie biletów...</p>
+</ng-template>
