@@ -1,7 +1,7 @@
-import { inject } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
-import { TicketResponse} from '../models/ticket-response.model';
-import { Observable } from 'rxjs';
+import {inject} from '@angular/core';
+import {HttpClient} from '@angular/common/http';
+import {TicketResponse} from '../models/ticket-response.model';
+import {Observable} from 'rxjs';
 
 export class TicketService {
   private http = inject(HttpClient);
@@ -12,6 +12,15 @@ export class TicketService {
   }
 
   getAllTickets(): Observable<TicketResponse[]> {
-    return this.http.get<TicketResponse[]>(`${this.baseUrl}/active`);
+    return this.http.get<TicketResponse[]>(`${this.baseUrl}`);
   }
+
+  addTicket(ticket: Partial<TicketResponse>): Observable<TicketResponse> {
+    return this.http.post<TicketResponse>(`${this.baseUrl}`, ticket);
+  }
+
+  updateTicket(id: number, ticket: Partial<TicketResponse>): Observable<TicketResponse> {
+    return this.http.put<TicketResponse>(`${this.baseUrl}/${id}`, ticket);
+  }
+
 }

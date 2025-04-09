@@ -1,14 +1,13 @@
-import { Component, inject, Input, OnInit } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { TicketService } from '../services/ticket.service';
-import { TicketResponse } from '../models/ticket-response.model';
-import { HttpClientModule } from '@angular/common/http';
+import {Component, inject, OnInit} from '@angular/core';
+import {CommonModule} from '@angular/common';
+import {TicketService} from '../services/ticket.service';
+import {TicketResponse} from '../models/ticket-response.model';
 import {ActivatedRoute, Router, RouterModule} from '@angular/router';
 
 @Component({
   selector: 'app-ticket-view',
   standalone: true,
-  imports: [CommonModule, HttpClientModule, RouterModule],
+  imports: [CommonModule, RouterModule],
   templateUrl: './ticket-view.component.html',
   providers: [TicketService]
 })

@@ -25,8 +25,14 @@ public class TicketController {
         return ResponseEntity.ok(ticket);
     }
 
-    @GetMapping("/active")
+    @GetMapping
     public ResponseEntity<List<TicketResponse>> getAllTickets() {
+        List<TicketResponse> tickets = ticketService.getAllTickets();
+        return new ResponseEntity<>(tickets, HttpStatus.OK);
+    }
+
+    @GetMapping("/active")
+    public ResponseEntity<List<TicketResponse>> getAllActiveTickets() {
         List<TicketResponse> tickets = ticketService.getAllActiveTickets();
         return new ResponseEntity<>(tickets, HttpStatus.OK);
     }
@@ -36,6 +42,13 @@ public class TicketController {
         TicketResponse createdTicket = ticketService.createTicket(request);
         return ResponseEntity.status(HttpStatus.CREATED).body(createdTicket);
     }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<TicketResponse> updateTicket(@PathVariable int id, @RequestBody TicketRequest request) {
+        TicketResponse updatedTicket = ticketService.updateTicket(id, request);
+        return ResponseEntity.ok(updatedTicket);
+    }
+
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteTicket(@PathVariable int id) {

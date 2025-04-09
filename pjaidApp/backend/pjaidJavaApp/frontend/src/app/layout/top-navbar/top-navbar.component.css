@@ -10,7 +10,7 @@
 }
 .buger{
   position: absolute;
-  content: url("/assets/burger-menu.svg");
+  content: url("/burger-menu.svg");
   left:2vh;
   top:10%;
   width:4vh;

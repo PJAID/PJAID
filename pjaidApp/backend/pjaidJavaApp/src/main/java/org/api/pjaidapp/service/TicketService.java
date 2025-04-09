@@ -37,6 +37,13 @@ public class TicketService {
                 .collect(Collectors.toList());
     }
 
+    public List<TicketResponse> getAllTickets() {
+        return ticketRepository.findAll()
+                .stream()
+                .map(ticketMapper::toResponse)
+                .collect(Collectors.toList());
+    }
+
     public TicketResponse createTicket(TicketRequest request) {
         Ticket ticket = ticketMapper.toEntity(request);
         Ticket saved = ticketRepository.save(ticket);
@@ -48,6 +55,18 @@ public class TicketService {
             throw new TicketNotFoundException(id);
         }
         ticketRepository.deleteById(id);
+    }
+
+    public TicketResponse updateTicket(int id, TicketRequest request) {
+        Ticket ticket = ticketRepository.findById(id)
+                .orElseThrow(() -> new TicketNotFoundException(id));
+
+        ticket.setTitle(request.getTitle());
+        ticket.setDescription(request.getDescription());
+        ticket.setStatus(request.getStatus());
+
+        ticketRepository.save(ticket);
+        return ticketMapper.toResponse(ticket);
     }
 }
 
