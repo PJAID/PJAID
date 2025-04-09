@@ -13,7 +13,7 @@ import {TicketResponse} from '../models/ticket-response.model';
   providers: [TicketService]
 })
 export class TicketListComponent implements OnInit{
-  private ticketService = inject(TicketService);
+  private readonly ticketService = inject(TicketService);
   tickets: TicketResponse[] = [];
 
   ngOnInit(): void {

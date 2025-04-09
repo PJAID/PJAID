@@ -7,8 +7,6 @@ nav{
 }
 .active{
   position: relative;
-  /*text-decoration: underline;*/
-  /*text-decoration-color: ;*/
   font-weight: bold;
 }
 .active::after {

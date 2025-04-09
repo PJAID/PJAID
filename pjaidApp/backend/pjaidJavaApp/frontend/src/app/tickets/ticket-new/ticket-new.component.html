@@ -1,21 +1,26 @@
 <h2>Dodaj nowe zgłoszenie</h2>
 
 <form [formGroup]="ticketForm" (ngSubmit)="submit()">
-  <label>Tytuł:</label>
-  <input type="text" formControlName="title"/>
-  <br/>
+  <div>
+    <label for="title">Tytuł:</label>
+    <input type="text" id="title" formControlName="title"/>
+  </div>
 
-  <label>Opis:</label>
-  <textarea formControlName="description"></textarea>
-  <br/>
+  <div>
+    <label for="description">Opis:</label>
+    <textarea id="description" formControlName="description"></textarea>
+  </div>
 
-  <label>Status:</label>
-  <select formControlName="status">
-    <option value="NOWE">NOWE</option>
-    <option value="W_TRAKCIE">W TRAKCIE</option>
-    <option value="ZAMKNIETE">ZAMKNIĘTE</option>
-  </select>
-  <br/><br/>
+  <div>
+    <label for="status">Status:</label>
+    <select id="status" formControlName="status">
+      <option value="NOWE">NOWE</option>
+      <option value="W_TRAKCIE">W TRAKCIE</option>
+      <option value="ZAMKNIETE">ZAMKNIĘTE</option>
+    </select>
+  </div>
 
-  <button type="submit" [disabled]="ticketForm.invalid">Wyślij zgłoszenie</button>
+  <div class="form-actions">
+    <button type="submit" [disabled]="ticketForm.invalid">Wyślij zgłoszenie</button>
+  </div>
 </form>

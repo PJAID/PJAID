@@ -14,10 +14,10 @@ import {TicketResponse} from '../models/ticket-response.model';
   providers: [TicketService]
 })
 export class TicketEditComponent implements OnInit {
-  private route = inject(ActivatedRoute);
-  private fb = inject(FormBuilder);
-  private ticketService = inject(TicketService);
-  private router = inject(Router);
+  private readonly route = inject(ActivatedRoute);
+  private readonly fb = inject(FormBuilder);
+  private readonly ticketService = inject(TicketService);
+  private readonly router = inject(Router);
 
   ticketId!: number;
 
