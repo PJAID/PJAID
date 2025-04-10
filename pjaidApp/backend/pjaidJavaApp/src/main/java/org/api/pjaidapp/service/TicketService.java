@@ -69,4 +69,3 @@ public class TicketService {
         return ticketMapper.toResponse(ticket);
     }
 }
-
