@@ -28,4 +28,10 @@
         android:name="com.example.myapplication.ui.camera.CameraFragment"
         android:label="@string/title_camera"
         tools:layout="@layout/fragment_camera" />
+
+    <fragment
+        android:id="@+id/navigation_report"
+        android:name="com.example.myapplication.ui.report.ReportIssueFragment"
+        android:label="Zgłoszenie awarii"
+        tools:layout="@layout/fragment_report_issue" />
 </navigation>

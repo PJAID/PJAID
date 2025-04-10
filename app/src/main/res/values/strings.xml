@@ -4,4 +4,11 @@
     <string name="title_dashboard">Dashboard</string>
     <string name="title_notifications">Notifications</string>
     <string name="title_camera">Scan QR Code</string>
+
+    <string-array name="status_options">
+        <item>Brak papieru</item>
+        <item>Zacięcie papieru</item>
+        <item>Awaria tonera</item>
+        <item>Inne</item>
+    </string-array>
 </resources>
