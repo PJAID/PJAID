@@ -9,6 +9,7 @@ import org.api.pjaidapp.model.Ticket;
 import org.api.pjaidapp.repository.TicketRepository;
 import org.springframework.stereotype.Service;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -30,7 +31,14 @@ public class TicketService {
     }
 
     public List<TicketResponse> getAllActiveTickets() {
-        return ticketRepository.findByStatusIn(List.of(Status.NOWE, Status.W_TRAKCIE))
+        return ticketRepository.findByStatusIn(Arrays.asList(Status.NOWE, Status.W_TRAKCIE))
+                .stream()
+                .map(ticketMapper::toResponse)
+                .collect(Collectors.toList());
+    }
+
+    public List<TicketResponse> getAllTickets() {
+        return ticketRepository.findAll()
                 .stream()
                 .map(ticketMapper::toResponse)
                 .collect(Collectors.toList());
@@ -48,5 +56,16 @@ public class TicketService {
         }
         ticketRepository.deleteById(id);
     }
-}
 
+    public TicketResponse updateTicket(int id, TicketRequest request) {
+        Ticket ticket = ticketRepository.findById(id)
+                .orElseThrow(() -> new TicketNotFoundException(id));
+
+        ticket.setTitle(request.getTitle());
+        ticket.setDescription(request.getDescription());
+        ticket.setStatus(request.getStatus());
+
+        ticketRepository.save(ticket);
+        return ticketMapper.toResponse(ticket);
+    }
+}

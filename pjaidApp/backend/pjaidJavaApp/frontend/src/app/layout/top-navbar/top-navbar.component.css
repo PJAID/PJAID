@@ -1,0 +1,17 @@
+.bar{
+  width: 300vh;
+  height:5vh ;
+  background: linear-gradient(90deg, rgba(93,224,230,1) 0%, rgba(0,74,173,1) 100%);
+  border-radius: 30px;
+}
+.username{
+  position: fixed;
+  right:2vh;
+}
+.buger{
+  position: absolute;
+  content: url("/burger-menu.svg");
+  left:2vh;
+  top:10%;
+  width:4vh;
+}
