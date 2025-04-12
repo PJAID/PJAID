@@ -2,7 +2,7 @@ import {Component, inject, OnInit} from '@angular/core';
 import {CommonModule} from '@angular/common';
 import {RouterModule} from '@angular/router';
 import {TicketService} from '../services/ticket.service';
-import {TicketResponse} from '../models/ticket-response.model';
+import {TicketResponse} from '../../shared/models/ticket-response.model';
 
 @Component({
   selector: 'app-ticket-list',

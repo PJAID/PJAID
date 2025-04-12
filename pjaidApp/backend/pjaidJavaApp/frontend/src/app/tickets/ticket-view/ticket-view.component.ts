@@ -1,7 +1,7 @@
 import {Component, inject, OnInit} from '@angular/core';
 import {CommonModule} from '@angular/common';
 import {TicketService} from '../services/ticket.service';
-import {TicketResponse} from '../models/ticket-response.model';
+import {TicketResponse} from '../../shared/models/ticket-response.model';
 import {ActivatedRoute, Router, RouterModule} from '@angular/router';
 
 @Component({

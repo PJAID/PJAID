@@ -1,0 +1,12 @@
+<h2>Szczegóły urządzenia</h2>
+
+<div *ngIf="device; else loading">
+  <p><strong>ID:</strong> {{ device.id }}</p>
+  <p><strong>Nazwa:</strong> {{ device.name }}</p>
+  <p><strong>Numer seryjny:</strong> {{ device.serialNumber }}</p>
+</div>
+<button (click)="goBack()">Powrót</button>
+
+<ng-template #loading>
+  <p>Ładowanie danych urządzenia...</p>
+</ng-template>

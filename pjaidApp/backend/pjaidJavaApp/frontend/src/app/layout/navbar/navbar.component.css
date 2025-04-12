@@ -1,9 +1,12 @@
-nav{
-  font-family: 'Telegraf', sans-serif;
-  background: linear-gradient(90deg, rgba(93,224,230,1) 0%, rgba(0,74,173,1) 100%);
+nav {
+  font-family: 'Poppins', sans-serif;
+  color: white;
+  background: rgb(66, 86, 204);
   border-radius: 5vh;
   height: 100vh;
   min-width: 170px;
+  display: flex;
+  flex-direction: column;
 }
 .active{
   position: relative;
@@ -13,12 +16,18 @@ nav{
   content: '';
   position: absolute;
   left: 0;
-  bottom: -5px; /* Dystans od tekstu */
+  bottom: -5px;
   width: 100%;
-  height: 4px; /* Grubość podkreślenia */
-  background: #1297e0; /* Kolor podkreślenia */
-  border-radius: 50%; /* Lekki łuk */
-  transform: scaleY(0.7); /* Wygięcie */
+  height: 4px;
+  background: #1297e0;
+  border-radius: 50%;
+  transform: scaleY(0.7);
+}
+ul {
+  padding: 0;
+  margin: 0;
+  text-align: center;
+  width: 100%;
 }
 a{
   color:inherit;
@@ -37,3 +46,17 @@ li{
   padding-left: 10%;
   padding-top: 5vh;
 }
+
+@media (min-height: 600px) {
+  nav {
+    overflow-y: auto;
+  }
+}
+
+/* Brak scrolla w małych oknach (np. mobilnych) */
+@media (max-height: 599px) {
+  nav {
+    overflow: visible;
+  }
+}
+

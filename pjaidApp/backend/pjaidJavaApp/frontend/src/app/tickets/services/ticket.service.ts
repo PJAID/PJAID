@@ -1,6 +1,6 @@
 import {inject} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
-import {TicketResponse} from '../models/ticket-response.model';
+import {TicketResponse} from '../../shared/models/ticket-response.model';
 import {Observable} from 'rxjs';
 
 export class TicketService {

@@ -3,7 +3,7 @@ import {CommonModule} from '@angular/common';
 import {FormBuilder, ReactiveFormsModule, Validators} from '@angular/forms';
 import {TicketService} from '../services/ticket.service';
 import {ActivatedRoute, Router} from '@angular/router';
-import {TicketResponse} from '../models/ticket-response.model';
+import {TicketResponse} from '../../shared/models/ticket-response.model';
 
 @Component({
   selector: 'app-ticket-edit',

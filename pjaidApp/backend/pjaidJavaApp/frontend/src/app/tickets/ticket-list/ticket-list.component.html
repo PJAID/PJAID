@@ -2,7 +2,8 @@
 <ul *ngIf="tickets.length > 0; else loading">
   <li *ngFor="let ticket of tickets">
     <a [routerLink]="['/ticket', ticket.id]">
-      {{ ticket.title }} ({{ ticket.status }})
+      {{ ticket.title }} ({{ ticket.status }}) —
+      {{ ticket.device.name }} | {{ ticket.user.userName }}
     </a>
   </li>
 </ul>

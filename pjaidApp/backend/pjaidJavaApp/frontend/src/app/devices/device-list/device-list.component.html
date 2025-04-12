@@ -1,1 +1,13 @@
-<p>device-list works!</p>
+<h2>Lista urządzeń</h2>
+
+<ul *ngIf="devices.length > 0; else loading">
+  <li *ngFor="let device of devices">
+    <a [routerLink]="['/devices', device.id]">
+      {{ device.name }} ({{ device.serialNumber }})
+    </a>
+  </li>
+</ul>
+
+<ng-template #loading>
+  <p>Ładowanie urządzeń...</p>
+</ng-template>
