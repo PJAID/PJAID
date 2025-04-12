@@ -1,0 +1,11 @@
+### Dodaj nowe urządzenie
+POST http://localhost:8080/devices
+Content-Type: application/json
+Accept: application/json
+
+{
+  "name": "Laptop Dell Latitude",
+  "serialNumber": "DL-123456789",
+  "purchaseDate": "2023-08-10",
+  "lastService": "2024-03-01"
+}

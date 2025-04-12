@@ -21,8 +21,11 @@ import java.time.LocalDateTime;
 public class Ticket {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    private Long id;
+
+    @Column(name = "title")
     private String title;
+    @Column(name = "description")
     private String description;
 
     @CreationTimestamp
@@ -36,6 +39,13 @@ public class Ticket {
     @Enumerated(EnumType.STRING)
     private Status status;
 
+    @ManyToOne(optional = false)
+    @JoinColumn(name = "device_id")
+    private Device device;
+
+    @ManyToOne(optional = false)
+    @JoinColumn(name = "user_id")
+    private User user;
 }
 
 

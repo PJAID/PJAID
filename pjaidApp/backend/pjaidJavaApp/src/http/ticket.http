@@ -1,0 +1,50 @@
+### Utwórz zgłoszenie awarii (POST /ticket)
+POST http://localhost:8080/ticket
+Content-Type: application/json
+Accept: application/json
+
+{
+  "title": "Brak obrazu na ekranie",
+  "description": "Po podłączeniu urządzenia ekran nie wyświetla nic.",
+  "status": "NOWE",
+  "deviceId": 1,
+  "userId": 1
+}
+
+###
+
+### Pobierz wszystkie zgłoszenia (GET /ticket)
+GET http://localhost:8080/ticket
+Accept: application/json
+
+###
+
+### Pobierz tylko aktywne zgłoszenia (GET /ticket/active)
+GET http://localhost:8080/ticket/active
+Accept: application/json
+
+###
+
+### Pobierz zgłoszenie po ID (GET /ticket/{id})
+GET http://localhost:8080/ticket/1
+Accept: application/json
+
+###
+
+### Zaktualizuj zgłoszenie (PUT /ticket/{id})
+PUT http://localhost:8080/ticket/1
+Content-Type: application/json
+Accept: application/json
+
+{
+  "title": "Brak sygnału HDMI",
+  "description": "Ekran nie reaguje na wejście HDMI.",
+  "status": "W_TRAKCIE",
+  "deviceId": 1,
+  "userId": 1
+}
+
+###
+
+### Usuń zgłoszenie (DELETE /ticket/{id})
+DELETE http://localhost:8080/ticket/1

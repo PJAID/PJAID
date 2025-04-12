@@ -1,25 +1,47 @@
 package org.api.pjaidapp.controller;
 
-import org.api.pjaidapp.model.Device;
+import org.api.pjaidapp.dto.DeviceDto;
+import org.api.pjaidapp.service.DeviceService;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/devices")
 public class DeviceController {
 
-    @GetMapping("/{id}")
-    public ResponseEntity<Device> getDeviceById(@PathVariable String id) {
-        Device device = new Device();
-        device.setId(id);
-        device.setName("Laptop Dell Latitude");
-        device.setSerialNumber("DL123456");
-        device.setPurchaseDate("2023-01-15");
-        device.setLastService("2024-12-20");
+    private final DeviceService deviceService;
 
-        return ResponseEntity.ok(device);
+    public DeviceController(DeviceService deviceService) {
+        this.deviceService = deviceService;
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<DeviceDto> getDeviceById(@PathVariable Long id) {
+        return ResponseEntity.ok(deviceService.getDeviceById(id));
+    }
+
+    @GetMapping
+    public ResponseEntity<List<DeviceDto>> getAllDevices() {
+        return ResponseEntity.ok(deviceService.getAllDevices());
+    }
+
+    @PostMapping
+    public ResponseEntity<DeviceDto> createDevice(@RequestBody DeviceDto dto) {
+        DeviceDto created = deviceService.createDevice(dto);
+        return ResponseEntity.status(HttpStatus.CREATED).body(created);
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<DeviceDto> updateDevice(@PathVariable Long id, @RequestBody DeviceDto dto) {
+        return ResponseEntity.ok(deviceService.updateDevice(id, dto));
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deleteDevice(@PathVariable Long id) {
+        deviceService.deleteDevice(id);
+        return ResponseEntity.noContent().build();
     }
 }
