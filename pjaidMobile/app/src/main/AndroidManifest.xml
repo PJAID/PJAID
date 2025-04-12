@@ -9,6 +9,7 @@
         android:name="android.hardware.camera"
         android:required="false" />
     <application
+        android:name=".App"
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
         android:fullBackupContent="@xml/backup_rules"
@@ -19,10 +20,10 @@
         android:theme="@style/Theme.PjaidMobile"
         tools:targetApi="31">
         <activity
-            android:name=".presentation.features.ScanQRActivity"
+            android:name=".presentation.features.scan.ScanQRActivity"
             android:exported="false" />
         <activity
-            android:name=".presentation.features.ReportIssueActivity"
+            android:name=".presentation.features.report.ReportIssueActivity"
             android:exported="false" />
         <activity
             android:name=".presentation.common.MainActivity"
