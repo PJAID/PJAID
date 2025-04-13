@@ -1,7 +1,18 @@
 <resources>
-    <string name="app_name">pjaidMobile</string>
-    <string name="title_home">Home</string>
-    <string name="title_dashboard">Dashboard</string>
-    <string name="title_notifications">Notifications</string>
-    <string name="title_camera">Scan QR Code</string>
+    <string name="app_name">PjaidMobile</string>
+    <string name="action_settings">Settings</string>
+    <string name="error_description_empty">Opis awarii nie może być pusty.</string>
+    <string name="report_sent_success">Zgłoszenie wysłane!</string>
+    <string name="unknown_error">Wystąpił nieznany błąd.</string>
+    <string name="report_error_prefix">Błąd zgłoszenia: </string>
+    <string name="scan_prompt">Zeskanuj kod QR urządzenia</string>
+    <string name="scan_cancelled">Skanowanie anulowane</string>
+    <string name="device_not_found">Nie znaleziono urządzenia</string>
+    <string name="api_error_prefix">Błąd API: </string>
+    <string name="unknown_api_error">Wystąpił nieznany błąd API.</string>
+    <string name="report_problem">Zgłoś awarię</string>
+    <string name="scan_qr">Zeskanuj kod QR</string>
+    <string name="device_info">Informacje o urządzeniu</string>
+    <string name="describe_error">Opisz awarię</string>
+    <string name="report">Zgłoś</string>
 </resources>
