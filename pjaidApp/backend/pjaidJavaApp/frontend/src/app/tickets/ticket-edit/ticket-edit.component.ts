@@ -3,7 +3,7 @@ import {CommonModule} from '@angular/common';
 import {FormBuilder, ReactiveFormsModule, Validators} from '@angular/forms';
 import {TicketService} from '../services/ticket.service';
 import {ActivatedRoute, Router} from '@angular/router';
-import {TicketResponse} from '../models/ticket-response.model';
+import {TicketResponse} from '../../shared/models/ticket-response.model';
 
 @Component({
   selector: 'app-ticket-edit',
@@ -39,12 +39,12 @@ export class TicketEditComponent implements OnInit {
       const formData = this.ticketForm.getRawValue() as TicketResponse;
       this.ticketService.updateTicket(this.ticketId, formData).subscribe(() => {
         alert('Zgłoszenie zaktualizowane!');
-        this.router.navigate(['/ticket', this.ticketId]);
+        this.router.navigate(['/tickets', this.ticketId]);
       });
     }
   }
 
   goBack() {
-    this.router.navigate(['/ticket', this.ticketId]);
+    this.router.navigate(['/tickets', this.ticketId]);
   }
 }

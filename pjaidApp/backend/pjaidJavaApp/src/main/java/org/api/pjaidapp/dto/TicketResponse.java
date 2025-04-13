@@ -15,4 +15,7 @@ public class TicketResponse {
     private String title;
     private String description;
     private Status status;
+
+    private DeviceDto device;
+    private UserDto user;
 }

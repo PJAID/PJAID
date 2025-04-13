@@ -1,13 +1,15 @@
-<div class="container">
-  <div class="navbars">
+<ng-container *ngIf="isLoginPage(); else layout">
+  <router-outlet></router-outlet>
+</ng-container>
+
+<ng-template #layout>
+  <div class="container">
     <app-navbar></app-navbar>
-  </div>
-  <div class="content">
-    <div class="top-navbar">
+    <div class="main-container">
       <app-top-navbar></app-top-navbar>
-    </div>
-    <div>
-      <router-outlet></router-outlet>
+      <div class="content">
+        <router-outlet></router-outlet>
+      </div>
     </div>
   </div>
-</div>
+</ng-template>

@@ -1,1 +1,51 @@
-<p>device-list works!</p>
+<h2>Lista urządzeń</h2>
+
+<div class="filter-section">
+  <h3>Filtry</h3>
+  <div class="filter-controls">
+    <label for="filterName">Nazwa:</label>
+    <input type="text" id="filterName" [(ngModel)]="filterName" placeholder="Część nazwy">
+
+    <label for="filterPurchaseDate">Data zakupu (zawiera):</label>
+    <input type="text" id="filterPurchaseDate" [(ngModel)]="filterPurchaseDate" placeholder="np. 2024-01 lub 15">
+
+    <label for="filterLastService">Ostatni serwis (zawiera):</label>
+    <input type="text" id="filterLastService" [(ngModel)]="filterLastService" placeholder="np. 2025-03">
+
+    <button (click)="applyFilters()" class="filter-btn">Filtruj</button>
+    <button (click)="clearFilters()" class="clear-filter-btn">Wyczyść filtry</button>
+  </div>
+</div>
+
+<div *ngIf="isLoading" class="loading-indicator">
+  <p>Ładowanie urządzeń...</p>
+</div>
+
+<div *ngIf="!isLoading && devices.length > 0" class="ticket-table-container">
+  <table>
+    <thead>
+    <tr>
+      <th>Nazwa</th>
+      <th>Numer seryjny</th>
+      <th>Data zakupu</th>
+      <th>Ostatni serwis</th>
+      <th>Akcje</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr *ngFor="let device of devices">
+      <td>{{ device.name }}</td>
+      <td>{{ device.serialNumber }}</td>
+      <td>{{ device.purchaseDate }}</td>
+      <td>{{ device.lastService }}</td>
+      <td>
+        <a [routerLink]="['/devices', device.id]">Szczegóły</a>
+      </td>
+    </tr>
+    </tbody>
+  </table>
+</div>
+
+<div *ngIf="!isLoading && devices.length === 0" class="no-results">
+  <p>Brak urządzeń spełniających kryteria filtrowania.</p>
+</div>

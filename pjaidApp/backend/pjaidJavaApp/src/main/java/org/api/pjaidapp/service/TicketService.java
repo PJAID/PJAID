@@ -3,24 +3,35 @@ package org.api.pjaidapp.service;
 import org.api.pjaidapp.dto.TicketRequest;
 import org.api.pjaidapp.dto.TicketResponse;
 import org.api.pjaidapp.enums.Status;
+import org.api.pjaidapp.exception.DeviceNotFoundException;
 import org.api.pjaidapp.exception.TicketNotFoundException;
+import org.api.pjaidapp.exception.UserNotFoundException;
 import org.api.pjaidapp.mapper.TicketMapper;
+import org.api.pjaidapp.model.Device;
 import org.api.pjaidapp.model.Ticket;
+import org.api.pjaidapp.model.User;
+import org.api.pjaidapp.repository.DeviceRepository;
 import org.api.pjaidapp.repository.TicketRepository;
+import org.api.pjaidapp.repository.UserRepository;
+import org.api.pjaidapp.repository.specification.TicketSpecifications;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
 import java.util.Arrays;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
 public class TicketService {
 
     private final TicketRepository ticketRepository;
+    private final UserRepository userRepository;
+    private final DeviceRepository deviceRepository;
     private final TicketMapper ticketMapper;
 
-    public TicketService(TicketRepository ticketRepository, TicketMapper ticketMapper) {
+    public TicketService(TicketRepository ticketRepository, UserRepository userRepository, DeviceRepository deviceRepository, TicketMapper ticketMapper) {
         this.ticketRepository = ticketRepository;
+        this.userRepository = userRepository;
+        this.deviceRepository = deviceRepository;
         this.ticketMapper = ticketMapper;
     }
 
@@ -34,19 +45,29 @@ public class TicketService {
         return ticketRepository.findByStatusIn(Arrays.asList(Status.NOWE, Status.W_TRAKCIE))
                 .stream()
                 .map(ticketMapper::toResponse)
-                .collect(Collectors.toList());
+                .toList();
     }
 
     public List<TicketResponse> getAllTickets() {
         return ticketRepository.findAll()
                 .stream()
                 .map(ticketMapper::toResponse)
-                .collect(Collectors.toList());
+                .toList();
     }
 
     public TicketResponse createTicket(TicketRequest request) {
         Ticket ticket = ticketMapper.toEntity(request);
+        Device device = deviceRepository.findById(request.getDeviceId())
+                .orElseThrow(() -> new DeviceNotFoundException(request.getDeviceId()));
+
+        User user = userRepository.findById(request.getUserId())
+                .orElseThrow(() -> new UserNotFoundException(request.getUserId()));
+
+
+        ticket.setDevice(device);
+        ticket.setUser(user);
         Ticket saved = ticketRepository.save(ticket);
+
         return ticketMapper.toResponse(saved);
     }
 
@@ -67,5 +88,14 @@ public class TicketService {
 
         ticketRepository.save(ticket);
         return ticketMapper.toResponse(ticket);
+    }
+
+    public List<TicketResponse> findTicketsByCriteria(Status status, String user, String device, String titleContains) {
+        Specification<Ticket> spec = TicketSpecifications.withFilters(status, user, device, titleContains);
+        List<Ticket> filteredTickets = ticketRepository.findAll(spec);
+
+        return filteredTickets.stream()
+                .map(ticketMapper::toResponse)
+                .toList();
     }
 }

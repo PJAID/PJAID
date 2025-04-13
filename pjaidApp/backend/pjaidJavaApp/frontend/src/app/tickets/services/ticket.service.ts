@@ -1,18 +1,30 @@
 import {inject} from '@angular/core';
-import {HttpClient} from '@angular/common/http';
-import {TicketResponse} from '../models/ticket-response.model';
+import {HttpClient, HttpParams} from '@angular/common/http';
+import {TicketResponse} from '../../shared/models/ticket-response.model';
 import {Observable} from 'rxjs';
+import {environment} from '../../../environments/environment';
 
 export class TicketService {
   private readonly http = inject(HttpClient);
-  private readonly baseUrl = 'http://localhost:8080/ticket';
+  private readonly baseUrl = `${environment.apiBaseUrl}/ticket'`;
 
   getTicket(id: number): Observable<TicketResponse> {
     return this.http.get<TicketResponse>(`${this.baseUrl}/${id}`);
   }
 
-  getAllTickets(): Observable<TicketResponse[]> {
-    return this.http.get<TicketResponse[]>(`${this.baseUrl}`);
+  getAllTickets(filters?: any): Observable<TicketResponse[]> {
+    let params = new HttpParams();
+
+    if (filters) {
+      Object.keys(filters).forEach(key => {
+        const value = filters[key];
+
+        if (value !== null && value !== undefined && value !== '') {
+          params = params.append(key, value);
+        }
+      });
+    }
+    return this.http.get<TicketResponse[]>(this.baseUrl, {params});
   }
 
   addTicket(ticket: Partial<TicketResponse>): Observable<TicketResponse> {

@@ -2,6 +2,7 @@ package org.api.pjaidapp.controller;
 
 import org.api.pjaidapp.dto.TicketRequest;
 import org.api.pjaidapp.dto.TicketResponse;
+import org.api.pjaidapp.enums.Status;
 import org.api.pjaidapp.service.TicketService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -26,8 +27,13 @@ public class TicketController {
     }
 
     @GetMapping
-    public ResponseEntity<List<TicketResponse>> getAllTickets() {
-        List<TicketResponse> tickets = ticketService.getAllTickets();
+    public ResponseEntity<List<TicketResponse>> getAllTickets(
+            @RequestParam(required = false) Status status,
+            @RequestParam(required = false) String user,
+            @RequestParam(required = false) String device,
+            @RequestParam(required = false) String titleContains
+    ) {
+        List<TicketResponse> tickets = ticketService.findTicketsByCriteria(status, user, device, titleContains);
         return new ResponseEntity<>(tickets, HttpStatus.OK);
     }
 

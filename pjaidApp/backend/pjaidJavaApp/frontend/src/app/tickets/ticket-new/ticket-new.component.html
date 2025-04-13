@@ -20,6 +20,14 @@
     </select>
   </div>
 
+  <div>
+    <select formControlName="deviceId">
+      <option *ngFor="let device of devices" [value]="device.id">
+        {{ device.name }} ({{ device.serialNumber }})
+      </option>
+    </select>
+  </div>
+
   <div class="form-actions">
     <button type="submit" [disabled]="ticketForm.invalid">Wyślij zgłoszenie</button>
   </div>

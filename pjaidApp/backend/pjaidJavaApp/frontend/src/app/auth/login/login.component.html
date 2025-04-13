@@ -1,0 +1,26 @@
+<div class="login-wrapper">
+  <img src="/Logo-PJAID.svg" alt="PJAID Logo" class="login-logo" />
+  <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+    <h2>Welcome to PJAID</h2>
+
+    <input
+      type="text"
+      id="username"
+      formControlName="username"
+      placeholder="Username or email"
+      autocomplete="username"
+    />
+
+    <input
+      type="password"
+      id="password"
+      formControlName="password"
+      placeholder="Password"
+      autocomplete="current-password"
+    />
+
+    <button type="submit">Sign in</button>
+
+    <p *ngIf="loginError" class="error">Nieprawidłowy login lub hasło</p>
+  </form>
+</div>
