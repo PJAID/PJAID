@@ -31,9 +31,6 @@
             android:name=".presentation.features.report.ReportListActivity"
             android:exported="false" />
         <activity
-            android:name=".presentation.features.report.ReportDetailActivity"
-            android:exported="false"/>
-        <activity
             android:name=".presentation.common.MainActivity"
             android:exported="true"
             android:theme="@style/Theme.PjaidMobile">

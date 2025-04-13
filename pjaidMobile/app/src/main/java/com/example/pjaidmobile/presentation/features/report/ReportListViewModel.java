@@ -25,7 +25,7 @@ public class ReportListViewModel extends ViewModel {
     private final MutableLiveData<List<ReportItem>> _reports = new MutableLiveData<>();
     public LiveData<List<ReportItem>> reports = _reports;
 
-    private Disposable disposable; // 🔥 Zarządzanie subskrypcją
+    private Disposable disposable;
 
     @Inject
     public ReportListViewModel(ReportRepository repository) {

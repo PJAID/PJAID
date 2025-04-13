@@ -39,8 +39,8 @@ public class CreateTicketActivity extends AppCompatActivity {
                     title.getText().toString(),
                     description.getText().toString(),
                     "NOWE",
-                    125, // deviceId (na razie ręcznie)
-                    44   // userId (na razie ręcznie)
+                    125,
+                    44
             );
 
             ticketApi.createTicket(request).enqueue(new Callback<>() {

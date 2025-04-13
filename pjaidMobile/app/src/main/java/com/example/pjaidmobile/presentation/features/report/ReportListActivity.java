@@ -32,7 +32,7 @@ public class ReportListActivity extends AppCompatActivity {
         viewModel.reports.observe(this, adapter::submitList);
 
         viewModel.reports.observe(this, reports -> {
-            Log.d("ReportListActivity", "Dostałem dane z API: " + reports);  // <- dodaj to
+            Log.d("ReportListActivity", "Dostałem dane z API: " + reports);
             adapter.submitList(reports);
         });
 
