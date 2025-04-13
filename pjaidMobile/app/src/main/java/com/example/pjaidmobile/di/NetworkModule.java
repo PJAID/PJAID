@@ -19,7 +19,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 @InstallIn(SingletonComponent.class)
 public class NetworkModule {
     private static final String TAG = "NetworkModule";
-    private static final String BASE_URL = "https://a79c-2a02-a311-c0aa-c00-68ce-7d4c-ca17-628.ngrok-free.app/"; // Zmień
+    private static final String BASE_URL = "http://10.0.2.2:8080/";
 
     @Provides
     @Singleton

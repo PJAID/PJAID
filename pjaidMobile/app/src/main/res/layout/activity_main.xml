@@ -1,25 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:gravity="center"
     android:orientation="vertical"
+    android:gravity="center"
     android:padding="24dp">
 
-    <ImageButton
-        android:id="@+id/buttonReportIssue"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="24dp"
-        android:background="@android:color/transparent"
-        android:contentDescription="@string/report_problem"
-        android:src="@android:drawable/ic_menu_edit" />
-
-    <ImageButton
+    <Button
         android:id="@+id/buttonScanQR"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@android:color/transparent"
-        android:contentDescription="@string/scan_qr"
-        android:src="@android:drawable/ic_menu_camera" />
+        android:text="Skanuj kod QR" />
+
+    <Button
+        android:id="@+id/buttonReportIssue"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:text="Zgłoś awarię" />
+
+    <Button
+        android:id="@+id/buttonReportList"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:text="Lista zgłoszeń" />
 
 </LinearLayout>

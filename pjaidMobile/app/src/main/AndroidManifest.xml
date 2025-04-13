@@ -1,4 +1,3 @@
-<?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
 
@@ -8,6 +7,7 @@
     <uses-feature
         android:name="android.hardware.camera"
         android:required="false" />
+
     <application
         android:name=".App"
         android:allowBackup="true"
@@ -18,7 +18,9 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.PjaidMobile"
+        android:networkSecurityConfig="@xml/network_security_config"
         tools:targetApi="31">
+
         <activity
             android:name=".presentation.features.scan.ScanQRActivity"
             android:exported="false" />
@@ -26,12 +28,14 @@
             android:name=".presentation.features.report.ReportIssueActivity"
             android:exported="false" />
         <activity
+            android:name=".presentation.features.report.ReportListActivity"
+            android:exported="false" />
+        <activity
             android:name=".presentation.common.MainActivity"
             android:exported="true"
             android:theme="@style/Theme.PjaidMobile">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
