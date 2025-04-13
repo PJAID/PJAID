@@ -39,12 +39,12 @@ export class TicketEditComponent implements OnInit {
       const formData = this.ticketForm.getRawValue() as TicketResponse;
       this.ticketService.updateTicket(this.ticketId, formData).subscribe(() => {
         alert('Zgłoszenie zaktualizowane!');
-        this.router.navigate(['/ticket', this.ticketId]);
+        this.router.navigate(['/tickets', this.ticketId]);
       });
     }
   }
 
   goBack() {
-    this.router.navigate(['/ticket', this.ticketId]);
+    this.router.navigate(['/tickets', this.ticketId]);
   }
 }

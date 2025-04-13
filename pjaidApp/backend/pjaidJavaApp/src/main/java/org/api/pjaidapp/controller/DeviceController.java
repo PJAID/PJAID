@@ -24,10 +24,14 @@ public class DeviceController {
     }
 
     @GetMapping
-    public ResponseEntity<List<DeviceDto>> getAllDevices() {
-        return ResponseEntity.ok(deviceService.getAllDevices());
+    public ResponseEntity<List<DeviceDto>> getAllDevices(
+            @RequestParam(required = false) String name,
+            @RequestParam(required = false) String purchaseDate,
+            @RequestParam(required = false) String lastService
+    ) {
+        List<DeviceDto> devices = deviceService.findDevicesByCriteria(name, purchaseDate, lastService);
+        return ResponseEntity.ok(devices);
     }
-
     @PostMapping
     public ResponseEntity<DeviceDto> createDevice(@RequestBody DeviceDto dto) {
         DeviceDto created = deviceService.createDevice(dto);

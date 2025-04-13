@@ -1,12 +1,53 @@
-<h2>Lista biletów</h2>
-<ul *ngIf="tickets.length > 0; else loading">
-  <li *ngFor="let ticket of tickets">
-    <a [routerLink]="['/ticket', ticket.id]">
-      {{ ticket.title }} ({{ ticket.status }}) —
-      {{ ticket.device.name }} | {{ ticket.user.userName }}
-    </a>
-  </li>
-</ul>
-<ng-template #loading>
-  <p>Ładowanie biletów...</p>
-</ng-template>
+<h2>Lista zgłoszeń</h2>
+<div class="filter-section">
+  <h3>Filtry</h3>
+  <div class="filter-controls">
+
+    <label for="filterStatus">Status:</label>
+    <select id="filterStatus" [(ngModel)]="filterStatus">
+      <option value="">Wszystkie</option>
+      <option value="NOWE">Nowe</option>
+      <option value="W_TRAKCIE">W trakcie</option>
+      <option value="ZAMKNIETE">Zamknięty</option>
+    </select>
+
+    <label for="filterUserName">Nazwa użytkownika:</label>
+    <input type="text" id="filterUserName" [(ngModel)]="filterUserName" placeholder="Część nazwy użytkownika">
+
+    <label for="filterDeviceName">Nazwa urządzenia:</label> <input type="text" id="filterDeviceName" [(ngModel)]="filterDeviceName" placeholder="Część nazwy urządzenia">
+
+    <label for="filterTitle">Tytuł zawiera:</label>
+    <input type="text" id="filterTitle" [(ngModel)]="filterTitle" placeholder="Część tytułu">
+
+    <button (click)="applyFilters()" class="filter-btn">Filtruj</button>
+    <button (click)="clearFilters()" class="clear-filter-btn">Wyczyść filtry</button>
+  </div>
+</div>
+
+<div *ngIf="isLoading" class="loading-indicator">Ładowanie...</div>
+
+<div *ngIf="!isLoading && tickets.length > 0" class="ticket-table-container">
+  <table>
+    <thead>
+    <tr>
+      <th>Tytuł</th>
+      <th>Status</th>
+      <th>Użytkownik</th>
+      <th>Urządzenie</th>
+      <th>Akcje</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr *ngFor="let ticket of tickets">
+      <td>{{ ticket.title }}</td>
+      <td>{{ ticket.status }}</td>
+      <td>{{ ticket.user.userName || 'Brak' }}</td>  <td>{{ ticket.device.name || 'Brak' }}</td> <td>
+      <a [routerLink]="['/tickets', ticket.id]">Szczegóły</a> </td>
+    </tr>
+    </tbody>
+  </table>
+</div>
+
+<div *ngIf="!isLoading && tickets.length === 0" class="no-results">
+  Brak ticketów spełniających podane kryteria.
+</div>

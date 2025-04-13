@@ -5,6 +5,8 @@ import org.api.pjaidapp.exception.DeviceNotFoundException;
 import org.api.pjaidapp.mapper.DeviceMapper;
 import org.api.pjaidapp.model.Device;
 import org.api.pjaidapp.repository.DeviceRepository;
+import org.api.pjaidapp.repository.specification.DeviceSpecifications;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -56,5 +58,18 @@ public class DeviceService {
             throw new DeviceNotFoundException(id);
         }
         deviceRepository.deleteById(id);
+    }
+
+    public List<DeviceDto> findDevicesByCriteria(String name, String purchaseDate, String lastService) {
+        // Utwórz specyfikację na podstawie filtrów
+        Specification<Device> spec = DeviceSpecifications.withFilters(name, purchaseDate, lastService);
+
+        // Pobierz przefiltrowane encje z repozytorium
+        List<Device> filteredDevices = deviceRepository.findAll(spec);
+
+        // Zmapuj encje na DTO
+        return filteredDevices.stream()
+                .map(deviceMapper::toDto) // Użyj swojej metody mapującej
+                .toList();
     }
 }

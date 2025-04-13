@@ -13,6 +13,8 @@ import org.api.pjaidapp.model.User;
 import org.api.pjaidapp.repository.DeviceRepository;
 import org.api.pjaidapp.repository.TicketRepository;
 import org.api.pjaidapp.repository.UserRepository;
+import org.api.pjaidapp.repository.specification.TicketSpecifications;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
 import java.util.Arrays;
@@ -86,5 +88,14 @@ public class TicketService {
 
         ticketRepository.save(ticket);
         return ticketMapper.toResponse(ticket);
+    }
+
+    public List<TicketResponse> findTicketsByCriteria(Status status, String user, String device, String titleContains) {
+        Specification<Ticket> spec = TicketSpecifications.withFilters(status, user, device, titleContains);
+        List<Ticket> filteredTickets = ticketRepository.findAll(spec);
+
+        return filteredTickets.stream()
+                .map(ticketMapper::toResponse)
+                .toList();
     }
 }

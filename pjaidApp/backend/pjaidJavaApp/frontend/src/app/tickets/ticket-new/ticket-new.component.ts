@@ -1,4 +1,4 @@
-import {Component, inject} from '@angular/core';
+import {Component, inject, OnInit} from '@angular/core';
 import {CommonModule} from '@angular/common';
 import {NonNullableFormBuilder, ReactiveFormsModule, Validators} from '@angular/forms';
 import {TicketService} from '../services/ticket.service';
@@ -15,7 +15,7 @@ import {DeviceService} from '../../devices/services/device.service';
   styleUrl: './ticket-new.component.css',
   providers: [TicketService, DeviceService]
 })
-export class TicketNewComponent {
+export class TicketNewComponent implements OnInit {
   private readonly fb = inject(NonNullableFormBuilder);
   private readonly ticketService = inject(TicketService);
   private readonly deviceService = inject(DeviceService);
@@ -31,7 +31,7 @@ export class TicketNewComponent {
     deviceId: [0, Validators.required], // teraz trzymamy tylko ID urządzenia
   });
 
-  ngOnInit() {
+  ngOnInit(): void {
     this.deviceService.getDevices().subscribe(devices => {
       this.devices = devices;
     });

@@ -1,4 +1,4 @@
-import {Component, inject} from '@angular/core';
+import {Component, inject, OnInit} from '@angular/core';
 import {CommonModule} from '@angular/common';
 import {ActivatedRoute, Router, RouterModule} from '@angular/router';
 import {DeviceService} from '../services/device.service';
@@ -12,14 +12,14 @@ import {Device} from '../../shared/models/device.model';
   styleUrl: './device-view.component.css',
   providers: [DeviceService],
 })
-export class DeviceViewComponent {
+export class DeviceViewComponent implements OnInit {
   private readonly route = inject(ActivatedRoute);
   private readonly deviceService = inject(DeviceService);
   private readonly router = inject(Router);
 
   device?: Device;
 
-  ngOnInit() {
+  ngOnInit(): void {
     const id = Number(this.route.snapshot.paramMap.get('id'));
     this.deviceService.getDeviceById(id).subscribe(device => {
       this.device = device;
