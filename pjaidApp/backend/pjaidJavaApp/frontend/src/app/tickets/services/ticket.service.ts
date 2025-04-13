@@ -6,7 +6,7 @@ import {environment} from '../../../environments/environment';
 
 export class TicketService {
   private readonly http = inject(HttpClient);
-  private readonly baseUrl = `${environment.apiBaseUrl}/ticket'`;
+  private readonly baseUrl = `${environment.apiBaseUrl}/ticket`;
 
   getTicket(id: number): Observable<TicketResponse> {
     return this.http.get<TicketResponse>(`${this.baseUrl}/${id}`);
