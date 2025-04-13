@@ -4,6 +4,7 @@ import android.util.Log;
 
 import com.example.pjaidmobile.data.remote.api.DeviceApi;
 import com.example.pjaidmobile.data.remote.api.ReportApi;
+import com.example.pjaidmobile.data.remote.api.TicketApi;
 
 import javax.inject.Singleton;
 
@@ -44,6 +45,12 @@ public class NetworkModule {
     public DeviceApi provideDeviceApi(Retrofit retrofit) {
         Log.d(TAG, "Providing DeviceApi instance");
         return retrofit.create(DeviceApi.class);
+    }
+
+    @Provides
+    @Singleton
+    public TicketApi provideTicketApi(Retrofit retrofit) {
+        return retrofit.create(TicketApi.class);
     }
 
 }

@@ -25,11 +25,14 @@
             android:name=".presentation.features.scan.ScanQRActivity"
             android:exported="false" />
         <activity
-            android:name=".presentation.features.report.ReportIssueActivity"
+            android:name=".presentation.features.ticket.CreateTicketActivity"
             android:exported="false" />
         <activity
             android:name=".presentation.features.report.ReportListActivity"
             android:exported="false" />
+        <activity
+            android:name=".presentation.features.report.ReportDetailActivity"
+            android:exported="false"/>
         <activity
             android:name=".presentation.common.MainActivity"
             android:exported="true"

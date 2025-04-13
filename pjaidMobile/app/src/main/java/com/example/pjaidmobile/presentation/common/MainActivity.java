@@ -10,6 +10,7 @@ import com.example.pjaidmobile.R;
 import com.example.pjaidmobile.presentation.features.report.ReportIssueActivity;
 import com.example.pjaidmobile.presentation.features.report.ReportListActivity;
 import com.example.pjaidmobile.presentation.features.scan.ScanQRActivity;
+import com.example.pjaidmobile.presentation.features.ticket.CreateTicketActivity;
 
 public class MainActivity extends AppCompatActivity {
     @Override
@@ -25,7 +26,7 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(new Intent(this, ScanQRActivity.class)));
 
         reportIssue.setOnClickListener(v ->
-                startActivity(new Intent(this, ReportIssueActivity.class)));
+                startActivity(new Intent(this, CreateTicketActivity.class)));
 
         reportList.setOnClickListener(v -> {
             startActivity(new Intent(MainActivity.this, ReportListActivity.class));
