@@ -29,7 +29,7 @@ public class ReportListAdapter extends ListAdapter<ReportItem, ReportListAdapter
     @Override
     public void onBindViewHolder(@NonNull ReportViewHolder holder, int position) {
         ReportItem item = getItem(position);
-        holder.description.setText(item.getDescription());
+        holder.description.setText(item.getTitle());
         holder.date.setText(item.getDate());
     }
 

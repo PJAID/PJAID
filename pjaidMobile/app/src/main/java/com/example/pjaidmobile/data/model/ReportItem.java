@@ -7,6 +7,9 @@ public class ReportItem {
     private String description;
     private String date;
 
+    private String title;
+    public String getTitle() { return title; }
+
     public ReportItem(String id, String description, String date) {
         this.id = id;
         this.description = description;
