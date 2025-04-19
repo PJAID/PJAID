@@ -8,6 +8,7 @@ class PjaidAppApplicationTests {
 
     @Test
     void contextLoads() {
+        //Example test
     }
 
 }

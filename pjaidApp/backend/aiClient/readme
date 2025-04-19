@@ -3,4 +3,6 @@ TO RUN:
 ~pip install -r requirements.txt
 ~uvicorn app:app --reload
 
-go to temporary address:  http://127.0.0.1:8000 
+go to temporary address:
+http://127.0.0.1:8000/predict/top10
+http://127.0.0.1:8000/predict

@@ -1,0 +1,37 @@
+<h2>Dodaj nowe urządzenie</h2>
+
+<form [formGroup]="deviceForm" (ngSubmit)="submit()">
+  <div>
+    <label for="name">Nazwa:</label>
+    <input type="text" id="name" formControlName="name" />
+  </div>
+
+  <div>
+    <label for="serialNumber">Nr seryjny:</label>
+    <input type="text" id="serialNumber" formControlName="serialNumber" />
+  </div>
+
+  <div>
+    <label for="purchaseDate">Data zakupu:</label>
+    <input type="date" id="purchaseDate" formControlName="purchaseDate" />
+  </div>
+
+  <div>
+    <label for="lastService">Ostatni serwis:</label>
+    <input type="date" id="lastService" formControlName="lastService" />
+  </div>
+
+  <div class="form-actions">
+    <button type="submit" [disabled]="deviceForm.invalid">
+      Dodaj urządzenie
+    </button>
+  </div>
+  <div *ngIf="createdDevice" class="qr-block">
+    <h3>QR dla urządzenia #{{createdDevice.id}}</h3>
+    <img [attr.src]="createdDevice.qrCode" alt="QR Code" />
+    <a [attr.href]="downloadHref" [attr.download]="downloadName">
+      Pobierz kod QR
+    </a>
+  </div>
+
+</form>

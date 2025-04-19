@@ -2,7 +2,7 @@ import {Component, inject, OnInit} from '@angular/core';
 import {CommonModule} from '@angular/common';
 import {ActivatedRoute, Router, RouterModule} from '@angular/router';
 import {DeviceService} from '../services/device.service';
-import {Device} from '../../shared/models/device.model';
+import {DeviceResponse} from '../../shared/models/device-response.model';
 
 @Component({
   selector: 'app-device-view',
@@ -17,7 +17,7 @@ export class DeviceViewComponent implements OnInit {
   private readonly deviceService = inject(DeviceService);
   private readonly router = inject(Router);
 
-  device?: Device;
+  device?: DeviceResponse;
 
   ngOnInit(): void {
     const id = Number(this.route.snapshot.paramMap.get('id'));
