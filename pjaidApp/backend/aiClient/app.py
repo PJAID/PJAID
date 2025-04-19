@@ -1,3 +1,5 @@
+from typing import List
+
 from fastapi import FastAPI, HTTPException
 from pydantic import BaseModel #for validation and serialization of data in FastAPI
 from starlette.responses import JSONResponse
@@ -12,6 +14,22 @@ class RequestData(BaseModel):
     task_id: int
     data: dict
 
+class FaultDto(BaseModel):
+    numerIt: str
+    model: str
+    rekonstrukcjaMse: float
+    liczbaNapraw: int
+
+def df_to_response(df) -> List[FaultDto]:
+    return [
+        FaultDto(
+            numerIt=row["Numer IT"],
+            model=row["Model"],
+            rekonstrukcjaMse=row["rekonstrukcja_mse"],
+            liczbaNapraw=int(row["Liczba Napraw"])
+        )
+        for _, row in df.iterrows()
+    ]
 @app.get("/")
 async def root():
     return {"message": "Ai Service Running and ready!"}
@@ -25,20 +43,11 @@ async def process_task(request: RequestData):
 @app.get("/predict")
 def get_suspected_devices():
     faults = predict_faults()
-    return faults.to_dict(orient="records")
+    return df_to_response(faults)
 @app.get("/predict/top10")
 def top_10_predictions():
     top_10_faults = get_top_10_faults()
-    response = []
-    for _, row in top_10_faults.iterrows():
-        response.append({
-            "numerIt": row["Numer IT"],
-            "model": row["Model"],
-            "rekonstrukcjaMse": row["rekonstrukcja_mse"],
-            "liczbaNapraw": int(row["Liczba Napraw"])
-        })
-
-    return JSONResponse(content=response)
+    return df_to_response(top_10_faults)
 
 if __name__ == '__main__':
     import uvicorn

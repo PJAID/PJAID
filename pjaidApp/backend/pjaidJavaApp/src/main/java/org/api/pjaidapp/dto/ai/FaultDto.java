@@ -13,18 +13,15 @@ import lombok.Setter;
 @AllArgsConstructor
 public class FaultDto {
 
-    @JsonProperty("Numer IT")
-    private String numerIt;
+    @JsonProperty("numerIt")
+    private String numberIt;
 
-    @JsonProperty("Liczba Napraw")
-    private double liczbaNapraw;
-
-    @JsonProperty("rekonstrukcja_mse")
-    private double rekonstrukcjaMse;
-
-    @JsonProperty("ITNumber")
-    private String itNumber;
-
-    @JsonProperty("Model")
+    @JsonProperty("model")
     private String model;
+
+    @JsonProperty("rekonstrukcjaMse")
+    private double reconstructionMse;
+
+    @JsonProperty("liczbaNapraw")
+    private double repairNumber;
 }
