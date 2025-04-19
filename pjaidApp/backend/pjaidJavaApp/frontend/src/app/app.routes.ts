@@ -47,7 +47,12 @@ export const routes: Routes = [
       {
         path: 'reportTicket',
         loadComponent: () => import('./tickets/ticket-new/ticket-new.component').then(m => m.TicketNewComponent)
-      }]
+      },
+      {
+        path: 'addDevice',
+        loadComponent: () => import('./devices/device-new/device-new.component').then(m => m.DeviceNewComponent)
+      }
+    ]
   },
   {
     path: '**',

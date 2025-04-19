@@ -8,6 +8,7 @@ import org.api.pjaidapp.repository.DeviceRepository;
 import org.api.pjaidapp.repository.specification.DeviceSpecifications;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.util.List;
 
@@ -16,10 +17,12 @@ public class DeviceService {
 
     private final DeviceRepository deviceRepository;
     private final DeviceMapper deviceMapper;
+    private final QrCodeService qrCodeService;
 
-    public DeviceService(DeviceRepository deviceRepository, DeviceMapper deviceMapper) {
+    public DeviceService(DeviceRepository deviceRepository, DeviceMapper deviceMapper, QrCodeService qrCodeService) {
         this.deviceRepository = deviceRepository;
         this.deviceMapper = deviceMapper;
+        this.qrCodeService = qrCodeService;
     }
 
     public DeviceDto getDeviceById(Long id) {
@@ -38,7 +41,18 @@ public class DeviceService {
     public DeviceDto createDevice(DeviceDto dto) {
         Device device = deviceMapper.toEntity(dto);
         Device saved = deviceRepository.save(device);
-        return deviceMapper.toDto(saved);
+        DeviceDto response = deviceMapper.toDto(saved);
+
+        String url = ServletUriComponentsBuilder
+                .fromCurrentContextPath()
+                .path("/devices/{id}")
+                .buildAndExpand(saved.getId())
+                .toUriString();
+
+        String qrBase64 = qrCodeService.generatePngBase64(url, 300);
+        response.setQrCode(qrBase64);
+
+        return response;
     }
 
     public DeviceDto updateDevice(Long id, DeviceDto dto) {
@@ -61,15 +75,11 @@ public class DeviceService {
     }
 
     public List<DeviceDto> findDevicesByCriteria(String name, String purchaseDate, String lastService) {
-        // Utwórz specyfikację na podstawie filtrów
         Specification<Device> spec = DeviceSpecifications.withFilters(name, purchaseDate, lastService);
-
-        // Pobierz przefiltrowane encje z repozytorium
         List<Device> filteredDevices = deviceRepository.findAll(spec);
 
-        // Zmapuj encje na DTO
         return filteredDevices.stream()
-                .map(deviceMapper::toDto) // Użyj swojej metody mapującej
+                .map(deviceMapper::toDto)
                 .toList();
     }
 }

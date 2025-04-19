@@ -3,7 +3,7 @@ import {CommonModule} from '@angular/common';
 import {NonNullableFormBuilder, ReactiveFormsModule, Validators} from '@angular/forms';
 import {TicketService} from '../services/ticket.service';
 import {Router} from '@angular/router';
-import {Device} from '../../shared/models/device.model';
+import {DeviceResponse} from '../../shared/models/device-response.model';
 import {TicketRequest} from '../../shared/models/ticket-request.model';
 import {DeviceService} from '../../devices/services/device.service';
 
@@ -21,7 +21,7 @@ export class TicketNewComponent implements OnInit {
   private readonly deviceService = inject(DeviceService);
   private readonly router = inject(Router);
 
-  devices: Device[] = [];
+  devices: DeviceResponse[] = [];
   userId: number = 1;
 
   ticketForm = this.fb.group({

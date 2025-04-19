@@ -12,6 +12,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class TicketSpecifications {
+    private TicketSpecifications() {
+    }
 
     public static Specification<Ticket> withFilters(Status status, String userName, String device, String titleContains) {
         return (root, query, criteriaBuilder) -> {

@@ -9,11 +9,15 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class DeviceSpecifications {
+
+    private DeviceSpecifications() {
+    }
+
     public static Specification<Device> withFilters(String name, String purchaseDate, String lastService) {
         return (root, query, criteriaBuilder) -> {
             List<Predicate> predicates = new ArrayList<>();
 
-            if (StringUtils.hasText(name)) { // Lepsze niż '!= null && !isEmpty()'
+            if (StringUtils.hasText(name)) {
                 predicates.add(criteriaBuilder.like(criteriaBuilder.lower(root.get("name")), "%" + name.toLowerCase() + "%"));
             }
 

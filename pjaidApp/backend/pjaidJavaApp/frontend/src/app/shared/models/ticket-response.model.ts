@@ -1,4 +1,4 @@
-import {Device} from './device.model';
+import {DeviceResponse} from './device-response.model';
 import {User} from './user.model';
 
 export interface TicketResponse {
@@ -6,6 +6,6 @@ export interface TicketResponse {
   title: string;
   description: string;
   status: 'NOWE' | 'W_TRAKCIE' | 'ZAMKNIETE';
-  device: Device;
+  device: DeviceResponse;
   user: User;
 }

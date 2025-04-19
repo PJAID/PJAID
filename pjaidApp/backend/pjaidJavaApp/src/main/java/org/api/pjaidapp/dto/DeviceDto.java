@@ -15,4 +15,5 @@ public class DeviceDto {
     private String serialNumber;
     private String purchaseDate;
     private String lastService;
+    private String qrCode;
 }

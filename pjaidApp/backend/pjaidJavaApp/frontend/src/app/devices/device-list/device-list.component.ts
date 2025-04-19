@@ -2,7 +2,7 @@ import {Component, inject, OnInit} from '@angular/core';
 import {Router, RouterModule} from '@angular/router';
 import {CommonModule} from '@angular/common';
 import {DeviceService} from '../services/device.service';
-import {Device} from '../../shared/models/device.model';
+import {DeviceResponse} from '../../shared/models/device-response.model';
 import {FormsModule} from '@angular/forms';
 
 @Component({
@@ -17,7 +17,7 @@ export class DeviceListComponent implements OnInit {
   private readonly deviceService = inject(DeviceService);
   private readonly router = inject(Router);
 
-  devices: Device[] = [];
+  devices: DeviceResponse[] = [];
   isLoading = false;
 
   filterName: string = '';
