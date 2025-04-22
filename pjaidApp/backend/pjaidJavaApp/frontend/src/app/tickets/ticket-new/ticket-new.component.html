@@ -12,22 +12,17 @@
   </div>
 
   <div>
-    <label for="status">Status:</label>
-    <select id="status" formControlName="status">
-      <option value="NOWE">NOWE</option>
-      <option value="W_TRAKCIE">W TRAKCIE</option>
-      <option value="ZAMKNIETE">ZAMKNIĘTE</option>
-    </select>
-  </div>
+    <label>Wybierz urządzenie:</label>
 
-  <div>
-    <select formControlName="deviceId">
-      <option *ngFor="let device of devices" [value]="device.id">
-        {{ device.name }} ({{ device.serialNumber }})
-      </option>
-    </select>
+      <mat-form-field appearance="outline" class="minimal-form-field">
+      <input type="text" matInput [formControl]="deviceControl" [matAutocomplete]="auto">
+      <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFn.bind(this)">
+        <mat-option *ngFor="let device of filteredDevices | async" [value]="device">
+          {{ device.id }} {{ device.name }} ({{ device.serialNumber }})
+        </mat-option>
+      </mat-autocomplete>
+    </mat-form-field>
   </div>
-
   <div class="form-actions">
     <button type="submit" [disabled]="ticketForm.invalid">Wyślij zgłoszenie</button>
   </div>
