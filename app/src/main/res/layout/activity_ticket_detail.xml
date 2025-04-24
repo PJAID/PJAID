@@ -12,16 +12,17 @@
         android:scaleType="centerCrop"
         android:src="@drawable/background" />
 
-    <!-- LOGO  -->
+    <!-- logo  -->
+
+    <!--  ramka z danymi -->
     <ImageView
         android:id="@+id/img_logo"
-        android:layout_width="250dp"
+        android:layout_width="313dp"
         android:layout_height="250dp"
         android:layout_gravity="top|center_horizontal"
         android:layout_marginTop="32dp"
         android:src="@drawable/logo" />
 
-    <!-- TREŚĆ: Ramka z danymi -->
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -34,78 +35,79 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:background="#FCFDFF"
             android:orientation="vertical"
-            android:padding="25dp"
-            android:background="#FCFDFF">
+            android:padding="25dp">
 
             <!-- Tytuł -->
             <TextView
                 android:id="@+id/tv_detail_title"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginBottom="8dp"
+                android:gravity="center_horizontal"
                 android:text="Tytuł zgłoszenia"
-                android:textSize="20sp"
-                android:textStyle="bold"
                 android:textColor="#212121"
-                android:layout_marginBottom="8dp" />
+                android:textSize="20sp"
+                android:textStyle="bold" />
 
             <!-- Opis -->
             <TextView
                 android:id="@+id/tv_detail_description"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginBottom="8dp"
                 android:text="Opis zgłoszenia:"
-                android:textColor="#000000"
-                android:layout_marginBottom="8dp" />
+                android:textColor="#000000" />
 
             <!-- Status -->
             <TextView
                 android:id="@+id/tv_detail_status"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textColor="#000000"
+                android:layout_marginBottom="4dp"
                 android:text="Status:"
-                android:layout_marginBottom="4dp" />
+                android:textColor="#000000" />
 
             <!-- Assignee -->
             <TextView
                 android:id="@+id/tv_detail_assignee"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textColor="#000000"
+                android:layout_marginBottom="4dp"
                 android:text="Przekieruj do:"
-                android:layout_marginBottom="4dp" />
+                android:textColor="#000000" />
 
             <!-- Data -->
             <TextView
                 android:id="@+id/tv_detail_date"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Created: 01/01/2025"
-                android:layout_marginBottom="16dp" />
+                android:layout_marginBottom="16dp"
+                android:text="Created: 01/01/2025" />
 
             <!-- PRZYCISKI obok siebie -->
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:gravity="end">
+                android:gravity="end"
+                android:orientation="horizontal">
 
                 <Button
                     android:id="@+id/btn_edit_ticket"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Edytuj"
                     android:layout_marginEnd="12dp"
                     android:backgroundTint="@color/material_dynamic_primary20"
+                    android:text="Edytuj"
                     android:textColor="@android:color/white" />
 
                 <Button
                     android:id="@+id/btn_delete_ticket"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Usuń"
                     android:backgroundTint="#DC3737"
+                    android:text="Usuń"
                     android:textColor="@android:color/white" />
             </LinearLayout>
 
