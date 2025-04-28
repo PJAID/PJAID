@@ -23,7 +23,7 @@ struct ReportFailureView: View {
                 .padding(.horizontal)
             
             Button(action: {
-                // Tutaj logika wysyłania zgłoszenia
+                //miejsce na logikie wysyłania zgłoszenia nie wiem jeszcze jak to zrobić zadanie na scrum
                 print("Wysłano: \(title) - \(description)")
             }) {
                 Text("Wyślij zgłoszenie")

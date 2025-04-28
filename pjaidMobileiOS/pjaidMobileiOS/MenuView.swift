@@ -21,7 +21,7 @@ struct MenuView: View {
                     .padding(.horizontal)
                 }
                 
-                // Kafelek do skanowania QR kodu ➔ PRZEJŚCIE na osobny ekran
+                // Kafelek do skanowania QR kodu
                 NavigationLink(destination: QRScannerScreen()) {
                     VStack {
                         Image(systemName: "qrcode.viewfinder")
