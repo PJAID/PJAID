@@ -6,6 +6,10 @@
 	objectVersion = 77;
 	objects = {
 
+/* Begin PBXBuildFile section */
+		824A38232DB593DA00DCF78D /* CodeScanner in Frameworks */ = {isa = PBXBuildFile; productRef = 824A38222DB593DA00DCF78D /* CodeScanner */; };
+/* End PBXBuildFile section */
+
 /* Begin PBXContainerItemProxy section */
 		823214542DB44645000C740E /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -52,6 +56,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				824A38232DB593DA00DCF78D /* CodeScanner in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -112,6 +117,7 @@
 			);
 			name = pjaidMobileiOS;
 			packageProductDependencies = (
+				824A38222DB593DA00DCF78D /* CodeScanner */,
 			);
 			productName = pjaidMobileiOS;
 			productReference = 823214462DB44644000C740E /* pjaidMobileiOS.app */;
@@ -195,6 +201,9 @@
 			);
 			mainGroup = 8232143D2DB44644000C740E;
 			minimizedProjectReferenceProxies = 1;
+			packageReferences = (
+				824A38212DB593DA00DCF78D /* XCRemoteSwiftPackageReference "CodeScanner" */,
+			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = 823214472DB44644000C740E /* Products */;
 			projectDirPath = "";
@@ -550,6 +559,25 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		824A38212DB593DA00DCF78D /* XCRemoteSwiftPackageReference "CodeScanner" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/twostraws/CodeScanner";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 2.5.2;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		824A38222DB593DA00DCF78D /* CodeScanner */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 824A38212DB593DA00DCF78D /* XCRemoteSwiftPackageReference "CodeScanner" */;
+			productName = CodeScanner;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 8232143E2DB44644000C740E /* Project object */;
 }

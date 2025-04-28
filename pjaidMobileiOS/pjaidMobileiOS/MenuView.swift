@@ -2,9 +2,6 @@ import SwiftUI
 import CodeScanner
 
 struct MenuView: View {
-    @State private var isShowingScanner = false
-    @State private var scannedCode: String?
-    
     var body: some View {
         NavigationStack {
             VStack(spacing: 20) {
@@ -25,9 +22,7 @@ struct MenuView: View {
                 }
                 
                 // Kafelek do skanowania QR kodu
-                Button {
-                    isShowingScanner = true
-                } label: {
+                NavigationLink(destination: QRScannerScreen()) {
                     VStack {
                         Image(systemName: "qrcode.viewfinder")
                             .font(.largeTitle)
@@ -41,37 +36,9 @@ struct MenuView: View {
                     .padding(.horizontal)
                 }
                 
-                // Wynik skanowania
-                if let code = scannedCode {
-                    VStack(spacing: 10) {
-                        Text("Zeskanowany kod:")
-                            .font(.headline)
-                        Text(code)
-                            .font(.subheadline)
-                            .foregroundColor(.gray)
-                            .padding(.horizontal)
-                    }
-                    .padding(.top)
-                }
-                
                 Spacer()
             }
             .navigationTitle("PJAID Menu")
-            .sheet(isPresented: $isShowingScanner) {
-                CodeScannerView(codeTypes: [.qr], completion: handleScan)
-            }
-        }
-    }
-    
-    func handleScan(result: Result<ScanResult, ScanError>) {
-        isShowingScanner = false
-        
-        switch result {
-        case .success(let scanResult):
-            scannedCode = scanResult.string
-            print("Zeskanowany kod: \(scanResult.string)")
-        case .failure(let error):
-            print("Błąd skanowania: \(error.localizedDescription)")
         }
     }
 }
