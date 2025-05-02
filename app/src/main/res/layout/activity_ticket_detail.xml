@@ -1,117 +1,146 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout
+<androidx.constraintlayout.widget.ConstraintLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <!-- TŁO: Obrazek -->
+    <!-- tło -->
     <ImageView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:id="@+id/background_image"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
         android:scaleType="centerCrop"
-        android:src="@drawable/background" />
+        android:src="@drawable/background"
+        android:contentDescription="@null"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
 
-    <!-- logo  -->
-
-    <!--  ramka z danymi -->
+    <!-- logo -->
     <ImageView
         android:id="@+id/img_logo"
-        android:layout_width="313dp"
+        android:layout_width="315dp"
         android:layout_height="250dp"
-        android:layout_gravity="top|center_horizontal"
-        android:layout_marginTop="32dp"
-        android:src="@drawable/logo" />
+        android:src="@drawable/logo"
+        android:contentDescription="Logo aplikacji"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="32dp" />
 
-    <androidx.cardview.widget.CardView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="24dp"
-        android:layout_gravity="center"
-        app:cardCornerRadius="16dp"
-        app:cardElevation="15dp"
-        android:background="@android:color/white">
+    <!-- treść do przewijania -->
+    <ScrollView
+        android:id="@+id/scroll_container"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintTop_toBottomOf="@id/img_logo"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
 
-        <LinearLayout
+        <androidx.cardview.widget.CardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="#FCFDFF"
-            android:orientation="vertical"
-            android:padding="25dp">
+            android:layout_margin="24dp"
+            app:cardCornerRadius="24dp"
+            app:cardElevation="8dp"
+            android:background="@android:color/white">
 
-            <!-- Tytuł -->
-            <TextView
-                android:id="@+id/tv_detail_title"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="8dp"
-                android:gravity="center_horizontal"
-                android:text="Tytuł zgłoszenia"
-                android:textColor="#212121"
-                android:textSize="20sp"
-                android:textStyle="bold" />
-
-            <!-- Opis -->
-            <TextView
-                android:id="@+id/tv_detail_description"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="8dp"
-                android:text="Opis zgłoszenia:"
-                android:textColor="#000000" />
-
-            <!-- Status -->
-            <TextView
-                android:id="@+id/tv_detail_status"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="4dp"
-                android:text="Status:"
-                android:textColor="#000000" />
-
-            <!-- Assignee -->
-            <TextView
-                android:id="@+id/tv_detail_assignee"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="4dp"
-                android:text="Przekieruj do:"
-                android:textColor="#000000" />
-
-            <!-- Data -->
-            <TextView
-                android:id="@+id/tv_detail_date"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="16dp"
-                android:text="Created: 01/01/2025" />
-
-            <!-- PRZYCISKI obok siebie -->
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:gravity="end"
-                android:orientation="horizontal">
+                android:orientation="vertical"
+                android:background="#FCFDFF"
+                android:padding="24dp">
 
-                <Button
-                    android:id="@+id/btn_edit_ticket"
-                    android:layout_width="wrap_content"
+                <!-- tytuł -->
+                <TextView
+                    android:id="@+id/tv_detail_title"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginEnd="12dp"
-                    android:backgroundTint="@color/material_dynamic_primary20"
-                    android:text="Edytuj"
-                    android:textColor="@android:color/white" />
+                    android:text="Szczegóły zgłoszenia"
+                    android:textColor="#212121"
+                    android:textSize="22sp"
+                    android:textStyle="bold"
+                    android:gravity="center_horizontal"
+                    android:layout_marginBottom="12dp" />
 
-                <Button
-                    android:id="@+id/btn_delete_ticket"
-                    android:layout_width="wrap_content"
+                <!-- opis -->
+                <TextView
+                    android:id="@+id/tv_detail_description"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:backgroundTint="#DC3737"
-                    android:text="Usuń"
-                    android:textColor="@android:color/white" />
+                    android:text="Opis incydentu."
+                    android:textColor="#333333"
+                    android:layout_marginBottom="8dp" />
+
+                <!-- status -->
+                <TextView
+                    android:id="@+id/tv_detail_status"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Status: np. Nowy"
+                    android:textColor="#333333"
+                    android:layout_marginBottom="4dp" />
+
+                <!-- przekierowanie -->
+                <TextView
+                    android:id="@+id/tv_detail_assignee"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Assigned to: np. Operator"
+                    android:textColor="#333333"
+                    android:layout_marginBottom="4dp" />
+
+                <!-- data -->
+                <TextView
+                    android:id="@+id/tv_detail_date"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Created: 04/13/2025 07:42"
+                    android:textColor="#888888"
+                    android:layout_marginBottom="16dp" />
+
+                <!-- przyciski -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:gravity="center">
+
+                    <Button
+                        android:id="@+id/btn_edit_ticket"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="12dp"
+                        android:backgroundTint="@color/material_dynamic_primary20"
+                        android:text="Edytuj"
+                        android:textColor="#FFFFFF"
+                        android:paddingStart="32dp"
+                        android:paddingEnd="32dp"
+                        android:paddingTop="8dp"
+                        android:paddingBottom="8dp" />
+
+                    <Button
+                        android:id="@+id/btn_delete_ticket"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:backgroundTint="#D32F2F"
+                        android:text="Usuń"
+                        android:textColor="#FFFFFF"
+                        android:paddingStart="32dp"
+                        android:paddingEnd="32dp"
+                        android:paddingTop="8dp"
+                        android:paddingBottom="8dp" />
+
+                </LinearLayout>
+
             </LinearLayout>
 
-        </LinearLayout>
-    </androidx.cardview.widget.CardView>
+        </androidx.cardview.widget.CardView>
 
-</FrameLayout>
+    </ScrollView>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

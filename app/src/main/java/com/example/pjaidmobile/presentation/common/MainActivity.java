@@ -1,42 +1,65 @@
 package com.example.pjaidmobile.presentation.common;
 
+import android.animation.ObjectAnimator;
+import android.animation.PropertyValuesHolder;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.view.MotionEvent;
+import android.view.View;
 import android.widget.Button;
 import androidx.appcompat.app.AppCompatActivity;
-
+import com.example.pjaidmobile.util.ButtonAnimationUtil;
 import com.example.pjaidmobile.R;
 import com.example.pjaidmobile.presentation.features.auth.LoginActivity;
 import com.example.pjaidmobile.presentation.features.report.ReportListActivity;
+import com.example.pjaidmobile.presentation.features.report.TicketDetailActivity;
 import com.example.pjaidmobile.presentation.features.scan.ScanQRActivity;
 import com.example.pjaidmobile.presentation.features.ticket.CreateTicketActivity;
-import com.example.pjaidmobile.presentation.features.ticket.TicketDetailActivity;
+import androidx.dynamicanimation.animation.SpringAnimation;
+import androidx.dynamicanimation.animation.SpringForce;
+import android.widget.TextView;
+
 
 public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        // Sprawdź, czy użytkownik jest zalogowany
+        // Sprawdzenie logowania
         SharedPreferences prefs = getSharedPreferences("PJAIDPrefs", MODE_PRIVATE);
         boolean isLoggedIn = prefs.getBoolean("isLoggedIn", false);
 
         if (!isLoggedIn) {
-            // Jeśli nie jest zalogowany, przekieruj na ekran logowania
             startActivity(new Intent(this, LoginActivity.class));
-            finish(); // Zakończ tę aktywność, żeby użytkownik nie mógł wrócić za pomocą przycisku wstecz
+            finish();
             return;
         }
 
-        // Kontynuuj normalne uruchamianie menu głównego
         setContentView(R.layout.activity_main);
 
+
+        //  przyciski
         Button scanQR = findViewById(R.id.buttonScanQR);
         Button reportIssue = findViewById(R.id.buttonReportIssue);
         Button reportList = findViewById(R.id.buttonReportList);
         Button reportDetail = findViewById(R.id.buttonReportDetail);
         Button logoutButton = findViewById(R.id.logout_button);
+
+        // powiązanie (TextView) dla zalogowanego użytkownika
+        TextView loggedUserText = findViewById(R.id.tv_logged_user);
+        String loggedUser = prefs.getString("username", "Nieznany użytkownik");
+        loggedUserText.setText("Zalogowano jako: " + loggedUser);  // Wyświetlenie loginu
+
+
+        // animacja przycisków
+        ButtonAnimationUtil.applySpringAnimation(scanQR);
+        ButtonAnimationUtil.applySpringAnimation(reportIssue);
+        ButtonAnimationUtil.applySpringAnimation(reportList);
+        ButtonAnimationUtil.applySpringAnimation(reportDetail);
+        ButtonAnimationUtil.applySpringAnimation(logoutButton);
+
+        // obsługa kliknięć
         logoutButton.setOnClickListener(v -> {
             SharedPreferences.Editor editor = prefs.edit();
             editor.putBoolean("isLoggedIn", false);
@@ -59,7 +82,7 @@ public class MainActivity extends AppCompatActivity {
 
         reportDetail.setOnClickListener(v -> {
             Intent intent = new Intent(this, TicketDetailActivity.class);
-            intent.putExtra("TICKET_ID", "TK001"); //  przykładowe ID
+            intent.putExtra("TICKET_ID", "TK001"); // przykładowe ID
             startActivity(intent);
         });
     }

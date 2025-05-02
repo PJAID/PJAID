@@ -31,9 +31,16 @@
         </activity>
 
         <activity android:name=".presentation.features.auth.ResetPasswordActivity" />
+
         <activity
-            android:name=".presentation.features.auth.Logo_Base"
-            android:exported="true" />
+            android:name=".presentation.common.BaseActivity"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+
 
         <activity
             android:name=".presentation.features.scan.ScanQRActivity"
@@ -44,7 +51,12 @@
         <activity
             android:name=".presentation.features.report.ReportListActivity"
             android:exported="false" />
-        <activity android:name=".presentation.features.ticket.TicketDetailActivity" />
+        <activity
+            android:name=".presentation.features.report.TicketDetailActivity"
+            android:exported="false" />
+
+        <activity android:name=".presentation.features.auth.RegisterActivity" />
+
         <activity
             android:name=".presentation.common.MainActivity"
             android:exported="true"

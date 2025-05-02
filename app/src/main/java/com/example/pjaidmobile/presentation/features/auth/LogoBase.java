@@ -10,6 +10,6 @@ public class LogoBase extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.logo_base);
+        setContentView(R.layout.activity_base);
     }
 }
