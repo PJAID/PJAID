@@ -15,4 +15,14 @@
     <string name="device_info">Informacje o urządzeniu</string>
     <string name="describe_error">Opisz awarię</string>
     <string name="report">Zgłoś</string>
+
+    <!-- ekran logowania -->
+    <string name="welcome_to_pjaid">Welcome to PJAID</string>
+    <string name="username_or_email">Username or email</string>
+    <string name="password">Password</string>
+    <string name="remember_me">Remember me</string>
+    <string name="forgot_password">Forgot password?</string>
+    <string name="sign_in">Sign in</string>
+    <string name="logo_description">PJAID Logo</string>
+    <string name="toggle_password_visibility">Toggle password visibility</string>
 </resources>

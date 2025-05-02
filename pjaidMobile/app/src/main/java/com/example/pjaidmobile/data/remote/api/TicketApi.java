@@ -20,4 +20,7 @@ public interface TicketApi {
 
     @POST("ticket")
     Call<Ticket> createTicket(@Body TicketRequest ticketRequest);
+
+    @GET("ticket/{id}")
+    Call<Ticket> getTicketById(@Path("id") String id);
 }
