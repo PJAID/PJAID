@@ -34,7 +34,7 @@ public class TicketSpecifications {
 
             if (device != null && !device.isEmpty()) {
                 Join<Ticket, Device> deviceJoin = root.join("device");
-                predicates.add(criteriaBuilder.like(criteriaBuilder.lower(deviceJoin.get("deviceName")), "%" + device.toLowerCase() + "%"));
+                predicates.add(criteriaBuilder.like(criteriaBuilder.lower(deviceJoin.get("name")), "%" + device.toLowerCase() + "%"));
             }
 
             return criteriaBuilder.and(predicates.toArray(new Predicate[0]));
