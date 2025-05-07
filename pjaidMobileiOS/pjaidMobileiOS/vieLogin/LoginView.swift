@@ -72,7 +72,7 @@ struct LoginView: View {
                         .font(.footnote)
                         .foregroundColor(.white.opacity(0.7))
                     }
-                    .padding(.horizontal, 24)
+                    .padding(.horizontal, 10)
                     .frame(maxWidth: 300)
 
                     Button(action: {
