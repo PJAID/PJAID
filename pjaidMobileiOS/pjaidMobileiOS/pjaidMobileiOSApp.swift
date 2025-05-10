@@ -10,16 +10,21 @@ import UserNotifications
 
 @main
 struct pjaidMobileiOSApp: App {
-    
+    @StateObject private var appState = AppState()
+
     init() {
         requestNotificationPermission()
     }
 
     var body: some Scene {
         WindowGroup {
-            MenuView()
-                .onAppear {
-                }
+            if appState.isLoggedIn {
+                MenuView()
+                    .environmentObject(appState)
+            } else {
+                LoginView()
+                    .environmentObject(appState)
+            }
         }
     }
 
