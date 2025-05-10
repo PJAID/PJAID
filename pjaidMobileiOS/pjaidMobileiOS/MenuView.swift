@@ -1,3 +1,7 @@
+//Editing:
+//Jakub Marcinkowski
+//Adrian Goik
+
 import SwiftUI
 import CodeScanner
 import UserNotifications
@@ -40,7 +44,7 @@ struct MenuView: View {
                         .primaryButtonStyle(color: .blue)
                     }
 
-                    NavigationLink(destination: ReportFailureView()) {
+                    NavigationLink(destination: ReportFailureView().environmentObject(appState)) {
                         VStack {
                             Image(systemName: "exclamationmark.triangle.fill")
                                 .font(.largeTitle)
@@ -48,7 +52,7 @@ struct MenuView: View {
                             Text("Zgłoś awarię")
                                 .font(.headline)
                         }
-                        .primaryButtonStyle(color: .purple)
+                        .primaryButtonStyle(color: .blue)
                     }
                         NavigationLink(destination: TicketListView()) {
                             VStack {

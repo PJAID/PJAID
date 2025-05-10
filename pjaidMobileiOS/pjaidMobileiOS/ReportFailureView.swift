@@ -9,8 +9,12 @@
 import SwiftUI
 
 struct ReportFailureView: View {
+    @EnvironmentObject var appState: AppState
     @State private var title: String = ""
     @State private var description: String = ""
+    @State private var showConfirmation = false
+    @State private var navigateToList = false
+    
     
     var body: some View {
         VStack(spacing: 20) {
@@ -23,8 +27,16 @@ struct ReportFailureView: View {
                 .padding(.horizontal)
             
             Button(action: {
-                //miejsce na logikie wysyłania zgłoszenia nie wiem jeszcze jak to zrobić zadanie na scrum
-                print("Wysłano: \(title) - \(description)")
+                let newTicket = Ticket(
+                        id: Int.random(in: 1000...9999), // tymczasowe ID
+                        title: title,
+                        description: description,
+                        status: "Nowe", 
+                        user: appState.currentUser,
+                        timestamp: Date()
+                    )
+                    appState.userTickets.insert(newTicket, at: 0)
+                    showConfirmation = true
             }) {
                 Text("Wyślij zgłoszenie")
                     .frame(maxWidth: .infinity)
@@ -39,5 +51,21 @@ struct ReportFailureView: View {
         }
         .padding(.top)
         .navigationTitle("Zgłoś awarię")
+        .alert(isPresented: $showConfirmation) {
+            Alert(
+                title: Text("Wysłano zgłoszenie"),
+                message: Text("Twoje zgłoszenie zostało wysłane."),
+                dismissButton: .default(Text("OK")) {
+                    navigateToList = true
+                }
+            )
+        }
+        Button("OK"){
+            navigateToList = true
+        }
+        .background(
+            NavigationLink(destination: TicketListView(), isActive: $navigateToList,
+                           label: { EmptyView() }) 
+        )
     }
 }

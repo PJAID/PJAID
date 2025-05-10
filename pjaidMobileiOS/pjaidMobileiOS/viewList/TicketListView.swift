@@ -8,10 +8,12 @@
 import SwiftUI
 
 struct Ticket: Identifiable, Codable {
-    let id: Int
+    let id: Int //nie lepiej zmienić na UUID?
     let title: String
     let description: String
     let status: String
+    var user: String? = nil // lokalne zgłoszenia
+    var timestamp: Date? = nil
 
     enum CodingKeys: String, CodingKey {
         case id, title, description, status
@@ -19,23 +21,35 @@ struct Ticket: Identifiable, Codable {
 }
 
 struct TicketListView: View {
-    @State private var tickets: [Ticket] = []
+    @EnvironmentObject var appState: AppState
+    @State private var apiTickets: [Ticket] = []
+    //@State private var tickets: [Ticket] = []
     @State private var isLoading = true
 
     var body: some View {
         NavigationView {
-            List(tickets) { ticket in
+            List(appState.userTickets + apiTickets) { ticket in
                 NavigationLink(destination: TicketDetailView(ticket: ticket)) {
-                    Text(ticket.title)
-                        .font(.headline)
+                    VStack(alignment: .leading, spacing: 4) {
+                        Text(ticket.title)
+                            .font(.headline)
+                        if ticket.user == appState.currentUser {
+                            Text("Twoje zgłoszenie")
+                                .font(.caption)
+                                .foregroundColor(.purple)
+                        }
+                    }
+                    .padding(5)
+                    .background(ticket.user == appState.currentUser ? Color.purple.opacity(0.1) : Color.clear)
+                    .cornerRadius(8)
                 }
             }
             .navigationTitle("Zgłoszenia")
             .onAppear {
                 fetchTickets { loadedTickets in
-                    self.tickets = loadedTickets
-                    self.isLoading = false
-                }
+                        self.apiTickets = loadedTickets
+                        self.isLoading = false
+                    }
             }
         }
     }
