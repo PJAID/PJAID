@@ -1,0 +1,31 @@
+<h2>Dodaj użytkownika</h2>
+<form [formGroup]="form" (ngSubmit)="onSubmit()">
+  <label>
+    Nazwa użytkownika:
+    <input formControlName="userName"/>
+  </label>
+  <br/>
+
+  <label>
+    E-mail:
+    <input formControlName="email" type="email"/>
+  </label>
+  <br/>
+
+  <label>
+    Hasło:
+    <input formControlName="password" type="password"/>
+  </label>
+  <br/>
+
+  <label>
+    Role:
+    <select formControlName="roles">
+      <option value="USER">USER</option>
+      <option value="ADMIN">ADMIN</option>
+    </select>
+  </label>
+  <br/>
+
+  <button type="submit" [disabled]="form.invalid">Zapisz</button>
+</form>

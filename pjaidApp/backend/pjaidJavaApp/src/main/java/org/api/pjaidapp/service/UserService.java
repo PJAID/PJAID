@@ -5,7 +5,9 @@ import org.api.pjaidapp.exception.UserNotFoundException;
 import org.api.pjaidapp.mapper.UserMapper;
 import org.api.pjaidapp.model.User;
 import org.api.pjaidapp.repository.UserRepository;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
 
@@ -34,6 +36,14 @@ public class UserService {
     }
 
     public UserDto createUser(UserDto dto) {
+        if (userRepository.existsByEmail(dto.getEmail())) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Email already exists");
+        }
+
+        if (userRepository.findByUserName(dto.getUserName()).isPresent()) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Username already exists");
+        }
+
         User user = userMapper.toEntity(dto);
         User saved = userRepository.save(user);
         return userMapper.toDto(saved);
