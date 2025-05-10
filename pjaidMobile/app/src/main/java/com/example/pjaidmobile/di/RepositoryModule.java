@@ -1,7 +1,9 @@
 package com.example.pjaidmobile.di;
 
+import com.example.pjaidmobile.data.repository.AuthRepositoryImpl;
 import com.example.pjaidmobile.data.repository.DeviceRepositoryImpl;
 import com.example.pjaidmobile.data.repository.ReportRepositoryImpl;
+import com.example.pjaidmobile.domain.repository.AuthRepository;
 import com.example.pjaidmobile.domain.repository.DeviceRepository;
 import com.example.pjaidmobile.domain.repository.ReportRepository;
 
@@ -27,5 +29,10 @@ public abstract class RepositoryModule {
     public abstract DeviceRepository bindDeviceRepository(
             DeviceRepositoryImpl deviceRepositoryImpl
     );
+
+    @Binds
+    @Singleton
+    public abstract AuthRepository bindAuthRepository(AuthRepositoryImpl impl);
+
 
 }
