@@ -1,6 +1,6 @@
 import {Component, inject} from '@angular/core';
-import { User } from '../../shared/models/user.model';
 import {AuthService} from '../../auth/services/auth.service';
+import {Router} from '@angular/router';
 
 @Component({
   selector: 'app-top-navbar',
@@ -12,9 +12,25 @@ import {AuthService} from '../../auth/services/auth.service';
 })
 export class TopNavbarComponent {
   private readonly authService = inject(AuthService);
-  loggedPerson: User | null = this.authService.getLoggedUser();
+  private readonly router = inject(Router);
+  loggedPerson: string | null = this.authService.getLoggedUser();
 
   logout(): void {
-    this.authService.logout();
+    const refreshToken = this.authService.getRefreshToken();
+    if (refreshToken) {
+      this.authService.logout().subscribe({
+        complete: () => {
+          this.authService.clearTokens();
+          this.router.navigate(['/login']);
+        },
+        error: () => {
+          this.authService.clearTokens(); //
+          this.router.navigate(['/login']);
+        }
+      });
+    } else {
+      this.authService.clearTokens();
+      this.router.navigate(['/login']);
+    }
   }
 }

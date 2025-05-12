@@ -15,9 +15,11 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.HashSet;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -45,10 +47,10 @@ class TicketControllerTest {
 
     @BeforeEach
     void setUp() {
-        userDto1 = new UserDto(1L, "Jan Kowalski", "jan@domain.com");
-        userDto2 = new UserDto(2L, "Anna Nowak", "anna@domain.com");
-        deviceDto1 = new DeviceDto(1L, "Laptop Dell", "SN123", "20240101", "20250101");
-        deviceDto2 = new DeviceDto(2L, "Drukarka HP", "SN456", "20240101", "20250101");
+        userDto1 = new UserDto(1L, "Jan Kowalski", "jan@domain.com", "Qwerty.1", new HashSet<>());
+        userDto2 = new UserDto(2L, "Anna Nowak", "anna@domain.com", "Qwerty.1", new HashSet<>());
+        deviceDto1 = new DeviceDto(1L, "Laptop Dell", "SN123", "20240101", "20250101", "XDD");
+        deviceDto2 = new DeviceDto(2L, "Drukarka HP", "SN456", "20240101", "20250101", "XDDD");
 
         ticketResponse1 = new TicketResponse(1, "Problem A", "Opis A", Status.NOWE, deviceDto1, userDto1);
         ticketResponse2 = new TicketResponse(2, "Problem B", "Opis B", Status.ZAMKNIETE, deviceDto2, userDto2);
@@ -169,4 +171,15 @@ class TicketControllerTest {
 
         assertTrue(response.getBody().isEmpty());
     }
+
+
+    @Test
+    void PasswordGeneratorTest() {
+            BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
+            String rawPassword = "admin";
+            String encodedPassword = encoder.encode(rawPassword);
+            System.out.println("Hasło zakodowane: " + encodedPassword);
+            assertEquals(true, true);
+    }
+
 }
