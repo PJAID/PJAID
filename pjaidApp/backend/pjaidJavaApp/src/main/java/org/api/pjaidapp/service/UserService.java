@@ -6,7 +6,7 @@ import org.api.pjaidapp.mapper.UserMapper;
 import org.api.pjaidapp.model.User;
 import org.api.pjaidapp.repository.UserRepository;
 import org.springframework.stereotype.Service;
-
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Service
@@ -54,5 +54,25 @@ public class UserService {
             throw new UserNotFoundException(id);
         }
         userRepository.deleteById(id);
+    }
+
+    // logowanie technika
+    public void logInTechnician(Long userId) {
+        User technician = userRepository.findById(userId)
+                .orElseThrow(() -> new UserNotFoundException("Technik nie znaleziony"));
+
+        technician.setLoggedIn(true);
+        technician.setLastLoginDate(LocalDateTime.now());
+        userRepository.save(technician);
+    }
+
+    // wylogowania technika
+    public void logOutTechnician(Long userId) {
+        User technician = userRepository.findById(userId)
+                .orElseThrow(() -> new UserNotFoundException("Technik nie znaleziony"));
+
+        technician.setLoggedIn(false);
+        technician.setLastLoginDate(LocalDateTime.now());  // Możesz ustawić inną datę, jeśli chcesz
+        userRepository.save(technician);
     }
 }

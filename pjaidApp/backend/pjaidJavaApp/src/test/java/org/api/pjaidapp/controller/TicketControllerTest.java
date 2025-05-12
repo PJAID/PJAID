@@ -169,4 +169,18 @@ class TicketControllerTest {
 
         assertTrue(response.getBody().isEmpty());
     }
+    @Test
+    void testCreateTicket() {
+
+        TicketRequest request = new TicketRequest();
+        request.setTitle("Nowe zgłoszenie");
+        request.setDescription("Opis zgłoszenia");
+        request.setDeviceId(1L);
+        request.setStatus(Status.NOWE);
+
+        ResponseEntity<TicketResponse> response = ticketController.createTicket(request);
+        assertNotNull(response);
+        assertEquals(HttpStatus.CREATED, response.getStatusCode());
+        assertNotNull(response.getBody());
+    }
 }

@@ -47,4 +47,16 @@ public class UserController {
         userService.deleteUser(id);
         return ResponseEntity.noContent().build();
     }
+
+    @PostMapping("/login/{userId}")
+    public ResponseEntity<Void> logInTechnician(@PathVariable Long userId) {
+        userService.logInTechnician(userId);
+        return ResponseEntity.status(HttpStatus.OK).build();
+    }
+
+    @PostMapping("/logout/{userId}")
+    public ResponseEntity<Void> logOutTechnician(@PathVariable Long userId) {
+        userService.logOutTechnician(userId);
+        return ResponseEntity.status(HttpStatus.OK).build();
+    }
 }

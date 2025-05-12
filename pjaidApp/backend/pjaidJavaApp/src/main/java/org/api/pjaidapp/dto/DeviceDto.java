@@ -16,4 +16,7 @@ public class DeviceDto {
     private String purchaseDate;
     private String lastService;
     private String qrCode;
+    private String type;
+    private String description;
+    private String status;
 }

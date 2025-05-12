@@ -25,4 +25,5 @@ public class Device {
     private String purchaseDate;
     @Column(name = "last_service")
     private String lastService;
+    private String type;
 }

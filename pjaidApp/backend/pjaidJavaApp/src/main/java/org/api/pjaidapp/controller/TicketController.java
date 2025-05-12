@@ -21,7 +21,7 @@ public class TicketController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<TicketResponse> getTicketById(@PathVariable int id) {
+    public ResponseEntity<TicketResponse> getTicketById(@PathVariable Long id) {
         TicketResponse ticket = ticketService.getTicketById(id);
         return ResponseEntity.ok(ticket);
     }
@@ -50,16 +50,22 @@ public class TicketController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<TicketResponse> updateTicket(@PathVariable int id, @RequestBody TicketRequest request) {
+    public ResponseEntity<TicketResponse> updateTicket(@PathVariable Long id, @RequestBody TicketRequest request) {
         TicketResponse updatedTicket = ticketService.updateTicket(id, request);
         return ResponseEntity.ok(updatedTicket);
     }
 
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteTicket(@PathVariable int id) {
+    public ResponseEntity<Void> deleteTicket(@PathVariable Long id) {
         ticketService.deleteTicket(id);
         return ResponseEntity.noContent().build();
+    }
+
+    @PostMapping("/complete/{ticketId}")
+    public ResponseEntity<Void> completeTicket(@PathVariable Long ticketId) {
+        ticketService.completeTicket(ticketId);
+        return ResponseEntity.ok().build();
     }
 
 
