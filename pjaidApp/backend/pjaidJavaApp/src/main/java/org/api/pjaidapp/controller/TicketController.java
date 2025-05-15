@@ -61,7 +61,20 @@ public class TicketController {
         ticketService.deleteTicket(id);
         return ResponseEntity.noContent().build();
     }
-
-
+    @PostMapping("/{id}/start")
+    public ResponseEntity<TicketResponse> startTicket(@PathVariable int id) {
+        TicketResponse updated = ticketService.startTicket(id);
+        return ResponseEntity.ok(updated);
+    }
+    @PostMapping("/{id}/finish")
+    public ResponseEntity<TicketResponse> finishTicket(@PathVariable int id) {
+        TicketResponse updated = ticketService.finishTicket(id);
+        return ResponseEntity.ok(updated);
+    }
+    @GetMapping("/pending")
+    public ResponseEntity<List<TicketResponse>> getPendingTickets() {
+        List<TicketResponse> tickets = ticketService.getPendingTickets();
+        return ResponseEntity.ok(tickets);
+    }
 }
 
