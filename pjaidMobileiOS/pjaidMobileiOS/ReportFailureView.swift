@@ -8,12 +8,20 @@
 
 import SwiftUI
 
+enum TicketStatus: String, CaseIterable, Identifiable {
+    case nowe = "NOWE"
+    case przestoj = "PRZESTOJ"
+
+    var id: String { self.rawValue }
+}
+
 struct ReportFailureView: View {
     @EnvironmentObject var appState: AppState
     @State private var title: String = ""
     @State private var description: String = ""
     @State private var showConfirmation = false
     @State private var navigateToList = false
+    @State private var selectedStatus: TicketStatus = .nowe
     
     
     var body: some View {
@@ -26,17 +34,26 @@ struct ReportFailureView: View {
                 .textFieldStyle(.roundedBorder)
                 .padding(.horizontal)
             
+            Picker("Status awarii", selection: $selectedStatus) {
+                ForEach(TicketStatus.allCases) { status in
+                    Text(status.rawValue).tag(status)
+                }
+            }
+            .pickerStyle(.segmented)
+            .padding(.horizontal)
+            
             Button(action: {
                 let newTicket = Ticket(
                         id: Int.random(in: 1000...9999), // tymczasowe ID
                         title: title,
                         description: description,
-                        status: "Nowe", 
+                        status: selectedStatus.rawValue,
                         user: appState.currentUser,
                         timestamp: Date()
                     )
                     appState.userTickets.insert(newTicket, at: 0)
                     showConfirmation = true
+                print("Wysłano: \(title) - \(description), status: \(selectedStatus.rawValue)")
             }) {
                 Text("Wyślij zgłoszenie")
                     .frame(maxWidth: .infinity)
