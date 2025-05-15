@@ -34,5 +34,8 @@ export class TicketService {
   updateTicket(id: number, ticket: Partial<TicketResponse>): Observable<TicketResponse> {
     return this.http.put<TicketResponse>(`${this.baseUrl}/${id}`, ticket);
   }
+  getTicketsByUser(username: string): Observable<TicketResponse[]> {
+    return this.http.get<TicketResponse[]>(`http://localhost:8080/ticket?user=${username}`);
+  }
 
 }

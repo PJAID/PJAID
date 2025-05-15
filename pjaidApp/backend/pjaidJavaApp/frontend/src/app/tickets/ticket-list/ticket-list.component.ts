@@ -1,9 +1,9 @@
-import {Component, inject, OnInit} from '@angular/core';
-import {CommonModule} from '@angular/common';
-import {RouterModule} from '@angular/router';
-import {TicketService} from '../services/ticket.service';
-import {TicketResponse} from '../../shared/models/ticket-response.model';
-import {FormsModule} from '@angular/forms';
+import { Component, inject, OnInit } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { RouterModule } from '@angular/router';
+import { TicketService } from '../services/ticket.service';
+import { TicketResponse } from '../../shared/models/ticket-response.model';
+import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-ticket-list',
@@ -23,11 +23,8 @@ export class TicketListComponent implements OnInit {
   filterDeviceName: string = '';
   filterTitle: string = '';
 
-
   ngOnInit(): void {
-    this.ticketService.getAllTickets().subscribe(data => {
-      this.tickets = data;
-    });
+    this.loadTickets();
   }
 
   loadTickets(): void {
@@ -35,7 +32,7 @@ export class TicketListComponent implements OnInit {
 
     const currentFilters = {
       status: this.filterStatus,
-      userName: this.filterUserName,
+      user: this.filterUserName,
       device: this.filterDeviceName,
       titleContains: this.filterTitle
     };
@@ -62,5 +59,19 @@ export class TicketListComponent implements OnInit {
     this.filterDeviceName = '';
     this.filterTitle = '';
     this.loadTickets();
+  }
+
+  loadUserTickets(username: string): void {
+    this.isLoading = true;
+    this.ticketService.getTicketsByUser(username).subscribe({
+      next: data => {
+        this.tickets = data;
+        this.isLoading = false;
+      },
+      error: err => {
+        console.error("Błąd podczas ładowania zgłoszeń użytkownika:", err);
+        this.isLoading = false;
+      }
+    });
   }
 }
