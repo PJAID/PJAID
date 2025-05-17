@@ -7,19 +7,6 @@
 
 import SwiftUI
 
-struct Ticket: Identifiable, Codable {
-    let id: Int //nie lepiej zmienić na UUID?
-    let title: String
-    let description: String
-    let status: String
-    var user: String? = nil // lokalne zgłoszenia
-    var timestamp: Date? = nil
-
-    enum CodingKeys: String, CodingKey {
-        case id, title, description, status
-    }
-}
-
 struct TicketListView: View {
     @EnvironmentObject var appState: AppState
     @State private var apiTickets: [Ticket] = []
