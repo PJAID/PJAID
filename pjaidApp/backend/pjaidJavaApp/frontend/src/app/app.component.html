@@ -3,13 +3,15 @@
 </ng-container>
 
 <ng-template #layout>
-  <div class="container">
-    <app-navbar></app-navbar>
-    <div class="main-container">
-      <app-top-navbar></app-top-navbar>
-      <div class="content">
-        <router-outlet></router-outlet>
+  <ng-container *ngIf="isLoggedIn()">
+    <div class="container">
+      <app-navbar></app-navbar>
+      <div class="main-container">
+        <app-top-navbar></app-top-navbar>
+        <div class="content">
+          <router-outlet></router-outlet>
+        </div>
       </div>
     </div>
-  </div>
+  </ng-container>
 </ng-template>

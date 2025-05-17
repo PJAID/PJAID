@@ -14,7 +14,7 @@ export const routes: Routes = [
   },
   {
     path: '',
-    canActivate: [authGuard],
+    canMatch: [authGuard],
     children: [
       {
         path: 'tickets',
@@ -51,6 +51,9 @@ export const routes: Routes = [
       {
         path: 'addDevice',
         loadComponent: () => import('./devices/device-new/device-new.component').then(m => m.DeviceNewComponent)
+      }, {
+        path: 'users/new',
+        loadComponent: () => import('./users/user-new.component').then(m => m.UserNewComponent)
       }
     ]
   },

@@ -1,35 +1,57 @@
-import {inject} from '@angular/core';
-import {Router} from '@angular/router';
-import {User} from '../../shared/models/user.model';
+import {Injectable} from '@angular/core';
+import {HttpClient} from '@angular/common/http';
+import {environment} from '../../../environments/environment';
+import {AuthRequest, AuthResponse} from '../auth.types';
 
+@Injectable({providedIn: 'root'})
 export class AuthService {
-  private readonly router = inject(Router);
-  private readonly STORAGE_KEY = 'user';
+  private readonly apiUrl = `${environment.apiBaseUrl}/api/auth`;
 
-  login(username: string, password: string): boolean {
-    if (username === 'admin' && password === 'admin') {
-      const user: User = {
-        id: 1,
-        userName: 'admin',
-        email: 'admin@example.com'
-      };
-      localStorage.setItem(this.STORAGE_KEY, JSON.stringify(user));
-      return true;
-    }
-    return false;
+  constructor(private readonly http: HttpClient) {
   }
 
-  logout(): void {
-    localStorage.removeItem(this.STORAGE_KEY);
-    this.router.navigate(['/login']);
+  login(data: AuthRequest) {
+    return this.http.post<AuthResponse>(`${this.apiUrl}/login`, data);
   }
 
-  getLoggedUser(): User | null {
-    const data = localStorage.getItem(this.STORAGE_KEY);
-    return data ? JSON.parse(data) as User : null;
+
+  logout() {
+    const refreshToken = this.getRefreshToken();
+    return this.http.post(`${this.apiUrl}/logout`, {refreshToken});
+  }
+
+  saveTokens(accessToken: string, refreshToken: string) {
+    localStorage.setItem('accessToken', accessToken);
+    localStorage.setItem('refreshToken', refreshToken);
+  }
+
+  getAccessToken(): string | null {
+    return localStorage.getItem('accessToken');
+  }
+
+  getRefreshToken(): string | null {
+    return localStorage.getItem('refreshToken');
+  }
+
+  clearTokens() {
+    localStorage.removeItem('accessToken');
+    localStorage.removeItem('refreshToken');
   }
 
   isLoggedIn(): boolean {
-    return !!this.getLoggedUser();
+    return !!this.getAccessToken();
+  }
+
+  getLoggedUser(): string | null {
+    const token = this.getAccessToken();
+    if (!token) return null;
+
+    const payload = token.split('.')[1];
+    try {
+      const decoded = JSON.parse(atob(payload));
+      return decoded.sub || decoded.username || null;
+    } catch {
+      return null;
+    }
   }
 }

@@ -8,6 +8,13 @@
 
 import SwiftUI
 
+enum TicketStatus: String, CaseIterable, Identifiable {
+    case nowe = "NOWE"
+    case przestoj = "PRZESTOJ"
+
+    var id: String { self.rawValue }
+}
+
 struct ReportFailureView: View {
     @EnvironmentObject var appState: AppState
     @StateObject private var locationManager = LocationManager()
@@ -15,6 +22,7 @@ struct ReportFailureView: View {
     @State private var description: String = ""
     @State private var showConfirmation = false
     @State private var navigateToList = false
+    @State private var selectedStatus: TicketStatus = .nowe
     
     
     var body: some View {
@@ -27,7 +35,15 @@ struct ReportFailureView: View {
                 .textFieldStyle(.roundedBorder)
                 .padding(.horizontal)
             
-            if let location = locationManager.location {
+            Picker("Status awarii", selection: $selectedStatus) {
+                ForEach(TicketStatus.allCases) { status in
+                    Text(status.rawValue).tag(status)
+                }
+            }
+            .pickerStyle(.segmented)
+            .padding(.horizontal)
+          
+               if let location = locationManager.location {
                 VStack(alignment: .leading) {
                     Text("Lokalizacja zgłoszenia:")
                         .font(.subheadline)
@@ -45,34 +61,58 @@ struct ReportFailureView: View {
                         }
                     .font(.footnote)
                 }
+                 
                 .padding()
+               }
+          
+            Button(action: {
+                let newTicket = Ticket(
+                        id: Int.random(in: 1000...9999), // tymczasowe ID
+                        title: title,
+                        description: description,
+                        status: selectedStatus.rawValue,
+                        user: appState.currentUser,
+                        timestamp: Date()
+                    )
+                    appState.userTickets.insert(newTicket, at: 0)
+                    showConfirmation = true
+                print("Wysłano: \(title) - \(description), status: \(selectedStatus.rawValue)")
+            }) {
+                Text("Wyślij zgłoszenie")
+                    .frame(maxWidth: .infinity)
+                    .padding()
+                    .background(Color.purple)
+                    .foregroundColor(.white)
+                    .cornerRadius(24)
+                    .padding(.horizontal)
+
+                }
+
+            Button(action: {
+                let newTicket = Ticket(
+                    id: Int.random(in: 1000...9999),
+                    title: title,
+                    description: description,
+                    status: selectedStatus.rawValue,
+                    user: appState.currentUser,
+                    timestamp: Date(),
+                    latitude: locationManager.location?.latitude,
+                    longitude: locationManager.location?.longitude
+                )
+                appState.userTickets.insert(newTicket, at: 0)
+                showConfirmation = true
+                print("Wysłano: \(title) - \(description), status: \(selectedStatus.rawValue)")
+            }) {
+                Text("Wyślij zgłoszenie")
+                    .frame(maxWidth: .infinity)
+                    .padding()
+                    .background(Color.purple)
+                    .foregroundColor(.white)
+                    .cornerRadius(24)
+                    .padding(.horizontal)
             }
 
-            
-            Button(action: {
-                            let newTicket = Ticket(
-                                id: Int.random(in: 1000...9999),
-                                title: title,
-                                description: description,
-                                status: "Nowe",
-                                user: appState.currentUser,
-                                timestamp: Date(),
-                                latitude: locationManager.location?.latitude,
-                                longitude: locationManager.location?.longitude
-                            )
-                            appState.userTickets.insert(newTicket, at: 0)
-                            showConfirmation = true
-                        }) {
-                            Text("Wyślij zgłoszenie")
-                                .frame(maxWidth: .infinity)
-                                .padding()
-                                .background(Color.purple)
-                                .foregroundColor(.white)
-                                .cornerRadius(24)
-                                .padding(.horizontal)
-                        }
-
-                        Spacer()
+            Spacer()
         }
         .padding(.top)
         .navigationTitle("Zgłoś awarię")
@@ -85,12 +125,10 @@ struct ReportFailureView: View {
                 }
             )
         }
-        Button("OK"){
-            navigateToList = true
-        }
         .background(
-            NavigationLink(destination: TicketListView(), isActive: $navigateToList,
-                           label: { EmptyView() }) 
+            NavigationLink(destination: TicketListView(), isActive: $navigateToList) {
+                EmptyView()
+            }
         )
     }
 }
