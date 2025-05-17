@@ -36,11 +36,13 @@ struct ReportFailureView: View {
                     Text("N/S: \(location.latitude)")
                     Text("W/E: \(location.longitude)")
 
-                    Button("Otwórz w Google Maps") {
-                        if let url = URL(string: "https://www.google.com/maps?q=\(location.latitude),\(location.longitude)") {
-                            UIApplication.shared.open(url)
+                    Button("Otwórz w mapach") {
+                        let lat = location.latitude
+                            let lon = location.longitude
+                            if let url = URL(string: "http://maps.apple.com/?ll=\(lat),\(lon)") {
+                                UIApplication.shared.open(url)
+                            }
                         }
-                    }
                     .font(.footnote)
                 }
                 .padding()
