@@ -25,7 +25,23 @@ struct TicketDetailView: View {
             Text("Brak daty utworzenia w API")
                 .font(.footnote)
                 .foregroundColor(.gray)
+            
+            if let lat = ticket.latitude, let lon = ticket.longitude {
+                            Text("Lokalizacja:")
+                                .font(.subheadline)
+                                .padding(.top)
 
+                            Text("Szerokość: \(lat)")
+                            Text("Długość: \(lon)")
+
+                            Button("Pokaż w Mapach") {
+                                if let url = URL(string: "http://maps.apple.com/?ll=\(lat),\(lon)") {
+                                    UIApplication.shared.open(url)
+                                }
+                            }
+                            .foregroundColor(.blue)
+                        }
+            
             Spacer()
         }
         .padding()
