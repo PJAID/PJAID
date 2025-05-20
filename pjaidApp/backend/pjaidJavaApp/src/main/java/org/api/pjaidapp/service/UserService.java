@@ -1,6 +1,7 @@
 package org.api.pjaidapp.service;
 
 import org.api.pjaidapp.dto.UserDto;
+import org.api.pjaidapp.enums.Role;
 import org.api.pjaidapp.exception.UserNotFoundException;
 import org.api.pjaidapp.mapper.UserMapper;
 import org.api.pjaidapp.model.User;
@@ -20,6 +21,12 @@ public class UserService {
     public UserService(UserRepository userRepository, UserMapper userMapper) {
         this.userRepository = userRepository;
         this.userMapper = userMapper;
+    }
+    public List<UserDto> getTechnicians() {
+        return userRepository.findAll().stream()
+                .filter(user -> user.getRoles().contains(Role.TECHNICIAN))
+                .map(userMapper::toDto)
+                .toList();
     }
 
     public UserDto getUserById(Long id) {

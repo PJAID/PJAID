@@ -8,4 +8,7 @@ export interface TicketResponse {
   status: 'NOWE' | 'W_TRAKCIE' | 'ZAMKNIETE';
   device: DeviceResponse;
   user: User;
+
+  technicianId?: number;
+  technicianName?: string;
 }

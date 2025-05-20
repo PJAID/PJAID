@@ -37,5 +37,9 @@ export class TicketService {
   getTicketsByUser(username: string): Observable<TicketResponse[]> {
     return this.http.get<TicketResponse[]>(`http://localhost:8080/ticket?user=${username}`);
   }
+  startTicket(ticketId: number): Observable<TicketResponse> {
+    return this.http.post<TicketResponse>(`http://localhost:8080/ticket/${ticketId}/start`, {});
+  }
+
 
 }

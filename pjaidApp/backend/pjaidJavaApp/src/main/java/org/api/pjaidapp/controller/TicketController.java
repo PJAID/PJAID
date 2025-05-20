@@ -55,7 +55,6 @@ public class TicketController {
         return ResponseEntity.ok(updatedTicket);
     }
 
-
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteTicket(@PathVariable int id) {
         ticketService.deleteTicket(id);
@@ -75,6 +74,17 @@ public class TicketController {
     public ResponseEntity<List<TicketResponse>> getPendingTickets() {
         List<TicketResponse> tickets = ticketService.getPendingTickets();
         return ResponseEntity.ok(tickets);
+    }
+    @PutMapping("/{id}/assign")
+    public ResponseEntity<TicketResponse> assignTechnician(
+            @PathVariable int id,
+            @RequestParam int technicianId) {
+        TicketResponse updated = ticketService.assignTechnician(id, technicianId);
+        return ResponseEntity.ok(updated);
+    }
+    @GetMapping("/assigned")
+    public ResponseEntity<List<TicketResponse>> getAssignedTickets(@RequestParam String user) {
+        return ResponseEntity.ok(ticketService.getTicketsAssignedTo(user));
     }
 }
 

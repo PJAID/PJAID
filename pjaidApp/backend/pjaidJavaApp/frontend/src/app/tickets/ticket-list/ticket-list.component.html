@@ -1,31 +1,35 @@
 <h2>Lista zgłoszeń</h2>
+
+<!-- FILTRY -->
 <div class="filter-section">
   <h3>Filtry</h3>
   <div class="filter-controls">
-
-    <label for="filterStatus">Status:</label>
-    <select id="filterStatus" [(ngModel)]="filterStatus">
+    <label>Status:</label>
+    <select [(ngModel)]="filterStatus">
       <option value="">Wszystkie</option>
       <option value="NOWE">Nowe</option>
       <option value="W_TRAKCIE">W trakcie</option>
       <option value="ZAMKNIETE">Zamknięty</option>
     </select>
 
-    <label for="filterUserName">Nazwa użytkownika:</label>
-    <input type="text" id="filterUserName" [(ngModel)]="filterUserName" placeholder="Część nazwy użytkownika">
+    <label>Nazwa użytkownika:</label>
+    <input [(ngModel)]="filterUserName" placeholder="Część nazwy użytkownika" />
 
-    <label for="filterDeviceName">Nazwa urządzenia:</label> <input type="text" id="filterDeviceName" [(ngModel)]="filterDeviceName" placeholder="Część nazwy urządzenia">
+    <label>Nazwa urządzenia:</label>
+    <input [(ngModel)]="filterDeviceName" placeholder="Część nazwy urządzenia" />
 
-    <label for="filterTitle">Tytuł zawiera:</label>
-    <input type="text" id="filterTitle" [(ngModel)]="filterTitle" placeholder="Część tytułu">
+    <label>Tytuł zawiera:</label>
+    <input [(ngModel)]="filterTitle" placeholder="Część tytułu" />
 
-    <button (click)="applyFilters()" class="filter-btn">Filtruj</button>
-    <button (click)="clearFilters()" class="clear-filter-btn">Wyczyść filtry</button>
+    <button (click)="applyFilters()">Filtruj</button>
+    <button (click)="clearFilters()">Wyczyść</button>
   </div>
 </div>
 
+<!-- ŁADOWANIE -->
 <div *ngIf="isLoading" class="loading-indicator">Ładowanie...</div>
 
+<!-- TABELA -->
 <div *ngIf="!isLoading && tickets.length > 0" class="ticket-table-container">
   <table>
     <thead>
@@ -34,6 +38,7 @@
       <th>Status</th>
       <th>Użytkownik</th>
       <th>Urządzenie</th>
+      <th>Technik</th>
       <th>Akcje</th>
     </tr>
     </thead>
@@ -41,13 +46,21 @@
     <tr *ngFor="let ticket of tickets">
       <td>{{ ticket.title }}</td>
       <td>{{ ticket.status }}</td>
-      <td>{{ ticket.user.userName || 'Brak' }}</td>  <td>{{ ticket.device.name || 'Brak' }}</td> <td>
-      <a [routerLink]="['/tickets', ticket.id]">Szczegóły</a> </td>
+      <td>{{ ticket.user?.userName || 'Brak' }}</td>
+      <td>{{ ticket.device?.name || 'Brak' }}</td>
+      <td>{{ ticket.technicianName || 'Nieprzypisany' }}</td>
+      <td>
+        <a [routerLink]="['/tickets', ticket.id]">Szczegóły</a>
+        <button *ngIf="ticket.status === 'NOWE'" (click)="startTicket(ticket.id)">
+          Rozpocznij
+        </button>
+      </td>
     </tr>
     </tbody>
   </table>
 </div>
 
+<!-- BRAK WYNIKÓW -->
 <div *ngIf="!isLoading && tickets.length === 0" class="no-results">
   Brak ticketów spełniających podane kryteria.
 </div>

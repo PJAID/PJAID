@@ -122,4 +122,19 @@ public class TicketService {
                 .map(ticketMapper::toResponse)
                 .toList();
     }
+    public TicketResponse assignTechnician(int ticketId, int technicianId) {
+        Ticket ticket = ticketRepository.findById(ticketId)
+                .orElseThrow(() -> new TicketNotFoundException(ticketId));
+        User technician = userRepository.findById((long) technicianId)
+                .orElseThrow(() -> new UserNotFoundException((long) technicianId));
+
+        ticket.setTechnician(technician);
+        Ticket saved = ticketRepository.save(ticket);
+        return ticketMapper.toResponse(saved);
+    }
+    public List<TicketResponse> getTicketsAssignedTo(String username) {
+        return ticketRepository.findByTechnicianUserName(username).stream()
+                .map(ticketMapper::toResponse)
+                .toList();
+    }
 }

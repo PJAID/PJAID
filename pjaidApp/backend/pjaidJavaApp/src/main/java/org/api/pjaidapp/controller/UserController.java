@@ -17,6 +17,10 @@ public class UserController {
     public UserController(UserService userService) {
         this.userService = userService;
     }
+    @GetMapping("/technicians")
+    public ResponseEntity<List<UserDto>> getTechnicians() {
+        return ResponseEntity.ok(userService.getTechnicians());
+    }
 
     @GetMapping("/{id}")
     public ResponseEntity<UserDto> getUserById(@PathVariable Long id) {
@@ -47,4 +51,5 @@ public class UserController {
         userService.deleteUser(id);
         return ResponseEntity.noContent().build();
     }
+
 }

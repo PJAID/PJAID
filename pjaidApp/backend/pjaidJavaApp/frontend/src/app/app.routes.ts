@@ -21,6 +21,10 @@ export const routes: Routes = [
         loadComponent: () => import('./tickets/ticket-list/ticket-list.component').then(m => m.TicketListComponent)
       },
       {
+        path: 'tickets/technicians',
+        loadComponent: () => import('./tickets/technician-list/technician-list.component').then(m => m.TechnicianListComponent)
+      },
+      {
         path: 'tickets/:id',
         loadComponent: () => import('./tickets/ticket-view/ticket-view.component').then(m => m.TicketViewComponent)
       },

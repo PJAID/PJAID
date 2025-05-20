@@ -61,16 +61,13 @@ export class TicketListComponent implements OnInit {
     this.loadTickets();
   }
 
-  loadUserTickets(username: string): void {
-    this.isLoading = true;
-    this.ticketService.getTicketsByUser(username).subscribe({
-      next: data => {
-        this.tickets = data;
-        this.isLoading = false;
+  startTicket(ticketId: number): void {
+    this.ticketService.startTicket(ticketId).subscribe({
+      next: updatedTicket => {
+        this.loadTickets();
       },
       error: err => {
-        console.error("Błąd podczas ładowania zgłoszeń użytkownika:", err);
-        this.isLoading = false;
+        console.error("Błąd podczas rozpoczynania zgłoszenia:", err);
       }
     });
   }
