@@ -18,4 +18,7 @@ public class TicketResponse {
 
     private DeviceDto device;
     private UserDto user;
+
+    private Long technicianId;
+    private String technicianName;
 }

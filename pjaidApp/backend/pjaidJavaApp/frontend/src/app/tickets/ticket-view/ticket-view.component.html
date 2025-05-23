@@ -1,12 +1,26 @@
-<div *ngIf="ticket; else loading">
-  <h2>Ticket #{{ ticket.id }}</h2>
-  <p><strong>Title:</strong> {{ ticket.title }}</p>
-  <p><strong>Description:</strong> {{ ticket.description }}</p>
-  <p><strong>Status:</strong> {{ ticket.status }}</p>
-  <button [routerLink]="['/ticket', ticket.id, 'edit']">Edytuj</button>
+<div *ngIf="ticket; else loading" class="ticket-detail-container">
+  <h2 class="ticket-title">Zgłoszenie #{{ ticket.id }}</h2>
+
+  <div class="ticket-info">
+    <p><strong>Tytuł:</strong> {{ ticket.title }}</p>
+    <p><strong>Opis:</strong> {{ ticket.description }}</p>
+    <p><strong>Status:</strong> {{ ticket.status }}</p>
+    <p><strong>Technik:</strong> {{ ticket.technicianName || 'Nieprzypisany' }}</p>
+    <p><strong>Urządzenie:</strong> {{ ticket.device?.name || 'Brak' }}</p>
+    <p><strong>Zgłaszający:</strong> {{ ticket.user?.userName || 'Brak' }}</p>
+  </div>
+
+  <app-technician-list
+    [ticketId]="ticket.id"
+    (technicianAssigned)="assignTechnician($event)">
+  </app-technician-list>
+
+  <div class="button-group">
+    <button [routerLink]="['/ticket', ticket.id, 'edit']">Edytuj</button>
+    <button (click)="goBack()">Powrót</button>
+  </div>
 </div>
-<button (click)="goBack()">Powrót</button>
 
 <ng-template #loading>
-  <p>Ładowanie szczegółów biletu...</p>
+  <p class="loading-text">Ładowanie szczegółów zgłoszenia...</p>
 </ng-template>

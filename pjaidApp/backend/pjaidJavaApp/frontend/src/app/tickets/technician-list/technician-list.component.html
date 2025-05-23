@@ -1,0 +1,10 @@
+<div>
+  <label for="techSelect">Przypisz technika:</label>
+  <select [(ngModel)]="selectedId" id="techSelect">
+    <option [value]="null">-- wybierz technika --</option>
+    <option *ngFor="let t of technicians" [value]="t.id">
+      {{ t.userName }}
+    </option>
+  </select>
+  <button (click)="onAssign()">Przypisz</button>
+</div>

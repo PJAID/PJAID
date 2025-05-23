@@ -25,8 +25,13 @@ public class Ticket {
 
     @Column(name = "title")
     private String title;
+
     @Column(name = "description")
     private String description;
+
+    @ManyToOne
+    @JoinColumn(name = "technician_id")
+    private User technician;
 
     @CreationTimestamp
     @Column(name = "created_at", updatable = false)

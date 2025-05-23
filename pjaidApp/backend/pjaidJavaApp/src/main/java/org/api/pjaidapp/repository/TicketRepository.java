@@ -10,4 +10,6 @@ import java.util.List;
 
 public interface TicketRepository extends JpaRepository<Ticket, Integer>, JpaSpecificationExecutor<Ticket> {
     List<Ticket> findByStatusIn(Collection<Status> status);
+    List<Ticket> findByUserUserName(String username);
+    List<Ticket> findByTechnicianUserName(String userName);
 }
