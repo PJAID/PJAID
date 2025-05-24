@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import LocalAuthentication
 
 struct LoginView: View {
     @EnvironmentObject var appState: AppState
@@ -14,6 +15,9 @@ struct LoginView: View {
     @State private var password: String = ""
     @State private var isPasswordVisible: Bool = false
     @State private var rememberMe: Bool = false
+    @State private var faceIDError: String?
+    @State private var showingFaceIDError = false
+
 
     var body: some View {
         NavigationStack {
@@ -87,12 +91,59 @@ struct LoginView: View {
                             .cornerRadius(10)
                     }
                     .frame(maxWidth: 300)
+                    Button(action: {
+                        authenticateWithFaceID()
+                    }) {
+                        HStack {
+                            Image(systemName: "faceid")
+                            Text("Zaloguj się Face ID")
+                        }
+                        .frame(maxWidth: .infinity)
+                        .padding()
+                        .background(Color.green)
+                        .foregroundColor(.white)
+                        .cornerRadius(10)
+                    }
+                    .frame(maxWidth: 300)
+
                     Spacer()
+                }
+                .alert(isPresented: $showingFaceIDError) {
+                    Alert(
+                        title: Text("Błąd Face ID"),
+                        message: Text(faceIDError ?? "Nieznany błąd"),
+                        dismissButton: .default(Text("OK"))
+                    )
                 }
                 .padding(.top)
             }
         }
+        
     }
+    func authenticateWithFaceID() {
+        let context = LAContext()
+        var error: NSError?
+
+        if context.canEvaluatePolicy(.deviceOwnerAuthenticationWithBiometrics, error: &error) {
+            let reason = "Zaloguj się za pomocą Face ID"
+
+            context.evaluatePolicy(.deviceOwnerAuthenticationWithBiometrics, localizedReason: reason) { success, authenticationError in
+                DispatchQueue.main.async {
+                    if success {
+                        appState.currentUser = "FaceID_User"
+                        appState.isLoggedIn = true
+                    } else {
+                        faceIDError = authenticationError?.localizedDescription ?? "Nieznany błąd"
+                        showingFaceIDError = true
+                    }
+                }
+            }
+        } else {
+            faceIDError = error?.localizedDescription ?? "Face ID niedostępne"
+            showingFaceIDError = true
+        }
+    }
+
 }
 
 struct CheckboxToggleStyle: ToggleStyle {

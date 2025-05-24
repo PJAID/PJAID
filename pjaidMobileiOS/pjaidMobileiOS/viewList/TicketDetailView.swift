@@ -21,7 +21,13 @@ struct TicketDetailView: View {
 
             Text("Status: \(ticket.status)")
                 .foregroundColor(.blue)
-
+            
+            if let building = ticket.building {
+                Text("Budynek: \(building)")
+                    .font(.subheadline)
+                    .foregroundColor(.secondary)
+            }
+            
             Text("Brak daty utworzenia w API")
                 .font(.footnote)
                 .foregroundColor(.gray)

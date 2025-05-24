@@ -20,6 +20,11 @@ struct TicketListView: View {
                     VStack(alignment: .leading, spacing: 4) {
                         Text(ticket.title)
                             .font(.headline)
+                        if let building = ticket.building {
+                                Text("Budynek: \(building)")
+                                    .font(.caption)
+                                    .foregroundColor(.gray)
+                            }
                         if ticket.user == appState.currentUser {
                             Text("Twoje zgłoszenie")
                                 .font(.caption)
