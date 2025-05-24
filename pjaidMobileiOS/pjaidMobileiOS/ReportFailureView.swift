@@ -10,7 +10,7 @@ import SwiftUI
 
 enum TicketStatus: String, CaseIterable, Identifiable {
     case nowe = "NOWE"
-    case przestoj = "PRZESTOJ"
+    case przestoj = "PRZESTÓJ"
 
     var id: String { self.rawValue }
 }
@@ -64,29 +64,6 @@ struct ReportFailureView: View {
                  
                 .padding()
                }
-          
-            Button(action: {
-                let newTicket = Ticket(
-                        id: Int.random(in: 1000...9999), // tymczasowe ID
-                        title: title,
-                        description: description,
-                        status: selectedStatus.rawValue,
-                        user: appState.currentUser,
-                        timestamp: Date()
-                    )
-                    appState.userTickets.insert(newTicket, at: 0)
-                    showConfirmation = true
-                print("Wysłano: \(title) - \(description), status: \(selectedStatus.rawValue)")
-            }) {
-                Text("Wyślij zgłoszenie")
-                    .frame(maxWidth: .infinity)
-                    .padding()
-                    .background(Color.purple)
-                    .foregroundColor(.white)
-                    .cornerRadius(24)
-                    .padding(.horizontal)
-
-                }
 
             Button(action: {
                 let newTicket = Ticket(
