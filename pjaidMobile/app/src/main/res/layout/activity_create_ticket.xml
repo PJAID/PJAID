@@ -13,6 +13,18 @@
         android:layout_height="wrap_content"
         android:minLines="5"
         android:gravity="top"/>
+    <CheckBox
+        android:id="@+id/checkboxAddLocation"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Dodaj lokalizację" />
+
+    <com.google.android.gms.maps.MapView
+        android:id="@+id/mapView"
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        android:visibility="gone" />
+
 
     <Button
         android:id="@+id/buttonSubmitTicket"

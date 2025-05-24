@@ -3,6 +3,8 @@
 
     <uses-permission android:name="android.permission.CAMERA" />
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
 
     <uses-feature
         android:name="android.hardware.camera"
@@ -45,7 +47,7 @@
             android:name=".presentation.features.scan.ScanQRActivity"
             android:exported="false" />
         <activity
-            android:name=".presentation.features.ticket.CreateTicketActivity"
+            android:name=".presentation.features.report.CreateTicketActivity"
             android:exported="false" />
         <activity
             android:name=".presentation.features.report.ReportListActivity"
@@ -64,6 +66,10 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <meta-data
+            android:name="com.google.android.geo.API_KEY"
+            android:value="SECRET" />
     </application>
 
 </manifest>
