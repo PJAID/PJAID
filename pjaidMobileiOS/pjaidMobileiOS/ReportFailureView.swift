@@ -7,6 +7,9 @@
 
 
 import SwiftUI
+import CoreLocation
+import Foundation
+
 
 enum TicketStatus: String, CaseIterable, Identifiable {
     case nowe = "NOWE"
@@ -15,15 +18,107 @@ enum TicketStatus: String, CaseIterable, Identifiable {
     var id: String { self.rawValue }
 }
 
+struct PolygonBuilding: Identifiable {
+    let id: Int
+    let name: String
+    let corners: [CLLocationCoordinate2D] // dokładnie 4 punkty, kolejność: zgodnie z ruchem wskazówek
+}
+
+
 struct ReportFailureView: View {
     @EnvironmentObject var appState: AppState
     @StateObject private var locationManager = LocationManager()
+    let polygonBuildings: [PolygonBuilding] = [
+        PolygonBuilding(
+            id: 1,
+            name: "Hala B1",
+            corners: [
+                CLLocationCoordinate2D(latitude: 54.1122, longitude: 18.7973),
+                CLLocationCoordinate2D(latitude: 54.1128, longitude: 18.7995),
+                CLLocationCoordinate2D(latitude: 54.1116, longitude: 18.8002),
+                CLLocationCoordinate2D(latitude: 54.1111, longitude: 18.7980)
+            ]
+        ),
+        PolygonBuilding(
+            id: 2,
+            name: "Hala B2",
+            corners: [
+                CLLocationCoordinate2D(latitude: 54.1117, longitude: 18.7949),
+                CLLocationCoordinate2D(latitude: 54.1122, longitude: 18.7969),
+                CLLocationCoordinate2D(latitude: 54.1109, longitude: 18.7977),
+                CLLocationCoordinate2D(latitude: 54.1105, longitude: 18.7957)
+            ]
+        ),
+        PolygonBuilding(
+            id: 3,
+            name: "Hala B3",
+            corners: [
+                CLLocationCoordinate2D(latitude: 54.1111, longitude: 18.7930),
+                CLLocationCoordinate2D(latitude: 54.1115, longitude: 18.7945),
+                CLLocationCoordinate2D(latitude: 54.1104, longitude: 18.7953),
+                CLLocationCoordinate2D(latitude: 54.1101, longitude: 18.7938)
+            ]
+        ),
+        PolygonBuilding(
+            id: 4,
+            name: "Hala B4",
+            corners: [
+                CLLocationCoordinate2D(latitude: 54.1108, longitude: 18.7911),
+                CLLocationCoordinate2D(latitude: 54.1110, longitude: 18.7921),
+                CLLocationCoordinate2D(latitude: 54.1099, longitude: 18.7930),
+                CLLocationCoordinate2D(latitude: 54.1097, longitude: 18.7918)
+            ]
+        ),
+        PolygonBuilding(
+            id: 5,
+            name: "Hala B5",
+            corners: [
+                CLLocationCoordinate2D(latitude: 54.1103, longitude: 18.7891),
+                CLLocationCoordinate2D(latitude: 54.1107, longitude: 18.7910),
+                CLLocationCoordinate2D(latitude: 54.1109, longitude: 18.7918),
+                CLLocationCoordinate2D(latitude: 54.1092, longitude: 18.7898)
+            ]
+        ),
+        
+    ]
     @State private var title: String = ""
     @State private var description: String = ""
     @State private var showConfirmation = false
     @State private var navigateToList = false
     @State private var selectedStatus: TicketStatus = .nowe
-    
+    @State private var assignedBuilding: Building? = nil
+    @State private var showManualSelection = false
+
+    func isPointInsidePolygon(point: CLLocationCoordinate2D, polygon: [CLLocationCoordinate2D]) -> Bool {
+        var inside = false
+        var j = polygon.count - 1
+
+        for i in 0..<polygon.count {
+            let xi = polygon[i].latitude
+            let yi = polygon[i].longitude
+            let xj = polygon[j].latitude
+            let yj = polygon[j].longitude
+
+            if ((yi > point.longitude) != (yj > point.longitude)) {
+                let x = (xj - xi) * (point.longitude - yi) / (yj - yi) + xi
+                if point.latitude < x {
+                    inside.toggle()
+                }
+            }
+            j = i
+        }
+
+        return inside
+    }
+
+    func matchedBuilding(for location: CLLocationCoordinate2D) -> PolygonBuilding? {
+        for building in polygonBuildings {
+            if isPointInsidePolygon(point: location, polygon: building.corners) {
+                return building
+            }
+        }
+        return nil
+    }
     
     var body: some View {
         VStack(spacing: 20) {
@@ -51,6 +146,14 @@ struct ReportFailureView: View {
 
                     Text("N/S: \(location.latitude)")
                     Text("W/E: \(location.longitude)")
+                    if let building = assignedBuilding {
+                        Text("Przypisany budynek: \(building.name)")
+                            .font(.headline)
+                            .foregroundColor(.blue)
+                    } else if showManualSelection {
+                        Text("Nie znaleziono budynku. Wybierz ręcznie.")
+                            .foregroundColor(.red)
+                    }
 
                     Button("Otwórz w mapach") {
                         let lat = location.latitude
@@ -64,6 +167,12 @@ struct ReportFailureView: View {
                  
                 .padding()
                }
+            if let building = assignedBuilding {
+                Text("Wybrany budynek: \(building.name)")
+                    .font(.subheadline)
+                    .foregroundColor(.blue)
+            }
+
 
             Button(action: {
                 let newTicket = Ticket(
@@ -74,7 +183,8 @@ struct ReportFailureView: View {
                     user: appState.currentUser,
                     timestamp: Date(),
                     latitude: locationManager.location?.latitude,
-                    longitude: locationManager.location?.longitude
+                    longitude: locationManager.location?.longitude,
+                    building: assignedBuilding?.name
                 )
                 appState.userTickets.insert(newTicket, at: 0)
                 showConfirmation = true
@@ -88,11 +198,45 @@ struct ReportFailureView: View {
                     .cornerRadius(24)
                     .padding(.horizontal)
             }
+            if showManualSelection {
+                VStack(alignment: .leading, spacing: 6) {
+                    Text("Wybierz budynek:")
+                        .font(.subheadline)
+                        .foregroundColor(.gray)
+                        .padding(.horizontal)
 
+                    Picker("Wybierz budynek", selection: $assignedBuilding) {
+                        ForEach(polygonBuildings.map {
+                            Building(id: $0.id, name: $0.name, latitude: $0.corners[0].latitude, longitude: $0.corners[0].longitude)
+                        }) { building in
+                            Text(building.name).tag(Optional(building))
+                        }
+                    }
+                    .pickerStyle(MenuPickerStyle())
+                    .padding(.horizontal)
+                    .background(Color(.systemGray6))
+                    .cornerRadius(8)
+                }
+            }
             Spacer()
         }
         .padding(.top)
         .navigationTitle("Zgłoś awarię")
+        .onReceive(locationManager.$location) { newLocation in
+            guard let location = newLocation else { return }
+
+            if let match = matchedBuilding(for: location) {
+                assignedBuilding = Building(
+                    id: match.id,
+                    name: match.name,
+                    latitude: location.latitude,
+                    longitude: location.longitude
+                )
+                showManualSelection = false
+            } else {
+                showManualSelection = true
+            }
+        }
         .alert(isPresented: $showConfirmation) {
             Alert(
                 title: Text("Wysłano zgłoszenie"),
