@@ -13,7 +13,7 @@ import com.example.pjaidmobile.presentation.features.auth.LoginActivity;
 import com.example.pjaidmobile.presentation.features.report.ReportListActivity;
 import com.example.pjaidmobile.presentation.features.report.TicketDetailActivity;
 import com.example.pjaidmobile.presentation.features.scan.ScanQRActivity;
-import com.example.pjaidmobile.presentation.features.ticket.CreateTicketActivity;
+import com.example.pjaidmobile.presentation.features.report.CreateTicketActivity;
 
 public class MainActivity extends AppCompatActivity {
     @Override

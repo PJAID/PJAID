@@ -1,6 +1,6 @@
 package com.example.pjaidmobile.data.repository;
 
-import com.example.pjaidmobile.data.model.Ticket;
+import com.example.pjaidmobile.data.model.TicketResponse;
 import com.example.pjaidmobile.data.remote.api.TicketApi;
 import com.example.pjaidmobile.domain.repository.TicketRepository;
 
@@ -16,9 +16,9 @@ public class TicketRepositoryImpl implements TicketRepository {
     }
 
     @Override
-    public Ticket getTicketById(String id) {
+    public TicketResponse getTicketById(String id) {
         try {
-            Response<Ticket> response = ticketApi.getTicketById(id).execute();
+            Response<TicketResponse> response = ticketApi.getTicketById(id).execute();
             if (response.isSuccessful()) {
                 return response.body();
             } else {

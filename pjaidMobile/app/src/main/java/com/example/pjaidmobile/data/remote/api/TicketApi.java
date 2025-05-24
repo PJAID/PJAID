@@ -1,6 +1,6 @@
 package com.example.pjaidmobile.data.remote.api;
 
-import com.example.pjaidmobile.data.model.Ticket;
+import com.example.pjaidmobile.data.model.TicketResponse;
 import com.example.pjaidmobile.data.model.TicketRequest;
 
 import java.util.List;
@@ -13,14 +13,14 @@ import retrofit2.http.Path;
 
 public interface TicketApi {
     @GET("ticket")
-    Call<List<Ticket>> getAllTickets();
+    Call<List<TicketResponse>> getAllTickets();
 
     @GET("ticket/{id}")
-    Call<Ticket> getTicket(@Path("id") int id);
+    Call<TicketResponse> getTicket(@Path("id") int id);
 
     @POST("ticket")
-    Call<Ticket> createTicket(@Body TicketRequest ticketRequest);
+    Call<TicketResponse> createTicket(@Body TicketRequest ticketRequest);
 
     @GET("ticket/{id}")
-    Call<Ticket> getTicketById(@Path("id") String id);
+    Call<TicketResponse> getTicketById(@Path("id") String id);
 }

@@ -8,7 +8,7 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.pjaidmobile.R;
-import com.example.pjaidmobile.data.model.Ticket;
+import com.example.pjaidmobile.data.model.TicketResponse;
 import com.example.pjaidmobile.util.ButtonAnimationUtil;
 
 public class TicketDetailActivity extends AppCompatActivity {
@@ -35,7 +35,7 @@ public class TicketDetailActivity extends AppCompatActivity {
 
 
         // tymczasowy ticket demo
-        Ticket sampleTicket = new Ticket(
+        TicketResponse sampleTicket = new TicketResponse(
                 "TK001",
                 "Tytuł zgłoszenia",
                 "Opis zgłoszenia:",

@@ -6,6 +6,8 @@ import com.example.pjaidmobile.data.repository.ReportRepositoryImpl;
 import com.example.pjaidmobile.domain.repository.AuthRepository;
 import com.example.pjaidmobile.domain.repository.DeviceRepository;
 import com.example.pjaidmobile.domain.repository.ReportRepository;
+import com.example.pjaidmobile.util.LocationProvider;
+import com.example.pjaidmobile.util.LocationProviderImpl;
 
 import javax.inject.Singleton;
 
@@ -34,5 +36,8 @@ public abstract class RepositoryModule {
     @Singleton
     public abstract AuthRepository bindAuthRepository(AuthRepositoryImpl impl);
 
+    @Binds
+    @Singleton
+    public abstract LocationProvider bindLocationProvider(LocationProviderImpl impl);
 
 }
