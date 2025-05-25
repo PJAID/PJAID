@@ -1,5 +1,5 @@
 package com.example.pjaidmobile.domain.usecase;
-import com.example.pjaidmobile.data.model.Ticket;
+import com.example.pjaidmobile.data.model.TicketResponse;
 import com.example.pjaidmobile.domain.repository.TicketRepository;
 
 public class GetTicketByIdUseCase {
@@ -9,7 +9,7 @@ public class GetTicketByIdUseCase {
         this.repository = repository;
     }
 
-    public Ticket execute(String id) {
+    public TicketResponse execute(String id) {
         return repository.getTicketById(id);
     }
 }

@@ -55,6 +55,12 @@ dependencies {
     implementation (libs.androidx.lifecycle.livedata)
 // Do integracji Java 8 z Lifecycle (opcjonalnie, ale pomocne)
     implementation (libs.lifecycle.common.java8)
+    // Google Maps
+    implementation(libs.play.services.maps)
+
+// Lokalizacja
+    implementation(libs.play.services.location)
+
 // Hilt
     implementation (libs.hilt.android) // Użyj najnowszej wersji
     annotationProcessor (libs.dagger.hilt.compiler) // Jeśli nie używasz Kapt

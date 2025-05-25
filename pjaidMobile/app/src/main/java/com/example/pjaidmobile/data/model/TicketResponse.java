@@ -4,7 +4,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
 
-public class Ticket {
+public class TicketResponse {
     private String id;
     private String title;
     private String description;
@@ -12,7 +12,7 @@ public class Ticket {
     private String assignee;
     private long createdAt;
 
-    public Ticket(String id, String title, String description, String status, String assignee) {
+    public TicketResponse(String id, String title, String description, String status, String assignee) {
         this.id = id;
         this.title = title;
         this.description = description;

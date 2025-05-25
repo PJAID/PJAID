@@ -1,7 +1,7 @@
 package com.example.pjaidmobile.domain.repository;
 
-import com.example.pjaidmobile.data.model.Ticket;
+import com.example.pjaidmobile.data.model.TicketResponse;
 
 public interface TicketRepository {
-    Ticket getTicketById(String id);
+    TicketResponse getTicketById(String id);
 }
