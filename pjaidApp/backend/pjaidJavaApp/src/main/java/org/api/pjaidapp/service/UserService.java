@@ -7,10 +7,12 @@ import org.api.pjaidapp.mapper.UserMapper;
 import org.api.pjaidapp.model.User;
 import org.api.pjaidapp.repository.UserRepository;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
+import java.util.Set;
 
 @Service
 public class UserService {
@@ -18,9 +20,12 @@ public class UserService {
     private final UserRepository userRepository;
     private final UserMapper userMapper;
 
-    public UserService(UserRepository userRepository, UserMapper userMapper) {
+    private final PasswordEncoder passwordEncoder;
+
+    public UserService(UserRepository userRepository, UserMapper userMapper, PasswordEncoder passwordEncoder) {
         this.userRepository = userRepository;
         this.userMapper = userMapper;
+        this.passwordEncoder = passwordEncoder;
     }
     public List<UserDto> getTechnicians() {
         return userRepository.findAll().stream()
@@ -52,6 +57,8 @@ public class UserService {
         }
 
         User user = userMapper.toEntity(dto);
+        user.setRoles(Set.of(Role.USER));
+        user.setPassword(passwordEncoder.encode(dto.getPassword()));
         User saved = userRepository.save(user);
         return userMapper.toDto(saved);
     }
@@ -71,5 +78,22 @@ public class UserService {
             throw new UserNotFoundException(id);
         }
         userRepository.deleteById(id);
+    }
+
+    public UserDto createAdmin(UserDto dto) {
+        if (userRepository.existsByEmail(dto.getEmail())) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Email already exists");
+        }
+
+        if (userRepository.findByUserName(dto.getUserName()).isPresent()) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Username already exists");
+        }
+
+        User user = userMapper.toEntity(dto);
+        user.setRoles(Set.of(Role.ADMIN)); // przypisujemy ROLE.ADMIN
+        user.setPassword(passwordEncoder.encode(dto.getPassword()));
+
+        User saved = userRepository.save(user);
+        return userMapper.toDto(saved);
     }
 }

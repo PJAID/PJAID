@@ -40,6 +40,12 @@ public class UserController {
         return ResponseEntity.status(HttpStatus.CREATED).body(createdUser);
     }
 
+    @PostMapping("/create-admin")
+    public ResponseEntity<UserDto> createAdmin(@RequestBody UserDto dto) {
+        UserDto createdAdmin = userService.createAdmin(dto);
+        return ResponseEntity.status(HttpStatus.CREATED).body(createdAdmin);
+    }
+
     @PutMapping("/{id}")
     public ResponseEntity<UserDto> updateUser(@PathVariable Long id, @RequestBody UserDto dto) {
         UserDto updatedUser = userService.updateUser(id, dto);
