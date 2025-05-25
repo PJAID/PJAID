@@ -26,14 +26,21 @@ struct Ticket: Identifiable, Codable {
     var timestamp: Date? = nil
     let latitude: Double?
     let longitude: Double?
-
+    let building: String?
+    
     enum CodingKeys: String, CodingKey {
-        case id, title, description, status, latitude, longitude
+        case id, title, description, status, latitude, longitude, building
     }
 }
-
+struct Building: Identifiable, Hashable {
+    let id: Int
+    let name: String
+    let latitude: Double
+    let longitude: Double
+}
 
 struct User{
     let name: String
     let email: String
 }
+
