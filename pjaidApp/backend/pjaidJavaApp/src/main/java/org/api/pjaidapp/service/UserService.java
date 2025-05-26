@@ -7,20 +7,24 @@ import org.api.pjaidapp.mapper.UserMapper;
 import org.api.pjaidapp.model.User;
 import org.api.pjaidapp.repository.UserRepository;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
+import java.util.Set;
 
 @Service
 public class UserService {
 
     private final UserRepository userRepository;
     private final UserMapper userMapper;
+    private final PasswordEncoder passwordEncoder;
 
-    public UserService(UserRepository userRepository, UserMapper userMapper) {
+    public UserService(UserRepository userRepository, UserMapper userMapper, PasswordEncoder passwordEncoder) {
         this.userRepository = userRepository;
         this.userMapper = userMapper;
+        this.passwordEncoder = passwordEncoder;
     }
     public List<UserDto> getTechnicians() {
         return userRepository.findAll().stream()
@@ -28,6 +32,7 @@ public class UserService {
                 .map(userMapper::toDto)
                 .toList();
     }
+
 
     public UserDto getUserById(Long id) {
         User user = userRepository.findById(id)
@@ -52,8 +57,13 @@ public class UserService {
         }
 
         User user = userMapper.toEntity(dto);
-        User saved = userRepository.save(user);
-        return userMapper.toDto(saved);
+        user.setPassword(passwordEncoder.encode(dto.getPassword()));
+
+        if (user.getRoles() == null || user.getRoles().isEmpty()) {
+            user.setRoles(Set.of(Role.USER));
+        }
+
+        return userMapper.toDto(userRepository.save(user));
     }
 
     public UserDto updateUser(Long id, UserDto dto) {
