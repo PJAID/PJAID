@@ -52,11 +52,11 @@ class TicketControllerTest {
         deviceDto1 = new DeviceDto(1L, "Laptop Dell", "SN123", "20240101", "20250101", "XDD");
         deviceDto2 = new DeviceDto(2L, "Drukarka HP", "SN456", "20240101", "20250101", "XDDD");
 
-        ticketResponse1 = new TicketResponse(1, "Problem A", "Opis A", Status.NOWE, deviceDto1, userDto1);
-        ticketResponse2 = new TicketResponse(2, "Problem B", "Opis B", Status.ZAMKNIETE, deviceDto2, userDto2);
+        ticketResponse1 = new TicketResponse(1, "Problem A", "Opis A", Status.NOWE, deviceDto1, userDto1, 1L, "technic");
+        ticketResponse2 = new TicketResponse(2, "Problem B", "Opis B", Status.ZAMKNIETE, deviceDto2, userDto2,1L, "technic");
 
-        ticketRequestForCreate = new TicketRequest("Nowy problem", "Opis nowego problemu", Status.NOWE, 1L, 1L);
-        ticketRequestForUpdate = new TicketRequest("Zaktualizowany tytuł", "Zaktualizowany opis", Status.W_TRAKCIE, 2L, 2L);
+        ticketRequestForCreate = new TicketRequest("Nowy problem", "Opis nowego problemu", Status.NOWE, 1L, 1L, 12.2d,14.4d);
+        ticketRequestForUpdate = new TicketRequest("Zaktualizowany tytuł", "Zaktualizowany opis", Status.W_TRAKCIE, 2L, 2L, 12.2d,14.4d);
 
         lenient().when(ticketService.getTicketById(1)).thenReturn(ticketResponse1);
         lenient().when(ticketService.findTicketsByCriteria(isNull(), isNull(), isNull(), isNull()))
@@ -111,7 +111,9 @@ class TicketControllerTest {
                 ticketRequestForCreate.getDescription(),
                 ticketRequestForCreate.getStatus(),
                 deviceDto1,
-                userDto1
+                userDto1,
+                1L,
+                "technic"
         );
         when(ticketService.createTicket(any(TicketRequest.class))).thenReturn(created);
 
@@ -129,7 +131,9 @@ class TicketControllerTest {
                 ticketRequestForUpdate.getDescription(),
                 ticketRequestForUpdate.getStatus(),
                 deviceDto2,
-                userDto2
+                userDto2,
+                1L,
+                "technic"
         );
         when(ticketService.updateTicket(eq(1), any(TicketRequest.class))).thenReturn(updated);
 
