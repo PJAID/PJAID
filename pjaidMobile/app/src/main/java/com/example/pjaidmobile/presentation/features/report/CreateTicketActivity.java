@@ -5,7 +5,6 @@ import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
-import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.Toast;
 
@@ -62,16 +61,15 @@ public class CreateTicketActivity extends AppCompatActivity {
         setContentView(R.layout.activity_create_ticket);
         initViews();
         setupMap(savedInstanceState);
+        fetchLocation(); // Automatycznie pobieramy lokalizację przy tworzeniu aktywności
     }
 
     private void initViews() {
         EditText title = findViewById(R.id.editTextTitle);
         EditText description = findViewById(R.id.editTextDescription);
         Button sendButton = findViewById(R.id.buttonSubmitTicket);
-        CheckBox checkboxAddLocation = findViewById(R.id.checkboxAddLocation);
         mapView = findViewById(R.id.mapView);
 
-        setupLocationCheckbox(checkboxAddLocation);
         setupSendButton(title, description, sendButton);
     }
 
@@ -81,13 +79,6 @@ public class CreateTicketActivity extends AppCompatActivity {
         mapView.getMapAsync(map -> {
             googleMap = map;
             checkLocationPermission();
-        });
-    }
-
-    private void setupLocationCheckbox(CheckBox checkbox) {
-        checkbox.setOnCheckedChangeListener((buttonView, isChecked) -> {
-            mapView.setVisibility(isChecked ? View.VISIBLE : View.GONE);
-            if (isChecked) fetchLocation();
         });
     }
 
@@ -174,7 +165,6 @@ public class CreateTicketActivity extends AppCompatActivity {
             handleFailure(t);
         }
     }
-
 
     private void checkLocationPermission() {
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)
