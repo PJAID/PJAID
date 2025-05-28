@@ -35,7 +35,7 @@ public class TicketService {
         this.ticketMapper = ticketMapper;
     }
 
-    public TicketResponse getTicketById(int id) {
+    public TicketResponse getTicketById(Long id) {
         Ticket ticket = ticketRepository.findById(id)
                 .orElseThrow(() -> new TicketNotFoundException(id));
         return ticketMapper.toResponse(ticket);
@@ -71,14 +71,14 @@ public class TicketService {
         return ticketMapper.toResponse(saved);
     }
 
-    public void deleteTicket(int id) {
+    public void deleteTicket(Long id) {
         if (!ticketRepository.existsById(id)) {
             throw new TicketNotFoundException(id);
         }
         ticketRepository.deleteById(id);
     }
 
-    public TicketResponse updateTicket(int id, TicketRequest request) {
+    public TicketResponse updateTicket(Long id, TicketRequest request) {
         Ticket ticket = ticketRepository.findById(id)
                 .orElseThrow(() -> new TicketNotFoundException(id));
 
@@ -99,13 +99,13 @@ public class TicketService {
                 .toList();
     }
 
-    public TicketResponse startTicket(int id) {
+    public TicketResponse startTicket(Long id) {
         Ticket ticket = ticketRepository.findById(id).orElseThrow(() -> new TicketNotFoundException(id));
         ticket.setStatus(Status.W_TRAKCIE);
         ticketRepository.save(ticket);
         return ticketMapper.toResponse(ticket);
     }
-    public TicketResponse finishTicket(int id) {
+    public TicketResponse finishTicket(Long id) {
         Ticket ticket = ticketRepository.findById(id).orElseThrow(() -> new TicketNotFoundException(id));
         ticket.setStatus(Status.ZAMKNIETE);
         ticketRepository.save(ticket);
@@ -122,7 +122,7 @@ public class TicketService {
                 .map(ticketMapper::toResponse)
                 .toList();
     }
-    public TicketResponse assignTechnician(int ticketId, int technicianId) {
+    public TicketResponse assignTechnician(Long ticketId, Long technicianId) {
         Ticket ticket = ticketRepository.findById(ticketId)
                 .orElseThrow(() -> new TicketNotFoundException(ticketId));
         User technician = userRepository.findById((long) technicianId)
