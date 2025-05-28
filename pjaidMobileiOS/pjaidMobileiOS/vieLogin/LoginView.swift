@@ -18,6 +18,8 @@ struct LoginView: View {
     @State private var faceIDError: String?
     @State private var showingFaceIDError = false
 
+    @State private var loginError: String?
+    @State private var isLoading = false
 
     var body: some View {
         NavigationStack {
@@ -25,7 +27,6 @@ struct LoginView: View {
                 Image("background")
                     .resizable()
                     .scaledToFill()
-                    .clipped()
                     .ignoresSafeArea()
 
                 VStack(spacing: 16) {
@@ -35,7 +36,6 @@ struct LoginView: View {
                         .resizable()
                         .scaledToFit()
                         .frame(height: 180)
-                        .padding(.bottom, 10)
 
                     TextField("Username or email", text: $email)
                         .textFieldStyle(.roundedBorder)
@@ -71,7 +71,7 @@ struct LoginView: View {
                         Spacer()
 
                         Button("Forgot password?") {
-                            // akcja
+                            // implement later
                         }
                         .font(.footnote)
                         .foregroundColor(.white.opacity(0.7))
@@ -79,18 +79,29 @@ struct LoginView: View {
                     .padding(.horizontal, 10)
                     .frame(maxWidth: 300)
 
-                    Button(action: {
-                        appState.currentUser = email
-                        appState.isLoggedIn = true
-                    }) {
-                        Text("Sign in")
-                            .frame(maxWidth: .infinity)
-                            .padding()
-                            .background(Color.blue)
-                            .foregroundColor(.white)
-                            .cornerRadius(10)
+                    if let loginError = loginError {
+                        Text(loginError)
+                            .foregroundColor(.red)
+                            .multilineTextAlignment(.center)
                     }
+
+                    Button(action: {
+                        login()
+                    }) {
+                        if isLoading {
+                            ProgressView().frame(maxWidth: 300)
+                        } else {
+                            Text("Sign in")
+                                .frame(maxWidth: .infinity)
+                                .padding()
+                                .background(Color.blue)
+                                .foregroundColor(.white)
+                                .cornerRadius(10)
+                        }
+                    }
+                    .disabled(email.isEmpty || password.isEmpty)
                     .frame(maxWidth: 300)
+
                     Button(action: {
                         authenticateWithFaceID()
                     }) {
@@ -116,10 +127,94 @@ struct LoginView: View {
                     )
                 }
                 .padding(.top)
+                .padding(.horizontal)
             }
         }
-        
     }
+
+    func login() {
+        isLoading = true
+        loginError = nil
+
+        guard let url = URL(string: "http://localhost:8080/api/auth/login") else {
+            loginError = "Błędny adres serwera"
+            isLoading = false
+            return
+        }
+
+        let loginPayload = ["username": email, "password": password]
+        guard let jsonData = try? JSONSerialization.data(withJSONObject: loginPayload) else {
+            loginError = "Nie udało się przygotować danych"
+            isLoading = false
+            return
+        }
+
+        var request = URLRequest(url: url)
+        request.httpMethod = "POST"
+        request.setValue("application/json", forHTTPHeaderField: "Content-Type")
+        request.httpBody = jsonData
+
+        URLSession.shared.dataTask(with: request) { data, response, error in
+            DispatchQueue.main.async {
+                isLoading = false
+            }
+
+            if let error = error {
+                DispatchQueue.main.async {
+                    loginError = "Błąd połączenia: \(error.localizedDescription)"
+                }
+                return
+            }
+
+            guard let httpResponse = response as? HTTPURLResponse else {
+                DispatchQueue.main.async {
+                    loginError = "Brak odpowiedzi z serwera"
+                }
+                return
+            }
+
+            guard let data = data else {
+                DispatchQueue.main.async {
+                    loginError = "Brak danych z serwera"
+                }
+                return
+            }
+
+            if httpResponse.statusCode == 200 {
+                do {
+                    if let decoded = try JSONSerialization.jsonObject(with: data) as? [String: String],
+                       let accessToken = decoded["accessToken"] {
+                        DispatchQueue.main.async {
+                            // Można dodać Keychain lub UserDefaults
+                            print("Zalogowano: \(accessToken)")
+                            appState.currentUser = email
+                            appState.isLoggedIn = true
+                        }
+                    } else {
+                        DispatchQueue.main.async {
+                            loginError = "Nieprawidłowa odpowiedź z serwera"
+                        }
+                    }
+                } catch {
+                    DispatchQueue.main.async {
+                        loginError = "Błąd dekodowania odpowiedzi"
+                    }
+                }
+            } else {
+                DispatchQueue.main.async {
+                    if httpResponse.statusCode == 401 {
+                        loginError = "Nieprawidłowa nazwa użytkownika lub hasło"
+                    } else if httpResponse.statusCode == 500 {
+                        loginError = "Nieprawidłowa nazwa użytkownika lub hasło"
+                    } else {
+                        loginError = "Wystąpił błąd (\(httpResponse.statusCode))"
+                    }
+                }
+            }
+
+        }.resume()
+    }
+
     func authenticateWithFaceID() {
         let context = LAContext()
         var error: NSError?
@@ -143,7 +238,6 @@ struct LoginView: View {
             showingFaceIDError = true
         }
     }
-
 }
 
 struct CheckboxToggleStyle: ToggleStyle {
