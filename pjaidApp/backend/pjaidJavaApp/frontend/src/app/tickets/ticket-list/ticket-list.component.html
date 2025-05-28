@@ -51,9 +51,6 @@
       <td>{{ ticket.technicianName || 'Nieprzypisany' }}</td>
       <td>
         <a [routerLink]="['/tickets', ticket.id]">Szczegóły</a>
-        <button *ngIf="ticket.status === 'NOWE'" (click)="startTicket(ticket.id)">
-          Rozpocznij
-        </button>
       </td>
     </tr>
     </tbody>
