@@ -11,10 +11,7 @@ import org.springframework.context.annotation.Profile;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.Map;
 import java.util.Optional;
@@ -77,5 +74,29 @@ public class AuthController {
         });
 
         return ResponseEntity.ok().build();
+    }
+
+    // Testowe logowanie po ID (bez JWT)
+    @PostMapping("/test-login/{id}")
+    public ResponseEntity<?> testLogin(@PathVariable Long id) {
+        return userRepository.findById(id)
+                .map(user -> {
+                    user.setLoggedIn(true);
+                    userRepository.save(user);
+                    return ResponseEntity.ok("User " + user.getUserName() + " is now logged in.");
+                })
+                .orElse(ResponseEntity.notFound().build());
+    }
+
+    // Testowe wylogowanie po ID (bez JWT)
+    @PostMapping("/test-logout/{id}")
+    public ResponseEntity<?> testLogout(@PathVariable Long id) {
+        return userRepository.findById(id)
+                .map(user -> {
+                    user.setLoggedIn(false);
+                    userRepository.save(user);
+                    return ResponseEntity.ok("User " + user.getUserName() + " is now logged out.");
+                })
+                .orElse(ResponseEntity.notFound().build());
     }
 }
