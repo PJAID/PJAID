@@ -103,6 +103,14 @@
                     android:textColor="#888888"
                     android:layout_marginBottom="16dp" />
 
+                <TextView
+                    android:id="@+id/textViewLocation"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="16dp"
+                    android:text="Lokalizacja: Lokalizacja"
+                    android:textColor="#888888" />
+
                 <!-- przyciski -->
                 <LinearLayout
                     android:layout_width="match_parent"

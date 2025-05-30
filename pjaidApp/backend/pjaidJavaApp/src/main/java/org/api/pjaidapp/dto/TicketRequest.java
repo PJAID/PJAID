@@ -18,4 +18,6 @@ public class TicketRequest {
     private Status status;
     private Long deviceId;
     private Long userId;
+    private Long locationX;
+    private Long locationY;
 }

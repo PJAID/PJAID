@@ -45,6 +45,7 @@ dependencies {
     implementation(libs.zxing.android.embedded)
     implementation(libs.retrofit)
     implementation(libs.retrofit2.converter.gson)
+
 // RxJava3
     implementation(libs.rxandroid) // Użyj najnowszej wersji
     implementation(libs.rxjava)
@@ -61,4 +62,6 @@ dependencies {
     testImplementation(libs.junit)
     androidTestImplementation(libs.ext.junit)
     androidTestImplementation(libs.espresso.core)
+    implementation(libs.play.services.location)
+
 }
