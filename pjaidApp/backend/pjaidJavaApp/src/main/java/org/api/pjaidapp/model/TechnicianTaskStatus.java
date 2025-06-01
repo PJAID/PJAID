@@ -1,9 +1,12 @@
 package org.api.pjaidapp.model;
 
 import jakarta.persistence.*;
-
+import lombok.Getter;
+import lombok.Setter;
 import java.time.LocalDateTime;
 
+@Getter
+@Setter
 @Entity
 public class TechnicianTaskStatus {
 
@@ -14,11 +17,10 @@ public class TechnicianTaskStatus {
     @ManyToOne
     private User technician;
 
-    private String taskStatus; // "available", "busy", etc.
+    private String taskStatus;
 
     private LocalDateTime timeStart;
 
-    // Gettery i settery
     public Long getId() { return id; }
 
     public void setId(Long id) { this.id = id; }

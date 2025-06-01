@@ -1,21 +1,27 @@
 package org.api.pjaidapp.controller;
 
 import org.api.pjaidapp.dto.UserDto;
+import org.api.pjaidapp.mapper.UserMapper;
+import org.api.pjaidapp.model.User;
 import org.api.pjaidapp.service.UserService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/users")
 public class UserController {
 
     private final UserService userService;
+    private final UserMapper userMapper;
 
-    public UserController(UserService userService) {
+
+    public UserController(UserService userService, UserMapper userMapper) {
         this.userService = userService;
+        this.userMapper = userMapper;
     }
     @GetMapping("/technicians")
     public ResponseEntity<List<UserDto>> getTechnicians() {
@@ -57,5 +63,16 @@ public class UserController {
         userService.deleteUser(id);
         return ResponseEntity.noContent().build();
     }
+
+    @PostMapping("/import")
+    public ResponseEntity<Void> importUsers(@RequestBody List<UserDto> users) {
+        List<User> userEntities = users.stream()
+                .map(userMapper::toEntity)
+                .collect(Collectors.toList());
+
+        userService.importUsers(userEntities);
+        return ResponseEntity.ok().build();
+    }
+
 
 }

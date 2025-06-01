@@ -34,14 +34,6 @@ public class User {
     @Column(name = "role")
     @Enumerated(EnumType.STRING)
     private Set<Role> roles;
-    public Set<Role> getRoles() {
-        return roles;
-    }
-
-    public void setRoles(Set<Role> roles) {
-        this.roles = roles;
-    }
-
 
     @Column(name = "active", columnDefinition = "TINYINT(1) DEFAULT 1")
     private boolean active = true;

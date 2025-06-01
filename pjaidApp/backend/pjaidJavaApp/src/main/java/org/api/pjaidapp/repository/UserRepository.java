@@ -18,7 +18,4 @@ public interface UserRepository extends JpaRepository<User, Long> {
     @Query("SELECT u FROM User u JOIN u.roles r WHERE r = :role AND u.zmiana = :shift AND u.loggedIn = true")
     List<User> findAvailableTechniciansOnShift(@Param("role") Role role, @Param("shift") String shift);
 
-
-
-
 }

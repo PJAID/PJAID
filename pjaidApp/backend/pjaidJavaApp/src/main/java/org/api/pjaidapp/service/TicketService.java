@@ -2,12 +2,15 @@ package org.api.pjaidapp.service;
 
 import org.api.pjaidapp.dto.TicketRequest;
 import org.api.pjaidapp.dto.TicketResponse;
+import org.api.pjaidapp.enums.Role;
 import org.api.pjaidapp.enums.Status;
 import org.api.pjaidapp.exception.DeviceNotFoundException;
+import org.api.pjaidapp.exception.IncidentNotFoundException;
 import org.api.pjaidapp.exception.TicketNotFoundException;
 import org.api.pjaidapp.exception.UserNotFoundException;
 import org.api.pjaidapp.mapper.TicketMapper;
 import org.api.pjaidapp.model.Device;
+import org.api.pjaidapp.model.Incident;
 import org.api.pjaidapp.model.Ticket;
 import org.api.pjaidapp.model.User;
 import org.api.pjaidapp.repository.DeviceRepository;
@@ -17,13 +20,6 @@ import org.api.pjaidapp.repository.UserRepository;
 import org.api.pjaidapp.repository.specification.TicketSpecifications;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
-import org.api.pjaidapp.model.Incident;
-import org.api.pjaidapp.exception.IncidentNotFoundException;
-import org.api.pjaidapp.enums.Role;
-import org.springframework.data.jpa.repository.Query;
-import org.springframework.data.repository.query.Param;
-import org.api.pjaidapp.service.ShiftCalendarService;
-
 
 import java.time.LocalDate;
 import java.util.Arrays;
@@ -57,7 +53,6 @@ public class TicketService {
         Ticket ticket = ticketRepository.findById(id)
                 .orElseThrow(() -> new TicketNotFoundException(id));
         return ticketMapper.toResponse(ticket);
-
     }
 
     public List<TicketResponse> getAllActiveTickets() {
@@ -90,34 +85,40 @@ public class TicketService {
                 .orElseThrow(() -> new DeviceNotFoundException(request.getDeviceId()));
         Incident incident = incidentRepository.findById(request.getIncidentId())
                 .orElseThrow(() -> new IncidentNotFoundException(request.getIncidentId()));
-        ticket.setIncident(incident);
         User user = userRepository.findById(request.getUserId())
                 .orElseThrow(() -> new UserNotFoundException(request.getUserId()));
+
+        if (user.getRoles().contains(Role.TECHNICIAN)) {
+            throw new IllegalArgumentException("Technik nie może tworzyć ticketów");
+        }
 
 
         ticket.setDevice(device);
         ticket.setUser(user);
         ticket.setIncident(incident);
 
-        String zmiana = shiftCalendarService.getShiftForDate(LocalDate.now());
+        String zmiana = user.getZmiana();
         List<User> technicians = userRepository.findAvailableTechniciansOnShift(Role.TECHNICIAN, zmiana);
 
+        // Wybierz technika z najmniejszym obciążeniem
         Optional<User> selectedTechnician = technicians.stream()
                 .filter(User::isLoggedIn)
                 .min(Comparator.comparingInt(User::getCurrentLoad));
 
         if (selectedTechnician.isEmpty()) {
             System.out.println("Brak dostępnych techników na zmianie: " + zmiana);
-        }
-
-        selectedTechnician.ifPresent(technician -> {
-            System.out.println("➡️ Przypisano technika: " + technician.getUserName() + " (load: " + technician.getCurrentLoad() + ")");
+            ticket.setStatus(Status.OCZEKUJACE);
+        } else {
+            User technician = selectedTechnician.get();
+            System.out.println("Przypisano technika: " + technician.getUserName() + " (load: " + technician.getCurrentLoad() + ")");
             ticket.setTechnician(technician);
+
+            // Zwiększa obciążenie technika
             technician.setCurrentLoad(technician.getCurrentLoad() + 1);
             userRepository.save(technician);
-        });
 
-
+            ticket.setStatus(Status.NOWE);
+        }
 
 
         Ticket saved = ticketRepository.save(ticket);
@@ -179,10 +180,11 @@ public class TicketService {
     public TicketResponse assignTechnician(Long ticketId, Long technicianId) {
         Ticket ticket = ticketRepository.findById(ticketId)
                 .orElseThrow(() -> new TicketNotFoundException(ticketId));
-        User technician = userRepository.findById((long) technicianId)
-                .orElseThrow(() -> new UserNotFoundException((long) technicianId));
+        User technician = userRepository.findById( technicianId)
+                .orElseThrow(() -> new UserNotFoundException(technicianId));
 
         ticket.setTechnician(technician);
+        ticket.setStatus(Status.W_TRAKCIE);
         Ticket saved = ticketRepository.save(ticket);
         return ticketMapper.toResponse(saved);
     }

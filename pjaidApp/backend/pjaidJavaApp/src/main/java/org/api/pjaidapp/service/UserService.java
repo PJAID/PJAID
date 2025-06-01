@@ -11,6 +11,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Set;
 
@@ -19,13 +20,15 @@ public class UserService {
 
     private final UserRepository userRepository;
     private final UserMapper userMapper;
-
     private final PasswordEncoder passwordEncoder;
 
-    public UserService(UserRepository userRepository, UserMapper userMapper, PasswordEncoder passwordEncoder) {
+    private final ShiftCalendarService shiftCalendarService;
+
+    public UserService(UserRepository userRepository, UserMapper userMapper,PasswordEncoder passwordEncoder, ShiftCalendarService shiftCalendarService) {
         this.userRepository = userRepository;
         this.userMapper = userMapper;
         this.passwordEncoder = passwordEncoder;
+        this.shiftCalendarService = shiftCalendarService;
     }
     public List<UserDto> getTechnicians() {
         return userRepository.findAll().stream()
@@ -33,6 +36,7 @@ public class UserService {
                 .map(userMapper::toDto)
                 .toList();
     }
+
 
     public UserDto getUserById(Long id) {
         User user = userRepository.findById(id)
@@ -47,6 +51,19 @@ public class UserService {
                 .toList();
     }
 
+    public void importUsers(List<User> users) {
+        LocalDate today = LocalDate.now();
+        int count = 0;
+
+        for (User user : users) {
+            String todayShift = shiftCalendarService.getShiftForDate(today);
+            user.setZmiana(todayShift);
+            userRepository.save(user);
+            count++;
+        }
+        System.out.println("Zaimportowano " + count + " użytkowników ze zmianą.");
+    }
+
     public UserDto createUser(UserDto dto) {
         if (userRepository.existsByEmail(dto.getEmail())) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Email already exists");
@@ -57,11 +74,13 @@ public class UserService {
         }
 
         User user = userMapper.toEntity(dto);
-        user.setRoles(Set.of(Role.USER));
         user.setPassword(passwordEncoder.encode(dto.getPassword()));
-        user.setRoles(Set.of(Role.TECHNICIAN));
-        User saved = userRepository.save(user);
-        return userMapper.toDto(saved);
+
+        if (user.getRoles() == null || user.getRoles().isEmpty()) {
+            user.setRoles(Set.of(Role.USER));
+        }
+
+        return userMapper.toDto(userRepository.save(user));
     }
 
     public UserDto updateUser(Long id, UserDto dto) {
@@ -93,7 +112,7 @@ public class UserService {
         User user = userMapper.toEntity(dto);
         user.setRoles(Set.of(Role.ADMIN)); // przypisujemy ROLE.ADMIN
         user.setPassword(passwordEncoder.encode(dto.getPassword()));
-
+        user.setRoles(Set.of(Role.TECHNICIAN));
         User saved = userRepository.save(user);
         return userMapper.toDto(saved);
     }

@@ -1,9 +1,13 @@
 package org.api.pjaidapp.model;
 
 import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.time.LocalDateTime;
 
+@Getter
+@Setter
 @Entity
 public class TicketQueue {
 
@@ -12,40 +16,19 @@ public class TicketQueue {
     private Long id;
 
     @OneToOne
+    @JoinColumn(name = "ticket_id", referencedColumnName = "id")
     private Ticket ticket;
 
+    @Column(name = "queue_status")
     private String queueStatus;
 
+    @Column(name = "is_urgent")
     private boolean isUrgent;
 
+    @Column(name = "queued_at")
     private LocalDateTime queuedAt;
 
+    @Column(name = "assigned_technician_id")
     private Long assignedTechnicianId;
 
-    // Gettery i settery
-    public Long getId() { return id; }
-
-    public void setId(Long id) { this.id = id; }
-
-    public Ticket getTicket() { return ticket; }
-
-    public void setTicket(Ticket ticket) { this.ticket = ticket; }
-
-    public String getQueueStatus() { return queueStatus; }
-
-    public void setQueueStatus(String queueStatus) { this.queueStatus = queueStatus; }
-
-    public boolean isUrgent() { return isUrgent; }
-
-    public void setUrgent(boolean urgent) { isUrgent = urgent; }
-
-    public LocalDateTime getQueuedAt() { return queuedAt; }
-
-    public void setQueuedAt(LocalDateTime queuedAt) { this.queuedAt = queuedAt; }
-
-    public Long getAssignedTechnicianId() { return assignedTechnicianId; }
-
-    public void setAssignedTechnicianId(Long assignedTechnicianId) {
-        this.assignedTechnicianId = assignedTechnicianId;
-    }
 }

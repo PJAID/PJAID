@@ -1,34 +1,32 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent" android:layout_height="match_parent"
-    android:orientation="vertical" android:padding="24dp">
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="24dp">
 
-    <EditText android:id="@+id/editTextTitle"
-        android:hint="Tytuł zgłoszenia"
+    <EditText
+        android:id="@+id/editTextTitle"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
+        android:layout_height="wrap_content"
+        android:hint="Tytuł zgłoszenia" />
 
-    <EditText android:id="@+id/editTextDescription"
+    <EditText
+        android:id="@+id/editTextDescription"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="top"
         android:hint="Opis zgłoszenia"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:minLines="5"
-        android:gravity="top"/>
-    <CheckBox
-        android:id="@+id/checkboxAddLocation"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Dodaj lokalizację" />
+        android:minLines="5" />
 
     <com.google.android.gms.maps.MapView
         android:id="@+id/mapView"
         android:layout_width="match_parent"
         android:layout_height="200dp"
-        android:visibility="gone" />
-
+        android:visibility="visible" />
 
     <Button
         android:id="@+id/buttonSubmitTicket"
-        android:text="Wyślij zgłoszenie"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
+        android:layout_height="wrap_content"
+        android:text="Wyślij zgłoszenie" />
 </LinearLayout>

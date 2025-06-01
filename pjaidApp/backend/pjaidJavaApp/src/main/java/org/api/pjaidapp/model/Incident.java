@@ -1,8 +1,12 @@
 package org.api.pjaidapp.model;
 
 import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.Setter;
 import org.api.pjaidapp.enums.Priority;
 
+@Getter
+@Setter
 @Entity
 public class Incident {
 
@@ -15,16 +19,8 @@ public class Incident {
     @Enumerated(EnumType.STRING)
     private Priority priority;
 
-    // Gettery i settery
-    public Long getId() { return id; }
+    @ManyToOne
+    @JoinColumn(name = "technician_id")
+    private User technician;
 
-    public void setId(Long id) { this.id = id; }
-
-    public String getTitle() { return title; }
-
-    public void setTitle(String title) { this.title = title; }
-
-    public Priority getPriority() { return priority; }
-
-    public void setPriority(Priority priority) { this.priority = priority; }
 }

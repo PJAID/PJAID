@@ -21,10 +21,5 @@ public class TicketRequest {
     private Double latitude;
     private Double longitude;
     private Long incidentId;
-    public Long getIncidentId() {
-        return incidentId;
-    }
-    public void setIncidentId(Long incidentId) {
-        this.incidentId = incidentId;
-    }
+
 }

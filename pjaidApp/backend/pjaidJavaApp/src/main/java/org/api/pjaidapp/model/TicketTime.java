@@ -1,9 +1,14 @@
 package org.api.pjaidapp.model;
 
 import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.time.LocalDateTime;
 
+
+@Getter
+@Setter
 @Entity
 public class TicketTime {
 
@@ -12,32 +17,17 @@ public class TicketTime {
     private Long id;
 
     @ManyToOne
+    @JoinColumn(name = "technician_id")
     private User technician;
 
     @ManyToOne
+    @JoinColumn(name = "ticket_id")
     private Ticket ticket;
 
+    @Column(name = "time_start")
     private LocalDateTime timeStart;
+
+    @Column(name = "time_end")
     private LocalDateTime timeEnd;
 
-    // Gettery i settery
-    public Long getId() { return id; }
-
-    public void setId(Long id) { this.id = id; }
-
-    public User getTechnician() { return technician; }
-
-    public void setTechnician(User technician) { this.technician = technician; }
-
-    public Ticket getTicket() { return ticket; }
-
-    public void setTicket(Ticket ticket) { this.ticket = ticket; }
-
-    public LocalDateTime getTimeStart() { return timeStart; }
-
-    public void setTimeStart(LocalDateTime timeStart) { this.timeStart = timeStart; }
-
-    public LocalDateTime getTimeEnd() { return timeEnd; }
-
-    public void setTimeEnd(LocalDateTime timeEnd) { this.timeEnd = timeEnd; }
 }

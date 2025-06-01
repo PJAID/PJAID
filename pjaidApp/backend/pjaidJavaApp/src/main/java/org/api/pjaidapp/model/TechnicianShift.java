@@ -1,10 +1,13 @@
 package org.api.pjaidapp.model;
 
 import jakarta.persistence.*;
-
+import lombok.Getter;
+import lombok.Setter;
 import java.time.DayOfWeek;
 import java.time.LocalTime;
 
+@Getter
+@Setter
 @Entity
 public class TechnicianShift {
 
@@ -19,7 +22,6 @@ public class TechnicianShift {
     private LocalTime timeStart;
     private LocalTime timeEnd;
 
-    // Gettery i settery
     public Long getId() { return id; }
 
     public void setId(Long id) { this.id = id; }
