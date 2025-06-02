@@ -60,21 +60,25 @@ public class TicketController {
         ticketService.deleteTicket(id);
         return ResponseEntity.noContent().build();
     }
+
     @PostMapping("/{id}/start")
     public ResponseEntity<TicketResponse> startTicket(@PathVariable Long id) {
         TicketResponse updated = ticketService.startTicket(id);
         return ResponseEntity.ok(updated);
     }
+
     @PostMapping("/{id}/finish")
     public ResponseEntity<TicketResponse> finishTicket(@PathVariable Long id) {
         TicketResponse updated = ticketService.finishTicket(id);
         return ResponseEntity.ok(updated);
     }
+
     @GetMapping("/pending")
     public ResponseEntity<List<TicketResponse>> getPendingTickets() {
         List<TicketResponse> tickets = ticketService.getPendingTickets();
         return ResponseEntity.ok(tickets);
     }
+
     @PutMapping("/{id}/assign")
     public ResponseEntity<TicketResponse> assignTechnician(
             @PathVariable Long id,
@@ -82,6 +86,7 @@ public class TicketController {
         TicketResponse updated = ticketService.assignTechnician(id, technicianId);
         return ResponseEntity.ok(updated);
     }
+
     @GetMapping("/assigned")
     public ResponseEntity<List<TicketResponse>> getAssignedTickets(@RequestParam String user) {
         return ResponseEntity.ok(ticketService.getTicketsAssignedTo(user));

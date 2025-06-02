@@ -21,9 +21,7 @@ public class TicketResponse {
     private UserDto user;
     private Long technicianId;
     private String technicianName;
-    private UserDto technician;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
     private IncidentDto incident;
-
 }

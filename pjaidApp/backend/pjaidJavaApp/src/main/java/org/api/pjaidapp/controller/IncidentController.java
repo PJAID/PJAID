@@ -2,7 +2,6 @@ package org.api.pjaidapp.controller;
 
 import org.api.pjaidapp.model.Incident;
 import org.api.pjaidapp.service.IncidentService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -12,8 +11,11 @@ import java.util.List;
 @RequestMapping("/incidents")
 public class IncidentController {
 
-    @Autowired
-    private IncidentService incidentService;
+    private final IncidentService incidentService;
+
+    public IncidentController(IncidentService incidentService) {
+        this.incidentService = incidentService;
+    }
 
     // Endpoint do przypisania technika do incydentu
     @PutMapping("/{incidentId}/assign-technician/{technicianId}")

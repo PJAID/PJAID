@@ -21,7 +21,6 @@ import org.api.pjaidapp.repository.specification.TicketSpecifications;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDate;
 import java.util.Arrays;
 import java.util.Comparator;
 import java.util.List;
@@ -40,7 +39,7 @@ public class TicketService {
     private final ShiftCalendarService shiftCalendarService;
 
 
-    public TicketService(TicketRepository ticketRepository, UserRepository userRepository, DeviceRepository deviceRepository, TicketMapper ticketMapper, IncidentRepository incidentRepository, ShiftCalendarService shiftCalendarService) {
+        public TicketService(TicketRepository ticketRepository, UserRepository userRepository, DeviceRepository deviceRepository, TicketMapper ticketMapper, IncidentRepository incidentRepository, ShiftCalendarService shiftCalendarService) {
         this.ticketRepository = ticketRepository;
         this.userRepository = userRepository;
         this.deviceRepository = deviceRepository;
@@ -87,10 +86,6 @@ public class TicketService {
                 .orElseThrow(() -> new IncidentNotFoundException(request.getIncidentId()));
         User user = userRepository.findById(request.getUserId())
                 .orElseThrow(() -> new UserNotFoundException(request.getUserId()));
-
-        if (user.getRoles().contains(Role.TECHNICIAN)) {
-            throw new IllegalArgumentException("Technik nie może tworzyć ticketów");
-        }
 
 
         ticket.setDevice(device);
@@ -160,27 +155,31 @@ public class TicketService {
         ticketRepository.save(ticket);
         return ticketMapper.toResponse(ticket);
     }
+
     public TicketResponse finishTicket(Long id) {
         Ticket ticket = ticketRepository.findById(id).orElseThrow(() -> new TicketNotFoundException(id));
         ticket.setStatus(Status.ZAMKNIETE);
         ticketRepository.save(ticket);
         return ticketMapper.toResponse(ticket);
     }
+
     public List<TicketResponse> getPendingTickets() {
         return ticketRepository.findByStatusIn(List.of(Status.NOWE, Status.W_TRAKCIE)).stream()
                 .map(ticketMapper::toResponse)
                 .toList();
     }
+
     public List<TicketResponse> getTicketsByUsername(String username) {
         List<Ticket> tickets = ticketRepository.findByUserUserName(username);
         return tickets.stream()
                 .map(ticketMapper::toResponse)
                 .toList();
     }
+
     public TicketResponse assignTechnician(Long ticketId, Long technicianId) {
         Ticket ticket = ticketRepository.findById(ticketId)
                 .orElseThrow(() -> new TicketNotFoundException(ticketId));
-        User technician = userRepository.findById( technicianId)
+        User technician = userRepository.findById(technicianId)
                 .orElseThrow(() -> new UserNotFoundException(technicianId));
 
         ticket.setTechnician(technician);
@@ -188,6 +187,7 @@ public class TicketService {
         Ticket saved = ticketRepository.save(ticket);
         return ticketMapper.toResponse(saved);
     }
+
     public List<TicketResponse> getTicketsAssignedTo(String username) {
         return ticketRepository.findByTechnicianUserName(username).stream()
                 .map(ticketMapper::toResponse)

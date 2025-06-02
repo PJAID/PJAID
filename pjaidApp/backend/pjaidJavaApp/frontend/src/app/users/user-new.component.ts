@@ -13,6 +13,7 @@ import {Router} from '@angular/router';
 })
 export class UserNewComponent {
   form: FormGroup;
+  successMessage: string | null = null;
 
   constructor(
     private readonly fb: FormBuilder,
@@ -31,7 +32,9 @@ export class UserNewComponent {
     if (this.form.invalid) return;
 
     this.userService.createUser(this.form.value).subscribe({
-      next: () => this.router.navigate(['/users']),
+      next: () => {
+        this.successMessage = 'Użytkownik dodany poprawnie';
+      },
       error: err => alert('Błąd tworzenia użytkownika: ' + err.message)
     });
   }

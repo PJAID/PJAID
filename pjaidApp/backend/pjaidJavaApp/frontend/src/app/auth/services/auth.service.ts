@@ -54,4 +54,25 @@ export class AuthService {
       return null;
     }
   }
+
+  getDecodedAccessToken(): any {
+    const token = this.getAccessToken();
+    if (!token) return null;
+
+    try {
+      const payload = token.split('.')[1];
+      return JSON.parse(atob(payload));
+    } catch {
+      return null;
+    }
+  }
+
+  getUserRoles(): string[] {
+    const decoded = this.getDecodedAccessToken();
+    return decoded?.roles || [];
+  }
+
+  hasRole(role: string): boolean {
+    return this.getUserRoles().includes(role);
+  }
 }

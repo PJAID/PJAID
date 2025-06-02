@@ -1,9 +1,6 @@
 package org.api.pjaidapp.controller;
 
-import org.api.pjaidapp.dto.DeviceDto;
-import org.api.pjaidapp.dto.TicketRequest;
-import org.api.pjaidapp.dto.TicketResponse;
-import org.api.pjaidapp.dto.UserDto;
+import org.api.pjaidapp.dto.*;
 import org.api.pjaidapp.enums.Status;
 import org.api.pjaidapp.exception.TicketNotFoundException;
 import org.api.pjaidapp.service.TicketService;
@@ -17,10 +14,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.HashSet;
-import java.util.List;
+import java.time.LocalDateTime;
+import java.util.*;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.eq;
@@ -47,18 +42,18 @@ class TicketControllerTest {
 
     @BeforeEach
     void setUp() {
-        userDto1 = new UserDto(1L, "Jan Kowalski", "jan@domain.com", "Qwerty.1", new HashSet<>());
-        userDto2 = new UserDto(2L, "Anna Nowak", "anna@domain.com", "Qwerty.1", new HashSet<>());
+        userDto1 = new UserDto(1L, "Jan Kowalski", "jan@domain.com", "Qwerty.1", new HashSet<>(),true, true,"TAK",1);
+        userDto2 = new UserDto(2L, "Anna Nowak", "anna@domain.com", "Qwerty.1", new HashSet<>(),true, true,"TAK",1);
         deviceDto1 = new DeviceDto(1L, "Laptop Dell", "SN123", "20240101", "20250101", "XDD");
         deviceDto2 = new DeviceDto(2L, "Drukarka HP", "SN456", "20240101", "20250101", "XDDD");
 
-        ticketResponse1 = new TicketResponse(1, "Problem A", "Opis A", Status.NOWE, deviceDto1, userDto1, 1L, "technic");
-        ticketResponse2 = new TicketResponse(2, "Problem B", "Opis B", Status.ZAMKNIETE, deviceDto2, userDto2,1L, "technic");
+        ticketResponse1 = new TicketResponse(1, "Problem A", "Opis A", Status.NOWE, deviceDto1, userDto1, 1L, "technic", LocalDateTime.now(), LocalDateTime.now(),new IncidentDto());
+        ticketResponse2 = new TicketResponse(2, "Problem B", "Opis B", Status.ZAMKNIETE, deviceDto2, userDto2,1L, "technic", LocalDateTime.now(), LocalDateTime.now(),new IncidentDto());
 
-        ticketRequestForCreate = new TicketRequest("Nowy problem", "Opis nowego problemu", Status.NOWE, 1L, 1L, 12.2d,14.4d);
-        ticketRequestForUpdate = new TicketRequest("Zaktualizowany tytuł", "Zaktualizowany opis", Status.W_TRAKCIE, 2L, 2L, 12.2d,14.4d);
+        ticketRequestForCreate = new TicketRequest("Nowy problem", "Opis nowego problemu", Status.NOWE, 1L, 1L, 12.2d,14.4d, 1L);
+        ticketRequestForUpdate = new TicketRequest("Zaktualizowany tytuł", "Zaktualizowany opis", Status.W_TRAKCIE, 2L, 2L, 12.2d,14.4d, 1L);
 
-        lenient().when(ticketService.getTicketById(1)).thenReturn(ticketResponse1);
+        lenient().when(ticketService.getTicketById(1L)).thenReturn(ticketResponse1);
         lenient().when(ticketService.findTicketsByCriteria(isNull(), isNull(), isNull(), isNull()))
                 .thenReturn(Arrays.asList(ticketResponse1, ticketResponse2));
         lenient().when(ticketService.getAllActiveTickets())
@@ -67,7 +62,7 @@ class TicketControllerTest {
 
     @Test
     void getTicketById_shouldReturnOkAndTicket_whenTicketExists() {
-        ResponseEntity<TicketResponse> response = ticketController.getTicketById(1);
+        ResponseEntity<TicketResponse> response = ticketController.getTicketById(1L);
 
         assertEquals(HttpStatus.OK, response.getStatusCode());
         assertNotNull(response.getBody());
@@ -113,7 +108,10 @@ class TicketControllerTest {
                 deviceDto1,
                 userDto1,
                 1L,
-                "technic"
+                "technic",
+                LocalDateTime.now(),
+                LocalDateTime.now(),
+                new IncidentDto()
         );
         when(ticketService.createTicket(any(TicketRequest.class))).thenReturn(created);
 
@@ -133,11 +131,14 @@ class TicketControllerTest {
                 deviceDto2,
                 userDto2,
                 1L,
-                "technic"
+                "technic",
+                LocalDateTime.now(),
+                LocalDateTime.now(),
+                new IncidentDto()
         );
-        when(ticketService.updateTicket(eq(1), any(TicketRequest.class))).thenReturn(updated);
+        when(ticketService.updateTicket(eq(1L), any(TicketRequest.class))).thenReturn(updated);
 
-        ResponseEntity<TicketResponse> response = ticketController.updateTicket(1, ticketRequestForUpdate);
+        ResponseEntity<TicketResponse> response = ticketController.updateTicket(1L, ticketRequestForUpdate);
 
         assertEquals(HttpStatus.OK, response.getStatusCode());
         assertEquals(updated, response.getBody());
@@ -145,16 +146,16 @@ class TicketControllerTest {
 
     @Test
     void deleteTicket_shouldReturnNoContent() {
-        doNothing().when(ticketService).deleteTicket(1);
+        doNothing().when(ticketService).deleteTicket(1L);
 
-        ResponseEntity<Void> response = ticketController.deleteTicket(1);
+        ResponseEntity<Void> response = ticketController.deleteTicket(1L);
 
         assertEquals(HttpStatus.NO_CONTENT, response.getStatusCode());
     }
 
     @Test
     void getTicketById_nonExisting_shouldReturnNotFound() {
-        int id = 999;
+        Long id = 999L;
         when(ticketService.getTicketById(id))
                 .thenThrow(new TicketNotFoundException(id));
 

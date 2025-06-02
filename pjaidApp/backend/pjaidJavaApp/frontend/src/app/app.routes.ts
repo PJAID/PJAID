@@ -57,6 +57,8 @@ export const routes: Routes = [
         loadComponent: () => import('./devices/device-new/device-new.component').then(m => m.DeviceNewComponent)
       }, {
         path: 'users/new',
+        canMatch: [authGuard],
+        data: { roles: ['ROLE_ADMIN'] },
         loadComponent: () => import('./users/user-new.component').then(m => m.UserNewComponent)
       }
     ]

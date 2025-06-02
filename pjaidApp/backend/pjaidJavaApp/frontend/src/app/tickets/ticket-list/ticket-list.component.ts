@@ -18,6 +18,13 @@ export class TicketListComponent implements OnInit {
   tickets: TicketResponse[] = [];
   isLoading = false;
 
+  statusCounts = {
+    NOWE: 0,
+    W_TRAKCIE: 0,
+    ZAMKNIETE: 0
+  };
+
+
   filterStatus: string = '';
   filterUserName: string = '';
   filterDeviceName: string = '';
@@ -40,6 +47,7 @@ export class TicketListComponent implements OnInit {
     this.ticketService.getAllTickets(currentFilters).subscribe({
       next: data => {
         this.tickets = data;
+        this.countStatuses();
         this.isLoading = false;
       },
       error: err => {
@@ -47,6 +55,20 @@ export class TicketListComponent implements OnInit {
         this.isLoading = false;
       }
     });
+  }
+
+  private countStatuses(): void {
+    this.statusCounts = {
+      NOWE: 0,
+      W_TRAKCIE: 0,
+      ZAMKNIETE: 0
+    };
+
+    for (const ticket of this.tickets) {
+      if (ticket.status && this.statusCounts.hasOwnProperty(ticket.status)) {
+        this.statusCounts[ticket.status]++;
+      }
+    }
   }
 
   applyFilters(): void {
