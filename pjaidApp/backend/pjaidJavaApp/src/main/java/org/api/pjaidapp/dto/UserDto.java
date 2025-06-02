@@ -17,4 +17,9 @@ public class UserDto {
     private String email;
     private String password;
     private Set<String> roles;
+    private boolean active;
+    private boolean loggedIn;
+    private String zmiana;
+    private int currentLoad;
+
 }

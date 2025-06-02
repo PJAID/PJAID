@@ -11,6 +11,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Set;
 
@@ -21,10 +22,13 @@ public class UserService {
     private final UserMapper userMapper;
     private final PasswordEncoder passwordEncoder;
 
-    public UserService(UserRepository userRepository, UserMapper userMapper, PasswordEncoder passwordEncoder) {
+    private final ShiftCalendarService shiftCalendarService;
+
+    public UserService(UserRepository userRepository, UserMapper userMapper,PasswordEncoder passwordEncoder, ShiftCalendarService shiftCalendarService) {
         this.userRepository = userRepository;
         this.userMapper = userMapper;
         this.passwordEncoder = passwordEncoder;
+        this.shiftCalendarService = shiftCalendarService;
     }
     public List<UserDto> getTechnicians() {
         return userRepository.findAll().stream()
@@ -45,6 +49,19 @@ public class UserService {
                 .stream()
                 .map(userMapper::toDto)
                 .toList();
+    }
+
+    public void importUsers(List<User> users) {
+        LocalDate today = LocalDate.now();
+        int count = 0;
+
+        for (User user : users) {
+            String todayShift = shiftCalendarService.getShiftForDate(today);
+            user.setZmiana(todayShift);
+            userRepository.save(user);
+            count++;
+        }
+        System.out.println("Zaimportowano " + count + " użytkowników ze zmianą.");
     }
 
     public UserDto createUser(UserDto dto) {
@@ -81,5 +98,22 @@ public class UserService {
             throw new UserNotFoundException(id);
         }
         userRepository.deleteById(id);
+    }
+
+    public UserDto createAdmin(UserDto dto) {
+        if (userRepository.existsByEmail(dto.getEmail())) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Email already exists");
+        }
+
+        if (userRepository.findByUserName(dto.getUserName()).isPresent()) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Username already exists");
+        }
+
+        User user = userMapper.toEntity(dto);
+        user.setRoles(Set.of(Role.ADMIN)); // przypisujemy ROLE.ADMIN
+        user.setPassword(passwordEncoder.encode(dto.getPassword()));
+        user.setRoles(Set.of(Role.TECHNICIAN));
+        User saved = userRepository.save(user);
+        return userMapper.toDto(saved);
     }
 }

@@ -21,7 +21,7 @@ public class TicketController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<TicketResponse> getTicketById(@PathVariable int id) {
+    public ResponseEntity<TicketResponse> getTicketById(@PathVariable Long id) {
         TicketResponse ticket = ticketService.getTicketById(id);
         return ResponseEntity.ok(ticket);
     }
@@ -50,23 +50,23 @@ public class TicketController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<TicketResponse> updateTicket(@PathVariable int id, @RequestBody TicketRequest request) {
+    public ResponseEntity<TicketResponse> updateTicket(@PathVariable Long id, @RequestBody TicketRequest request) {
         TicketResponse updatedTicket = ticketService.updateTicket(id, request);
         return ResponseEntity.ok(updatedTicket);
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteTicket(@PathVariable int id) {
+    public ResponseEntity<Void> deleteTicket(@PathVariable Long id) {
         ticketService.deleteTicket(id);
         return ResponseEntity.noContent().build();
     }
     @PostMapping("/{id}/start")
-    public ResponseEntity<TicketResponse> startTicket(@PathVariable int id) {
+    public ResponseEntity<TicketResponse> startTicket(@PathVariable Long id) {
         TicketResponse updated = ticketService.startTicket(id);
         return ResponseEntity.ok(updated);
     }
     @PostMapping("/{id}/finish")
-    public ResponseEntity<TicketResponse> finishTicket(@PathVariable int id) {
+    public ResponseEntity<TicketResponse> finishTicket(@PathVariable Long id) {
         TicketResponse updated = ticketService.finishTicket(id);
         return ResponseEntity.ok(updated);
     }
@@ -77,8 +77,8 @@ public class TicketController {
     }
     @PutMapping("/{id}/assign")
     public ResponseEntity<TicketResponse> assignTechnician(
-            @PathVariable int id,
-            @RequestParam int technicianId) {
+            @PathVariable Long id,
+            @RequestParam Long technicianId) {
         TicketResponse updated = ticketService.assignTechnician(id, technicianId);
         return ResponseEntity.ok(updated);
     }

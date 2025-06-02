@@ -20,4 +20,6 @@ public class TicketRequest {
     private Long userId;
     private Double latitude;
     private Double longitude;
+    private Long incidentId;
+
 }

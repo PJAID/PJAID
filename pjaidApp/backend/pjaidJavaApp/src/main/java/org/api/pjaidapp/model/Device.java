@@ -25,4 +25,6 @@ public class Device {
     private String purchaseDate;
     @Column(name = "last_service")
     private String lastService;
+    @Column(name = "qr_code")
+    private String qrCode;
 }

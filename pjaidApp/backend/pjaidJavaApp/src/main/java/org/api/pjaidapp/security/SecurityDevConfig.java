@@ -22,11 +22,6 @@ import java.util.List;
 public class SecurityDevConfig {
 
     @Bean
-    public PasswordEncoder passwordEncoder() {
-        return NoOpPasswordEncoder.getInstance();
-    }
-
-    @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         return http
                 .cors(Customizer.withDefaults())
@@ -58,5 +53,10 @@ public class SecurityDevConfig {
         source.registerCorsConfiguration("/**", config);
         return source;
     }
+    @Bean
+    public PasswordEncoder passwordEncoder() {
+        return NoOpPasswordEncoder.getInstance();
+    }
+
 }
 

@@ -45,6 +45,10 @@ public class Ticket {
     private Status status;
 
     @ManyToOne(optional = false)
+    @JoinColumn(name = "incident_id")
+    private Incident incident;
+
+    @ManyToOne(optional = false)
     @JoinColumn(name = "device_id")
     private Device device;
 

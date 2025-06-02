@@ -31,7 +31,21 @@ public class User {
 
     @ElementCollection(fetch = FetchType.EAGER)
     @CollectionTable(name = "user_roles", joinColumns = @JoinColumn(name = "user_id"))
+    @Column(name = "role")
     @Enumerated(EnumType.STRING)
     private Set<Role> roles;
+
+    @Column(name = "active", columnDefinition = "TINYINT(1) DEFAULT 1")
+    private boolean active = true;
+
+    @Column(name = "logged_in", columnDefinition = "TINYINT(1) DEFAULT 0")
+    private boolean loggedIn = false;
+
+    @Column(name = "zmiana", length = 10)
+    private String zmiana;
+
+    @Column(name = "current_load")
+    private int currentLoad = 0;
+
 }
 

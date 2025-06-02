@@ -4,6 +4,7 @@ public enum Status {
     NOWE,
     W_TRAKCIE,
     PRZESTOJ,
-    ZAMKNIETE;
+    ZAMKNIETE,
+    OCZEKUJACE;
 
 }
