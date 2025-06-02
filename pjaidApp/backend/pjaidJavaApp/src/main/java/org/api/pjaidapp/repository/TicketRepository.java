@@ -8,8 +8,10 @@ import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import java.util.Collection;
 import java.util.List;
 
-public interface TicketRepository extends JpaRepository<Ticket, Integer>, JpaSpecificationExecutor<Ticket> {
+public interface TicketRepository extends JpaRepository<Ticket, Long>, JpaSpecificationExecutor<Ticket> {
     List<Ticket> findByStatusIn(Collection<Status> status);
     List<Ticket> findByUserUserName(String username);
     List<Ticket> findByTechnicianUserName(String userName);
+
+    long countByTechnicianAndStatus(org.api.pjaidapp.model.User technician, Status status);
 }

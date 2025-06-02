@@ -2,6 +2,27 @@
 
 <!-- FILTRY -->
 <div class="filter-section">
+  <div class="ticket-counts">
+    <p><strong>Podsumowanie zgłoszeń:</strong></p>
+    <div class="status-summary">
+      <div class="status-card red">
+        <i class="icon">⚠️</i>
+        <div class="count">{{ statusCounts.NOWE || 0 }}</div>
+        <div class="label">Nowe</div>
+      </div>
+      <div class="status-card blue">
+        <i class="icon">🔧</i>
+        <div class="count">{{ statusCounts.W_TRAKCIE || 0 }}</div>
+        <div class="label">W trakcie</div>
+      </div>
+      <div class="status-card green">
+        <i class="icon">✅</i>
+        <div class="count">{{ statusCounts.ZAMKNIETE || 0 }}</div>
+        <div class="label">Zamknięte</div>
+      </div>
+    </div>
+
+  </div>
   <h3>Filtry</h3>
   <div class="filter-controls">
     <label>Status:</label>

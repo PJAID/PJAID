@@ -125,3 +125,43 @@ a:hover {
   font-style: italic;
   margin-top: 20px;
 }
+
+
+.status-summary {
+  display: flex;
+  gap: 1rem;
+  margin-bottom: 2rem;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.status-card {
+  flex: 0 0 150px;
+  padding: 1rem;
+  border-radius: 1.5rem;
+  text-align: center;
+  color: #000;
+  font-weight: bold;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+  background-color: #eee;
+}
+
+.status-card .icon {
+  font-size: 2rem;
+  margin-bottom: 0.5rem;
+  display: block;
+}
+
+.status-card .count {
+  font-size: 1.8rem;
+}
+
+.status-card .label {
+  font-size: 1rem;
+  margin-top: 0.25rem;
+}
+
+/* Kolory */
+.status-card.red { background-color: #f28b82; }
+.status-card.blue { background-color: #5da7db; }
+.status-card.green { background-color: #81c995; }
