@@ -9,10 +9,11 @@ import org.mapstruct.Mapping;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-@Mapper(componentModel = "spring")
+@Mapper(componentModel = "spring",
+        imports = {org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder.class})
 public interface UserMapper {
 
-    @Mapping(target = "password", source = "password")
+    @Mapping(target = "password", expression = "java(new BCryptPasswordEncoder().encode(userDto.getPassword()))")
     @Mapping(target = "roles", expression = "java(mapRoles(userDto.getRoles()))")
     User toEntity(UserDto userDto);
 

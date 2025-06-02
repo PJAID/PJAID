@@ -57,7 +57,6 @@ public class UserService {
         }
 
         User user = userMapper.toEntity(dto);
-        user.setPassword(passwordEncoder.encode(dto.getPassword()));
 
         if (user.getRoles() == null || user.getRoles().isEmpty()) {
             user.setRoles(Set.of(Role.USER));
