@@ -77,7 +77,7 @@ for device in model_df[model_df["Anomalia"]].index:
     avg_delta = int(deltas.mean())
     next_date = device_logs['Data Naprawy'].max() + timedelta(days=avg_delta)
 
-    # Warunki generowania ticketów
+    # kiedy generuje ticket
     if (avg_monthly_failures >= 4 and avg_delta <= 7) or \
             (avg_monthly_failures >= 3 and avg_delta <= 10) or \
             (avg_monthly_failures >= 2 and avg_delta <= 14):
@@ -87,7 +87,7 @@ for device in model_df[model_df["Anomalia"]].index:
         # Podział tylko po średnikach, enterach, bulletach
         description_points = re.split(r"[;\n•●]\s*", raw_text)
 
-        # Łączymy krótkie zdania typu: "To ją przetarłem" z poprzednim
+        # Łączymy krótkie zdania typu: "Była brudna To ją przetarłem XD"
         merged_points = []
         for point in description_points:
             point = point.strip()
@@ -101,11 +101,8 @@ for device in model_df[model_df["Anomalia"]].index:
         # Usunięcie duplikatów, zachowanie kolejności
         merged_points = list(dict.fromkeys(merged_points))
 
-        # Finalny opis
         full_description = "\n- " + "\n- ".join(merged_points)
         full_description += f"\n- Przewidywana kolejna awaria: {next_date.date()}"
-
-        # rozdziela też po przecinkach, myślnikach, bulletach
 
         result_jsons.append({
             "ticket_type": "PJAID",
@@ -115,7 +112,7 @@ for device in model_df[model_df["Anomalia"]].index:
             "next_failure_date": next_date.strftime("%Y-%m-%d")
         })
 
-# Zapis do pliku JSON (albo zwróć do API)
+# JSON/Może wywalić na API od razu
 with open(JSON_OUTPUT_PATH, "w", encoding="utf-8") as f:
     json.dump(result_jsons, f, ensure_ascii=False, indent=2)
 
