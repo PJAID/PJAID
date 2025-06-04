@@ -67,8 +67,8 @@
     <tr *ngFor="let ticket of tickets">
       <td>{{ ticket.title }}</td>
       <td>{{ ticket.status }}</td>
-      <td>{{ ticket.user?.userName || 'Brak' }}</td>
-      <td>{{ ticket.device?.name || 'Brak' }}</td>
+      <td>{{ ticket.user.userName || 'Brak' }}</td>
+      <td>{{ ticket.device.name || 'Brak' }}</td>
       <td>{{ ticket.technicianName || 'Nieprzypisany' }}</td>
       <td>
         <a [routerLink]="['/tickets', ticket.id]">Szczegóły</a>

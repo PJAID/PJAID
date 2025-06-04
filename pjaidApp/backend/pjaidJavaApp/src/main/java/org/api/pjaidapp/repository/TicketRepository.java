@@ -14,4 +14,5 @@ public interface TicketRepository extends JpaRepository<Ticket, Long>, JpaSpecif
     List<Ticket> findByTechnicianUserName(String userName);
 
     long countByTechnicianAndStatus(org.api.pjaidapp.model.User technician, Status status);
+
 }

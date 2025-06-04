@@ -1,21 +1,28 @@
 package org.api.pjaidapp.controller;
 
 import org.api.pjaidapp.dto.DeviceDto;
+import org.api.pjaidapp.model.Device;
+import org.api.pjaidapp.repository.DeviceRepository;
 import org.api.pjaidapp.service.DeviceService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/devices")
 public class DeviceController {
 
-    private final DeviceService deviceService;
 
-    public DeviceController(DeviceService deviceService) {
+    private final DeviceService deviceService;
+    private final DeviceRepository deviceRepository;
+
+    public DeviceController(DeviceService deviceService, DeviceRepository deviceRepository) {
         this.deviceService = deviceService;
+        this.deviceRepository = deviceRepository;
     }
 
     @GetMapping("/{id}")
@@ -47,5 +54,11 @@ public class DeviceController {
     public ResponseEntity<Void> deleteDevice(@PathVariable Long id) {
         deviceService.deleteDevice(id);
         return ResponseEntity.noContent().build();
+    }
+    @GetMapping("/status-summary")
+    public Map<String, Long> getStatusSummary() {
+        List<Device> allDevices = deviceRepository.findAll();
+        return allDevices.stream()
+                .collect(Collectors.groupingBy(d -> d.getStatus().name(), Collectors.counting()));
     }
 }

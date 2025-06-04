@@ -6,8 +6,8 @@
     <p><strong>Opis:</strong> {{ ticket.description }}</p>
     <p><strong>Status:</strong> {{ ticket.status }}</p>
     <p><strong>Technik:</strong> {{ ticket.technicianName || 'Nieprzypisany' }}</p>
-    <p><strong>Urządzenie:</strong> {{ ticket.device?.name || 'Brak' }}</p>
-    <p><strong>Zgłaszający:</strong> {{ ticket.user?.userName || 'Brak' }}</p>
+    <p><strong>Urządzenie:</strong> {{ ticket.device.name || 'Brak' }}</p>
+    <p><strong>Zgłaszający:</strong> {{ ticket.user.userName || 'Brak' }}</p>
   </div>
 
   <app-technician-list
