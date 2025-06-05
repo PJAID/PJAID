@@ -7,7 +7,17 @@ from packaging import version
 import networkx as nx
 import scipy
 import openpyxl
+from pydantic import BaseModel
 
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+name = os.path.abspath(os.path.join(BASE_DIR, "..", "..", "..", "Dane", "drukarki.xlsx"))
+class PrinterInput(BaseModel):
+    id: str
+    IT_number: str
+    model: str
+    serial_number: str
+    place: str
+    printed_pages: int
 class Printer:
     def __init__(self, id, IT_number, model, serial_number, place, printed_pages, status="OK"):
         self.id = id
@@ -35,6 +45,17 @@ class Printer:
                 f" miejsce : {self.place},"
                 f" wydruki: {self.printed_pages},"
                 f" status: {self.status}")
+    def to_dict(self):
+        return {
+            "id": self.id,
+            "IT_number": self.IT_number,
+            "model": self.model,
+            "serial_number": self.serial_number,
+            "place": self.place,
+            "printed_pages": self.printed_pages,
+            "status": self.status
+        }
+
 
 
 def readFromExel(name):
@@ -47,10 +68,25 @@ def readFromExel(name):
             model=str(row['Model']).strip(),
             serial_number=str(row['Numer seryjny']).strip(),
             place=str(row['Lokalizacja']).strip(),
-            printed_pages=int(row['Total'])
+            printed_pages=int(row['Total']),
+            status=str(row['Status']).strip() if 'Status' in row and not pd.isna(row['Status']) else "OK"
         )
         printers_list.append(printer)
     return printers_list
+def saveToExcel(name,printer_list):
+    data = []
+    for printer in printer_list:
+        data.append({
+            "Numer": printer.id,
+            "Numer IT": printer.IT_number,
+            "Model": printer.model,
+            "Numer seryjny": printer.serial_number,
+            "Lokalizacja": printer.place,
+            "Total": printer.printed_pages,
+            "Status": printer.status
+        })
+    df = pd.DataFrame(data)
+    df.to_excel(name, index=False)
 
 
 def search_printer(data, printer_list):
@@ -58,16 +94,12 @@ def search_printer(data, printer_list):
     response = []
     for printer in printer_list:
         if (printer.id == data or printer.IT_number == data or printer.model == data or printer.serial_number == data):
-            response.append(printer)
+            return printer
 
     if response:
-        print("Znalezione drukarki:")
-        for printer in response:
-            print(printer)
+        return response  # zwróć listę drukarek (może mieć 1 lub więcej)
     else:
-        print("Nie znaleziono żadnej drukarki dla:", data)
-
-
+        return []
 def add_pages(data, printer_list):
     pages, id = data.split(",")
     pages = int(pages)
@@ -81,17 +113,18 @@ def add_pages(data, printer_list):
 
 def break_printer(id, printer_list):
     for printer in printer_list:
-        if (printer.id == id):
+        if printer.id == id:
             printer.break_printer()
-
+            saveToExcel(name,printer_list)
 
 def fix_printer(id, printer_list):
     for printer in printer_list:
         if (printer.id == id):
             printer.fix_printer()
-
+            saveToExcel(name,printer_list)
 
 def heuristic_calculation(printer_list):
+    priority_value_list=[]
     print_count = ctrl.Antecedent(np.arange(0, 30000000, 100000), "print_count")
     broken_printers = ctrl.Antecedent(np.arange(0, 50, 1), "broken_printers")
     priority = ctrl.Consequent(np.arange(0, 13, 1), "priority")
@@ -142,37 +175,71 @@ def heuristic_calculation(printer_list):
             print(f"Output keys: {priority_fuzzy.output.keys()}")  # Dodanie kontroli dostępnych kluczy
 
             # Sprawdzanie wyniku obliczeń
-            if 'priority' in priority_fuzzy.output:
-                priority_value = priority_fuzzy.output['priority']
-                print(f"Printer: {printer.id}, Printed Pages: {printer.printed_pages}, "
-                      f"Broken Printers in Place: {sum(1 for p in printer_list if p.place == printer.place and p.status == 'BROKEN')}, "
-                      f"Priority: {priority_value}")
-            else:
-                print(f"Printer: {printer.id} - No priority value computed.")
+            for printer in printer_list:
+                if printer.status == "BROKEN":
+                    priority_fuzzy = ctrl.ControlSystemSimulation(priority_ctrl)
+
+                    priority_fuzzy.input['print_count'] = printer.printed_pages
+                    priority_fuzzy.input['broken_printers'] = sum(
+                        1 for p in printer_list if p.place == printer.place and p.status == "BROKEN"
+                    )
+
+                    try:
+                        priority_fuzzy.compute()
+                        if 'priority' in priority_fuzzy.output:
+                            priority_value = priority_fuzzy.output['priority']
+                            priority_value_list.append({
+                                "id": printer.id,
+                                "priority": priority_value
+                            })
+                    except Exception as e:
+                        print(f"Błąd przy obliczaniu dla drukarki {printer.id}: {e}")
+
+            return priority_value_list
+def getAllPrinters():
+    return readFromExel(name)
+import os
+
+def addPrinterObj(data: PrinterInput):
+    try:
+        printer = Printer(
+            id=data.id.strip(),
+            IT_number=data.IT_number.strip(),
+            model=data.model.strip(),
+            serial_number=data.serial_number.strip(),
+            place=data.place.strip(),
+            printed_pages=data.printed_pages,
+            status="OK"
+        )
+        print(f"Próba wczytania pliku: {name}, istnieje? {os.path.exists(name)}")
+
+        df = pd.read_excel(name)
+        new_row = {
+            'Numer': printer.id,
+            'Numer IT': printer.IT_number,
+            'Model': printer.model,
+            'Numer seryjny': printer.serial_number,
+            'Lokalizacja': printer.place,
+            'Total': printer.printed_pages,
+            'Status': printer.status
+        }
+        new_row_df = pd.DataFrame([new_row])
+        df = pd.concat([df, new_row_df], ignore_index=True)
+        df.to_excel(name, index=False)
+        print("Dodano nowy wiersz i zapisano plik.")
+        return [f"✅ Dodano drukarkę: {printer.id}", printer.id]
+    except Exception as e:
+        print(f"Błąd podczas dodawania drukarki: {e}")
+        return f"❌ Wystąpił błąd: {str(e)}"
+
 
 def main():
-    BASE_DIR = os.path.dirname(os.path.abspath(__file__))
-    name = os.path.join(BASE_DIR, "..", "..", "..", "Dane", "drukarki.xlsx")
     printer_list = readFromExel(name)
     response = input("podaj czynność: ")
     while True:
         if response == "add":
             data = input("podaj dane drukarki {id,IT_number,model,serial_number,place,printed_pages}")
-            try:
-                id, IT_number, model, serial_number, place, printed_pages = data.split(",")
-                printer = Printer(
-                    id=id.strip(),
-                    IT_number=IT_number.strip(),
-                    model=model.strip(),
-                    serial_number=serial_number.strip(),
-                    place=place.strip(),
-                    printed_pages=int(printed_pages.strip()),
-                    status="OK"
-                )
-                printer_list.append(printer)
-                print("✅ Dodano drukarkę:", printer)
-            except ValueError:
-                print("❌ Błąd: podano złą liczbę parametrów. Spróbuj ponownie.")
+            addPrinter(data, printer_list)
         if response == "info":
             data = input("podaj nr: ")
             search_printer(data, printer_list)
@@ -180,19 +247,20 @@ def main():
             print("Bye!")
             exit(0)
         if response == "all":
-            for printer in printer_list:
-                print(printer)
+            print(getAllPrinters(printer_list))
         if response == "page":
             data = input("ile stron, id")
             add_pages(data, printer_list)
         if response == "break":
             data = input("id")
             break_printer(data, printer_list)
+            saveToExcel(data, printer_list)
         if response == "fix":
             data = input("id")
             fix_printer(data, printer_list)
+            saveToExcel(data, printer_list)
         if response == "calculate":
             heuristic_calculation(printer_list)
         response = input("podaj czynność: ")
 
-main()
+
