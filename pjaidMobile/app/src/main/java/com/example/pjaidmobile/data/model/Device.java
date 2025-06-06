@@ -26,4 +26,24 @@ public class Device {
     public String getLastService() {
         return lastService;
     }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void setSerialNumber(String serialNumber) {
+        this.serialNumber = serialNumber;
+    }
+
+    public void setPurchaseDate(String purchaseDate) {
+        this.purchaseDate = purchaseDate;
+    }
+
+    public void setLastService(String lastService) {
+        this.lastService = lastService;
+    }
 }
