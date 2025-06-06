@@ -1,9 +1,9 @@
-import { Component, inject, OnInit } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { RouterModule } from '@angular/router';
-import { TicketService } from '../services/ticket.service';
-import { TicketResponse } from '../../shared/models/ticket-response.model';
-import { FormsModule } from '@angular/forms';
+import {Component, inject, OnInit} from '@angular/core';
+import {CommonModule} from '@angular/common';
+import {RouterModule} from '@angular/router';
+import {TicketService} from '../services/ticket.service';
+import {TicketResponse} from '../../shared/models/ticket-response.model';
+import {FormsModule} from '@angular/forms';
 
 @Component({
   selector: 'app-ticket-list',
@@ -17,6 +17,8 @@ export class TicketListComponent implements OnInit {
   private readonly ticketService = inject(TicketService);
   tickets: TicketResponse[] = [];
   isLoading = false;
+  sortColumn: string = '';
+  sortDirection: 'asc' | 'desc' = 'asc';
 
   statusCounts = {
     NOWE: 0,
@@ -73,6 +75,7 @@ export class TicketListComponent implements OnInit {
 
   applyFilters(): void {
     this.loadTickets();
+    this.sortTickets();
   }
 
   clearFilters(): void {
@@ -82,6 +85,49 @@ export class TicketListComponent implements OnInit {
     this.filterTitle = '';
     this.loadTickets();
   }
+
+  sortBy(column: string): void {
+    if (this.sortColumn === column) {
+      // Odwróć kierunek sortowania
+      this.sortDirection = this.sortDirection === 'asc' ? 'desc' : 'asc';
+    } else {
+      this.sortColumn = column;
+      this.sortDirection = 'asc';
+    }
+
+    this.sortTickets();
+  }
+
+  sortTickets(): void {
+    this.tickets.sort((a, b) => {
+      const aValue = this.getSortValue(a, this.sortColumn);
+      const bValue = this.getSortValue(b, this.sortColumn);
+
+      if (aValue < bValue) return this.sortDirection === 'asc' ? -1 : 1;
+      if (aValue > bValue) return this.sortDirection === 'asc' ? 1 : -1;
+      return 0;
+    });
+  }
+
+  getSortValue(ticket: TicketResponse, column: string): any {
+    switch (column) {
+      case 'title':
+        return ticket.title.toLowerCase();
+      case 'status':
+        return ticket.status;
+      case 'userName':
+        return ticket.user?.userName?.toLowerCase() ?? '';
+      case 'deviceName':
+        return ticket.device?.name?.toLowerCase() ?? '';
+      case 'technicianName':
+        return ticket.technicianName?.toLowerCase() ?? '';
+      case 'createdAt':
+        return new Date(ticket.createdAt).getTime();
+      default:
+        return '';
+    }
+  }
+
 
   startTicket(ticketId: number): void {
     this.ticketService.startTicket(ticketId).subscribe({

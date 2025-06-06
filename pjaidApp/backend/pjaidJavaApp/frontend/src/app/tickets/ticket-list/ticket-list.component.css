@@ -165,3 +165,21 @@ a:hover {
 .status-card.red { background-color: #f28b82; }
 .status-card.blue { background-color: #5da7db; }
 .status-card.green { background-color: #81c995; }
+
+
+button.sortable {
+  all: unset;               /* Resetuje wszystkie domyślne style */
+  cursor: pointer;          /* Pokazuje rękę nad przyciskiem */
+  display: inline-flex;     /* Umożliwia ustawienie ikonki obok tekstu */
+  align-items: center;
+  gap: 4px;                 /* Odstęp między tekstem a ikoną */
+}
+
+button.sortable:focus {
+  outline: 2px solid #007bff; /* Widoczna ramka po focuse */
+  outline-offset: 2px;
+}
+
+.sort-icon {
+  font-size: 0.9em;
+}

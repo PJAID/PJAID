@@ -11,4 +11,6 @@ export interface TicketResponse {
 
   technicianId?: number;
   technicianName?: string;
+
+  createdAt: string;
 }

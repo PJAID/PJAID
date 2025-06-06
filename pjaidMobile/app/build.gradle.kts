@@ -65,6 +65,8 @@ dependencies {
     implementation (libs.hilt.android) // Użyj najnowszej wersji
     annotationProcessor (libs.dagger.hilt.compiler) // Jeśli nie używasz Kapt
     testImplementation(libs.junit)
+    testImplementation(libs.mockito.core)
+    testImplementation(libs.mockito.inline)
     androidTestImplementation(libs.ext.junit)
     androidTestImplementation(libs.espresso.core)
 }
