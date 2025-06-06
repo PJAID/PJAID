@@ -1,11 +1,11 @@
 package org.api.pjaidapp.model;
 
-
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.api.pjaidapp.enums.Status;
 
 @Getter
 @Setter
@@ -27,4 +27,7 @@ public class Device {
     private String lastService;
     @Column(name = "qr_code")
     private String qrCode;
+
+    @Enumerated(EnumType.STRING)
+    private Status status;
 }

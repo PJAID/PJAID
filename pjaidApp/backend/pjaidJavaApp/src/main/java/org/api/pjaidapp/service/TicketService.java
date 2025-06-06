@@ -18,13 +18,12 @@ import org.api.pjaidapp.repository.IncidentRepository;
 import org.api.pjaidapp.repository.TicketRepository;
 import org.api.pjaidapp.repository.UserRepository;
 import org.api.pjaidapp.repository.specification.TicketSpecifications;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
-import java.util.Arrays;
-import java.util.Comparator;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
+import java.util.stream.Collectors;
 
 @Service
 public class TicketService {
@@ -75,27 +74,34 @@ public class TicketService {
         if (request.getDeviceId() == null) {
             throw new IllegalArgumentException("deviceId is required");
         }
-        if (request.getIncidentId() == null) {
-            throw new IllegalArgumentException("incidentId is required");
-        }
 
         Ticket ticket = ticketMapper.toEntity(request);
+
+        // Pobranie powiązanych encji
         Device device = deviceRepository.findById(request.getDeviceId())
                 .orElseThrow(() -> new DeviceNotFoundException(request.getDeviceId()));
-        Incident incident = incidentRepository.findById(request.getIncidentId())
-                .orElseThrow(() -> new IncidentNotFoundException(request.getIncidentId()));
+
         User user = userRepository.findById(request.getUserId())
                 .orElseThrow(() -> new UserNotFoundException(request.getUserId()));
 
+        // Obsługa incidentId – domyślnie ID = 1
+        Incident incident;
+        if (request.getIncidentId() == null) {
+            incident = incidentRepository.findById(1L)
+                    .orElseThrow(() -> new IllegalArgumentException("Default incident (ID=1) not found"));
+        } else {
+            incident = incidentRepository.findById(request.getIncidentId())
+                    .orElseThrow(() -> new IncidentNotFoundException(request.getIncidentId()));
+        }
 
         ticket.setDevice(device);
         ticket.setUser(user);
         ticket.setIncident(incident);
 
+        // Automatyczne przypisanie technika
         String zmiana = user.getZmiana();
         List<User> technicians = userRepository.findAvailableTechniciansOnShift(Role.TECHNICIAN, zmiana);
 
-        // Wybierz technika z najmniejszym obciążeniem
         Optional<User> selectedTechnician = technicians.stream()
                 .filter(User::isLoggedIn)
                 .min(Comparator.comparingInt(User::getCurrentLoad));
@@ -108,16 +114,13 @@ public class TicketService {
             System.out.println("Przypisano technika: " + technician.getUserName() + " (load: " + technician.getCurrentLoad() + ")");
             ticket.setTechnician(technician);
 
-            // Zwiększa obciążenie technika
             technician.setCurrentLoad(technician.getCurrentLoad() + 1);
             userRepository.save(technician);
 
             ticket.setStatus(Status.NOWE);
         }
 
-
         Ticket saved = ticketRepository.save(ticket);
-
         return ticketMapper.toResponse(saved);
     }
 
@@ -192,5 +195,9 @@ public class TicketService {
         return ticketRepository.findByTechnicianUserName(username).stream()
                 .map(ticketMapper::toResponse)
                 .toList();
+    }
+    public Map<String, Long> getTicketStatusSummary() {
+        return ticketRepository.findAll().stream()
+                .collect(Collectors.groupingBy(t -> t.getStatus().name(), Collectors.counting()));
     }
 }

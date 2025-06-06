@@ -9,6 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/ticket")
@@ -90,6 +91,10 @@ public class TicketController {
     @GetMapping("/assigned")
     public ResponseEntity<List<TicketResponse>> getAssignedTickets(@RequestParam String user) {
         return ResponseEntity.ok(ticketService.getTicketsAssignedTo(user));
+    }
+    @GetMapping("/status-summary")
+    public Map<String, Long> getTicketStatusSummary() {
+        return ticketService.getTicketStatusSummary();
     }
 }
 

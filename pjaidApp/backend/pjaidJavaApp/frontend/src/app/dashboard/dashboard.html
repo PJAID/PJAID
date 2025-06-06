@@ -1,0 +1,17 @@
+<h2>Dashboard awarii</h2>
+
+<h3>Statusy zgłoszeń</h3>
+<canvas baseChart
+        [data]="ticketChart"
+        [type]="'bar'"
+        (chartClick)="onChartClick($event.event, $event.active)">
+</canvas>
+
+<div *ngIf="tickets.length > 0">
+  <h3>Zgłoszenia ze statusem: {{ selectedStatus }}</h3>
+  <ul>
+    <li *ngFor="let ticket of tickets">
+      <strong>{{ ticket.title }}</strong> — {{ ticket.status }} — {{ ticket.createdAt | date:'short' }}
+    </li>
+  </ul>
+</div>

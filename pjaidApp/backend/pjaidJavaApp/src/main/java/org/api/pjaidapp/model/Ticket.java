@@ -44,7 +44,7 @@ public class Ticket {
     @Enumerated(EnumType.STRING)
     private Status status;
 
-    @ManyToOne(optional = false)
+    @ManyToOne
     @JoinColumn(name = "incident_id")
     private Incident incident;
 
