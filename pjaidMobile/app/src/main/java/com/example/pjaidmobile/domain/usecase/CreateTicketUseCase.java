@@ -18,6 +18,10 @@ public class CreateTicketUseCase {
     }
 
     public void execute(TicketRequest request, Callback<TicketResponse> callback) {
+        if (callback == null) {
+            throw new NullPointerException("Callback must not be null");
+        }
+
         ticketRepository.createTicket(request).enqueue(callback);
     }
 }
