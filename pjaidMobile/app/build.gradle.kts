@@ -49,12 +49,12 @@ dependencies {
     implementation(libs.rxandroid) // Użyj najnowszej wersji
     implementation(libs.rxjava)
 // Retrofit RxJava Adapter
-    implementation (libs.retrofit2.adapter.rxjava3) // Użyj wersji pasującej do Retrofit
+    implementation(libs.retrofit2.adapter.rxjava3) // Użyj wersji pasującej do Retrofit
 // Lifecycle (ViewModel, LiveData)
-    implementation (libs.lifecycle.viewmodel) // Użyj najnowszej wersji
-    implementation (libs.androidx.lifecycle.livedata)
+    implementation(libs.lifecycle.viewmodel) // Użyj najnowszej wersji
+    implementation(libs.androidx.lifecycle.livedata)
 // Do integracji Java 8 z Lifecycle (opcjonalnie, ale pomocne)
-    implementation (libs.lifecycle.common.java8)
+    implementation(libs.lifecycle.common.java8)
     // Google Maps
     implementation(libs.play.services.maps)
 
@@ -62,11 +62,17 @@ dependencies {
     implementation(libs.play.services.location)
 
 // Hilt
-    implementation (libs.hilt.android) // Użyj najnowszej wersji
-    annotationProcessor (libs.dagger.hilt.compiler) // Jeśli nie używasz Kapt
+    implementation(libs.hilt.android)
+    implementation(libs.androidx.uiautomator)
+    annotationProcessor(libs.dagger.hilt.compiler) // Jeśli nie używasz Kapt
+    testImplementation(libs.espresso.core)
+    testImplementation(libs.ext.junit) // Użyj najnowszej wersji
     testImplementation(libs.junit)
     testImplementation(libs.mockito.core)
     testImplementation(libs.mockito.inline)
+// Run espresso tests
+    androidTestImplementation(libs.androidx.runner)
     androidTestImplementation(libs.ext.junit)
     androidTestImplementation(libs.espresso.core)
+    androidTestImplementation(libs.espresso.intents)
 }

@@ -87,9 +87,22 @@ public class CreateTicketActivity extends AppCompatActivity {
         Button sendButton = findViewById(R.id.buttonSubmitTicket);
 
         sendButton.setOnClickListener(v -> {
+            String titleText = title.getText().toString().trim();
+            String descriptionText = description.getText().toString().trim();
+
+            if (titleText.isEmpty()) {
+                title.setError("Tytuł nie może być pusty");
+                return;
+            }
+
+            if (descriptionText.isEmpty()) {
+                description.setError("Opis nie może być pusty");
+                return;
+            }
+
             TicketRequest request = new TicketRequest(
-                    title.getText().toString(),
-                    description.getText().toString(),
+                    titleText,
+                    descriptionText,
                     "NOWE",
                     125, // TODO: dynamiczne userId
                     2,   // TODO: dynamiczne deviceId
@@ -182,7 +195,13 @@ public class CreateTicketActivity extends AppCompatActivity {
     }
 
     private class TicketCallback implements Callback<TicketResponse> {
-        private final TicketCallbackHandler handler = new TicketCallbackHandler(CreateTicketActivity.this);
+        private final TicketCallbackHandler handler = new TicketCallbackHandler(CreateTicketActivity.this) {
+            @Override
+            public void onSuccess(TicketResponse response) {
+                super.onSuccess(response);
+                finish();
+            }
+        };
 
         @Override
         public void onResponse(Call<TicketResponse> call, Response<TicketResponse> response) {
