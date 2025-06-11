@@ -25,22 +25,22 @@
   </div>
   <h3>Filtry</h3>
   <div class="filter-controls">
-    <label>Status:</label>
-    <select [(ngModel)]="filterStatus">
+    <label for="filterStatus">Status:</label>
+    <select id="filterStatus" [(ngModel)]="filterStatus">
       <option value="">Wszystkie</option>
       <option value="NOWE">Nowe</option>
       <option value="W_TRAKCIE">W trakcie</option>
       <option value="ZAMKNIETE">Zamknięty</option>
     </select>
 
-    <label>Nazwa użytkownika:</label>
-    <input [(ngModel)]="filterUserName" placeholder="Część nazwy użytkownika" />
+    <label for="userName">Nazwa użytkownika:</label>
+    <input id="userName" [(ngModel)]="filterUserName" placeholder="Część nazwy użytkownika"/>
 
-    <label>Nazwa urządzenia:</label>
-    <input [(ngModel)]="filterDeviceName" placeholder="Część nazwy urządzenia" />
+    <label for="deviceName">Nazwa urządzenia:</label>
+    <input id="deviceName" [(ngModel)]="filterDeviceName" placeholder="Część nazwy urządzenia"/>
 
-    <label>Tytuł zawiera:</label>
-    <input [(ngModel)]="filterTitle" placeholder="Część tytułu" />
+    <label for="titleContains">Tytuł zawiera:</label>
+    <input id="titleContains" [(ngModel)]="filterTitle" placeholder="Część tytułu"/>
 
     <button (click)="applyFilters()">Filtruj</button>
     <button (click)="clearFilters()">Wyczyść</button>
@@ -55,14 +55,76 @@
   <table>
     <thead>
     <tr>
-      <th>Tytuł</th>
-      <th>Status</th>
-      <th>Użytkownik</th>
-      <th>Urządzenie</th>
-      <th>Technik</th>
+      <th>
+        <button (click)="sortBy('title')" class="sortable">
+          Tytuł
+          <span class="sort-icon">
+          <ng-container *ngIf="sortColumn !== 'title'">↕️</ng-container>
+          <ng-container *ngIf="sortColumn === 'title'">
+            {{ sortDirection === 'asc' ? '🔼' : '🔽' }}
+          </ng-container>
+        </span>
+        </button>
+      </th>
+      <th>
+        <button (click)="sortBy('status')" class="sortable">
+          Status
+          <span class="sort-icon">
+          <ng-container *ngIf="sortColumn !== 'status'">↕️</ng-container>
+          <ng-container *ngIf="sortColumn === 'status'">
+            {{ sortDirection === 'asc' ? '🔼' : '🔽' }}
+          </ng-container>
+        </span>
+        </button>
+      </th>
+      <th>
+        <button (click)="sortBy('userName')" class="sortable">
+          Użytkownik
+          <span class="sort-icon">
+          <ng-container *ngIf="sortColumn !== 'userName'">↕️</ng-container>
+          <ng-container *ngIf="sortColumn === 'userName'">
+            {{ sortDirection === 'asc' ? '🔼' : '🔽' }}
+          </ng-container>
+        </span>
+        </button>
+      </th>
+      <th>
+        <button (click)="sortBy('deviceName')" class="sortable">
+          Urządzenie
+          <span class="sort-icon">
+          <ng-container *ngIf="sortColumn !== 'deviceName'">↕️</ng-container>
+          <ng-container *ngIf="sortColumn === 'deviceName'">
+            {{ sortDirection === 'asc' ? '🔼' : '🔽' }}
+          </ng-container>
+        </span>
+        </button>
+      </th>
+      <th>
+        <button (click)="sortBy('technicianName')" class="sortable">
+          Technik
+          <span class="sort-icon">
+          <ng-container *ngIf="sortColumn !== 'technicianName'">↕️</ng-container>
+          <ng-container *ngIf="sortColumn === 'technicianName'">
+            {{ sortDirection === 'asc' ? '🔼' : '🔽' }}
+          </ng-container>
+        </span>
+        </button>
+      </th>
+      <th>
+        <button (click)="sortBy('createdAt')" class="sortable">
+          Data utworzenia
+          <span class="sort-icon">
+          <ng-container *ngIf="sortColumn !== 'createdAt'">↕️</ng-container>
+          <ng-container *ngIf="sortColumn === 'createdAt'">
+            {{ sortDirection === 'asc' ? '🔼' : '🔽' }}
+          </ng-container>
+        </span>
+        </button>
+      </th>
       <th>Akcje</th>
     </tr>
     </thead>
+
     <tbody>
     <tr *ngFor="let ticket of tickets">
       <td>{{ ticket.title }}</td>
@@ -70,6 +132,7 @@
       <td>{{ ticket.user.userName || 'Brak' }}</td>
       <td>{{ ticket.device.name || 'Brak' }}</td>
       <td>{{ ticket.technicianName || 'Nieprzypisany' }}</td>
+      <td>{{ ticket.createdAt | date: 'yyyy-MM-dd HH:mm' }}</td>
       <td>
         <a [routerLink]="['/tickets', ticket.id]">Szczegóły</a>
       </td>
