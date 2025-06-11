@@ -65,6 +65,10 @@ export const routes: Routes = [
       {
         path: 'dashboard',
         loadComponent: () => import('./dashboard/dashboard').then(m => m.DashboardComponent)
+      },
+      {
+        path: 'lokalizacje',
+        loadComponent: () => import('./location/location-view/location-view.component').then(m => m.LocationViewComponent)
       }
     ]
   },

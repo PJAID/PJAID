@@ -61,9 +61,9 @@ export class DashboardComponent implements OnInit {
 
   onChartClick(event: any, active: {}[] | undefined): void {
     if (active && active.length > 0) {
-      const chartElement = active[0] as ActiveElement;  // 👈 rzutowanie
+      const chartElement = active[0] as ActiveElement;
       const index = chartElement.index;
-      const status = this.ticketChart.labels?.[index] as string;  // 👈 wymuś string
+      const status = this.ticketChart.labels?.[index] as string;
 
       this.selectedStatus = status;
       this.fetchTicketsByStatus(status);
@@ -76,4 +76,7 @@ export class DashboardComponent implements OnInit {
         this.tickets = data;
       });
   }
+}
+
+export class Dashboard {
 }

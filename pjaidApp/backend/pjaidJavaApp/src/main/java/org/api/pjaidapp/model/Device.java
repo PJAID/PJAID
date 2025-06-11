@@ -30,4 +30,10 @@ public class Device {
 
     @Enumerated(EnumType.STRING)
     private Status status;
+
+    @Column(name = "latitude")
+    private Double latitude;
+
+    @Column(name = "longitude")
+    private Double longitude;
 }
