@@ -26,4 +26,14 @@
     <string name="logo_description">PJAID Logo</string>
     <string name="toggle_password_visibility">Toggle password visibility</string>
     <string name="wrong_login_or_password">Błędny login lub hasło</string>
+    <string-array name="tytuly_array">
+        <item>Awaria</item>
+        <item>Przestój</item>
+    </string-array>
+    <string-array name="status_options">
+        <item>NOWE</item>
+        <item>W TRAKCIE</item>
+        <item>ZAMKNIĘTE</item>
+        <item>ZAKOŃCZONE</item>
+    </string-array>
 </resources>

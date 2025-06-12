@@ -6,14 +6,20 @@ public class ReportItem {
     private String id;
     private String description;
     private String date;
-
     private String title;
+    private String technicianName;
+    private String status;
     public String getTitle() { return title; }
+    public String getTechnicianName() { return technicianName; }
+    public String getStatus() { return status; }
 
-    public ReportItem(String id, String description, String date) {
+    public ReportItem(String id, String description, String date, String title, String technicianName, String status) {
         this.id = id;
+        this.title = title;
         this.description = description;
         this.date = date;
+        this.technicianName = technicianName;
+        this.status = status;
     }
 
     public String getId() {

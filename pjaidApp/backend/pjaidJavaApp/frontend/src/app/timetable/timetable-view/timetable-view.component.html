@@ -1,1 +1,32 @@
-<p>timetable-view works!</p>
+<div class="timetable-container">
+  <!-- Header -->
+  <div class="timetable-header">
+    Obecność Techników IT {{ selectedDate }}
+  </div>
+
+  <!-- Podsumowanie -->
+  <div class="timetable-summary">
+    <div>Łącznie: <span>{{ totalCount }}</span></div>
+    <div>Obecni: <span>{{ presentCount }}</span></div>
+    <div>Nieobecni: <span>{{ totalCount - presentCount }}</span></div>
+  </div>
+
+  <!-- Grid z technikami -->
+  <div class="technician-grid">
+    <div
+      *ngFor="let tech of technicians"
+      (click)="togglePresence(tech)"
+      [ngClass]="{
+        'technician-card': true,
+        'present': tech.isPresent,
+        'absent': !tech.isPresent
+      }"
+    >
+      <div class="technician-name">{{ tech.name }}</div>
+      <div class="technician-surname">{{ tech.surname }}</div>
+      <div class="technician-status">
+        {{ tech.isPresent ? 'Obecny' : 'Nieobecny' }}
+      </div>
+    </div>
+  </div>
+</div>

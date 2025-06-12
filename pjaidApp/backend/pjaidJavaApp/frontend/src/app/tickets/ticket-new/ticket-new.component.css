@@ -7,7 +7,7 @@ h2 {
 form {
   max-width: 600px;
   margin: 0 auto;
-  background: rgba(255, 255, 255, 0.9);
+  background: rgba(255, 255, 255, 0.08);
   padding: 30px;
   border-radius: 16px;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
@@ -24,7 +24,7 @@ form div {
 label {
   margin-bottom: 6px;
   font-weight: 600;
-  color: #0d47a1;
+  color: white;
 }
 
 input,

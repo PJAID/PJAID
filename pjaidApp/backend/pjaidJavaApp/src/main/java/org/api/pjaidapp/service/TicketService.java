@@ -5,23 +5,18 @@ import org.api.pjaidapp.dto.TicketResponse;
 import org.api.pjaidapp.enums.Role;
 import org.api.pjaidapp.enums.Status;
 import org.api.pjaidapp.exception.DeviceNotFoundException;
-import org.api.pjaidapp.exception.IncidentNotFoundException;
 import org.api.pjaidapp.exception.TicketNotFoundException;
 import org.api.pjaidapp.exception.UserNotFoundException;
 import org.api.pjaidapp.mapper.TicketMapper;
 import org.api.pjaidapp.model.Device;
-import org.api.pjaidapp.model.Incident;
 import org.api.pjaidapp.model.Ticket;
 import org.api.pjaidapp.model.User;
 import org.api.pjaidapp.repository.DeviceRepository;
-import org.api.pjaidapp.repository.IncidentRepository;
 import org.api.pjaidapp.repository.TicketRepository;
 import org.api.pjaidapp.repository.UserRepository;
 import org.api.pjaidapp.repository.specification.TicketSpecifications;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
-
-import java.time.LocalDate;
 import java.util.Arrays;
 import java.util.Comparator;
 import java.util.List;
@@ -35,17 +30,14 @@ public class TicketService {
     private final DeviceRepository deviceRepository;
     private final TicketMapper ticketMapper;
 
-    private final IncidentRepository incidentRepository;
-
     private final ShiftCalendarService shiftCalendarService;
 
 
-    public TicketService(TicketRepository ticketRepository, UserRepository userRepository, DeviceRepository deviceRepository, TicketMapper ticketMapper, IncidentRepository incidentRepository, ShiftCalendarService shiftCalendarService) {
+    public TicketService(TicketRepository ticketRepository, UserRepository userRepository, DeviceRepository deviceRepository, TicketMapper ticketMapper, ShiftCalendarService shiftCalendarService) {
         this.ticketRepository = ticketRepository;
         this.userRepository = userRepository;
         this.deviceRepository = deviceRepository;
         this.ticketMapper = ticketMapper;
-        this.incidentRepository = incidentRepository;
         this.shiftCalendarService = shiftCalendarService;
     }
 
@@ -70,32 +62,30 @@ public class TicketService {
     }
 
     public TicketResponse createTicket(TicketRequest request) {
+
         if (request.getUserId() == null) {
             throw new IllegalArgumentException("userId is required");
         }
         if (request.getDeviceId() == null) {
             throw new IllegalArgumentException("deviceId is required");
         }
-        if (request.getIncidentId() == null) {
-            throw new IllegalArgumentException("incidentId is required");
-        }
 
         Ticket ticket = ticketMapper.toEntity(request);
         Device device = deviceRepository.findById(request.getDeviceId())
                 .orElseThrow(() -> new DeviceNotFoundException(request.getDeviceId()));
-        Incident incident = incidentRepository.findById(request.getIncidentId())
-                .orElseThrow(() -> new IncidentNotFoundException(request.getIncidentId()));
         User user = userRepository.findById(request.getUserId())
                 .orElseThrow(() -> new UserNotFoundException(request.getUserId()));
 
-        if (user.getRoles().contains(Role.TECHNICIAN)) {
-            throw new IllegalArgumentException("Technik nie może tworzyć ticketów");
-        }
+        //if (user.getRoles().contains(Role.TECHNICIAN) && !user.getRoles().contains(Role.ADMIN)) {
+            //throw new IllegalArgumentException("Technik nie może tworzyć ticketów");
+        //}
 
 
         ticket.setDevice(device);
         ticket.setUser(user);
-        ticket.setIncident(incident);
+        ticket.setPriority(request.getPriority());
+        ticket.setLatitude(request.getLatitude());
+        ticket.setLongitude(request.getLongitude());
 
         String zmiana = user.getZmiana();
         List<User> technicians = userRepository.findAvailableTechniciansOnShift(Role.TECHNICIAN, zmiana);
@@ -140,6 +130,9 @@ public class TicketService {
         ticket.setTitle(request.getTitle());
         ticket.setDescription(request.getDescription());
         ticket.setStatus(request.getStatus());
+        ticket.setPriority(request.getPriority());
+        ticket.setLatitude(request.getLatitude());
+        ticket.setLongitude(request.getLongitude());
 
         ticketRepository.save(ticket);
         return ticketMapper.toResponse(ticket);

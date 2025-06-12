@@ -5,7 +5,10 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.api.pjaidapp.enums.Priority;
 import org.api.pjaidapp.enums.Status;
+
+import java.math.BigDecimal;
 
 @Getter
 @Setter
@@ -16,10 +19,9 @@ public class TicketRequest {
     private String title;
     private String description;
     private Status status;
+    private Priority priority = Priority.MEDIUM;
     private Long deviceId;
     private Long userId;
-    private Double latitude;
-    private Double longitude;
-    private Long incidentId;
-
+    private BigDecimal latitude;
+    private BigDecimal longitude;
 }

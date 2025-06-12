@@ -24,6 +24,7 @@ import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapView;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.android.material.button.MaterialButtonToggleGroup;
 
 import javax.inject.Inject;
 
@@ -69,8 +70,9 @@ public class CreateTicketActivity extends AppCompatActivity {
         EditText description = findViewById(R.id.editTextDescription);
         Button sendButton = findViewById(R.id.buttonSubmitTicket);
         mapView = findViewById(R.id.mapView);
+        MaterialButtonToggleGroup toggleType = findViewById(R.id.toggleType);
 
-        setupSendButton(title, description, sendButton);
+        setupSendButton(title, description, toggleType, sendButton);
     }
 
     private void setupMap(Bundle savedInstanceState) {
@@ -82,21 +84,32 @@ public class CreateTicketActivity extends AppCompatActivity {
         });
     }
 
-    private void setupSendButton(EditText title, EditText description, Button sendButton) {
+    private void setupSendButton(EditText title, EditText description,MaterialButtonToggleGroup toggleType, Button sendButton) {
         sendButton.setOnClickListener(v -> {
+            int selectedId = toggleType.getCheckedButtonId();
+            String status;
+            if (selectedId == R.id.btnPrzestoj) {
+                status = "wysoki";
+            } else {
+                status = "normalny";
+            }
+
             TicketRequest request = createTicketRequest(
                     title.getText().toString(),
-                    description.getText().toString()
+                    description.getText().toString(),
+                    status
             );
+
             submitTicket(request);
         });
+
     }
 
-    private TicketRequest createTicketRequest(String title, String description) {
+    private TicketRequest createTicketRequest(String title, String description,  String status) {
         return new TicketRequest(
                 title,
                 description,
-                "NOWE",
+                status,
                 125,
                 2,
                 latitude != null ? latitude : 53.1234804d,
