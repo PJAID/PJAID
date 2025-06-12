@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.api.pjaidapp.enums.Status;
 
 @Getter
 @Setter
@@ -16,4 +17,5 @@ public class DeviceDto {
     private String purchaseDate;
     private String lastService;
     private String qrCode;
+    private Status status;
 }

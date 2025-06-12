@@ -28,7 +28,8 @@ export class TicketNewComponent implements OnInit {
     title: ['', Validators.required],
     description: ['', Validators.required],
     status: ['NOWE', Validators.required],
-    deviceId: [0, Validators.required], // teraz trzymamy tylko ID urządzenia
+    deviceId: [0, Validators.required],
+    incidentId: [null]
   });
 
   ngOnInit(): void {
