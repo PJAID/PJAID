@@ -10,7 +10,7 @@ import {TicketResponse} from '../../shared/models/ticket-response.model';
   standalone: true,
   imports: [CommonModule, ReactiveFormsModule],
   templateUrl: './ticket-edit.component.html',
-  styleUrl: './ticket-edit.component.css',
+  styleUrls: ['./ticket-edit.component.css'],
   providers: [TicketService]
 })
 export class TicketEditComponent implements OnInit {

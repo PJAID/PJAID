@@ -18,9 +18,8 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
 
-    <!-- bogo -->
+    <!-- logo -->
 
-    <!-- fragment container -->
     <ImageView
         android:id="@+id/logo_image"
         android:layout_width="300dp"
@@ -41,5 +40,6 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         android:layout_marginTop="32dp"/>
+
 </androidx.constraintlayout.widget.ConstraintLayout>
 

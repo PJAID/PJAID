@@ -1,0 +1,77 @@
+.timetable-container {
+  color: white;
+  background: rgba(255, 255, 255, 0.08);
+  padding: 2rem;
+  margin: 2rem auto;
+  max-width: 1000px;
+  border-radius: 12px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+}
+
+.timetable-header {
+  font-size: 1.9rem;
+  font-weight: bold;
+  margin-bottom: 1rem;
+  color: #ffffff;
+  text-align: center;
+}
+
+.timetable-summary {
+  display: flex;
+  justify-content: center;
+  gap: 2rem;
+  margin-bottom: 1.5rem;
+  font-size: 1.4rem;
+}
+
+.timetable-summary span {
+  color: #cddc39;
+}
+
+.technician-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+  gap: 1rem;
+}
+
+.technician-card {
+  padding: 1rem;
+  border-radius: 8px;
+  border: 2px solid transparent;
+  background-color: rgba(255, 255, 255, 0.05);
+  cursor: pointer;
+  transition: background-color 0.3s, border-color 0.3s;
+  text-align: left;
+}
+
+.technician-card.present {
+  background-color: rgba(76, 175, 80, 0.2); /* zielone tło */
+  border-color: #4caf50;
+}
+
+.technician-card.absent {
+  background-color: rgba(244, 67, 54, 0.2); /* czerwone tło */
+  border-color: #f44336;
+}
+
+.technician-card:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
+.technician-name {
+  font-weight: bold;
+  color: white;
+}
+
+.technician-surname {
+  font-size: 0.9rem;
+  color: #ccc;
+}
+
+.technician-status {
+  margin-top: 0.5rem;
+  font-size: 0.75rem;
+  color: #ddd;
+  opacity: 0.9;
+  text-transform: uppercase;
+}

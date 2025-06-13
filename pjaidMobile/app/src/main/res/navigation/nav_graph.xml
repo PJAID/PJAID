@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/reportListFragment">
+
+    <fragment
+        android:id="@+id/reportListFragment"
+        android:name="com.example.pjaidmobile.presentation.features.report.ReportListFragment"
+        android:label="Lista zgłoszeń"
+        tools:layout="@layout/fragment_report_list">
+
+        <action
+            android:id="@+id/action_reportListFragment_to_reportDetailFragment"
+            app:destination="@id/reportDetailFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/reportDetailFragment"
+        android:name="com.example.pjaidmobile.presentation.features.report.ReportDetailFragment"
+        android:label="Szczegóły zgłoszenia"
+        tools:layout="@layout/fragment_report_detail">
+
+        <argument
+            android:name="reportId"
+            app:argType="string" />
+    </fragment>
+
+</navigation>

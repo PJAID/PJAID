@@ -5,45 +5,46 @@ import org.api.pjaidapp.dto.TicketResponse;
 import org.api.pjaidapp.enums.Role;
 import org.api.pjaidapp.enums.Status;
 import org.api.pjaidapp.exception.DeviceNotFoundException;
-import org.api.pjaidapp.exception.IncidentNotFoundException;
 import org.api.pjaidapp.exception.TicketNotFoundException;
 import org.api.pjaidapp.exception.UserNotFoundException;
 import org.api.pjaidapp.mapper.TicketMapper;
 import org.api.pjaidapp.model.Device;
-import org.api.pjaidapp.model.Incident;
 import org.api.pjaidapp.model.Ticket;
 import org.api.pjaidapp.model.User;
 import org.api.pjaidapp.repository.DeviceRepository;
-import org.api.pjaidapp.repository.IncidentRepository;
 import org.api.pjaidapp.repository.TicketRepository;
 import org.api.pjaidapp.repository.UserRepository;
 import org.api.pjaidapp.repository.specification.TicketSpecifications;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
-
+import java.util.Arrays;
+import java.util.Comparator;
+import java.util.List;
+import java.util.Optional;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
 public class TicketService {
 
+    private static final Logger logger = LoggerFactory.getLogger(TicketService.class);
+
     private final TicketRepository ticketRepository;
     private final UserRepository userRepository;
     private final DeviceRepository deviceRepository;
     private final TicketMapper ticketMapper;
 
-    private final IncidentRepository incidentRepository;
-
     private final ShiftCalendarService shiftCalendarService;
 
 
-        public TicketService(TicketRepository ticketRepository, UserRepository userRepository, DeviceRepository deviceRepository, TicketMapper ticketMapper, IncidentRepository incidentRepository, ShiftCalendarService shiftCalendarService) {
+    public TicketService(TicketRepository ticketRepository, UserRepository userRepository, DeviceRepository deviceRepository, TicketMapper ticketMapper, ShiftCalendarService shiftCalendarService) {
+
         this.ticketRepository = ticketRepository;
         this.userRepository = userRepository;
         this.deviceRepository = deviceRepository;
         this.ticketMapper = ticketMapper;
-        this.incidentRepository = incidentRepository;
         this.shiftCalendarService = shiftCalendarService;
     }
 
@@ -76,51 +77,46 @@ public class TicketService {
         }
 
         Ticket ticket = ticketMapper.toEntity(request);
-
-        // Pobranie powiązanych encji
         Device device = deviceRepository.findById(request.getDeviceId())
                 .orElseThrow(() -> new DeviceNotFoundException(request.getDeviceId()));
 
         User user = userRepository.findById(request.getUserId())
                 .orElseThrow(() -> new UserNotFoundException(request.getUserId()));
 
-        // Obsługa incidentId – domyślnie ID = 1
-        Incident incident;
-        if (request.getIncidentId() == null) {
-            incident = incidentRepository.findById(1L)
-                    .orElseThrow(() -> new IllegalArgumentException("Default incident (ID=1) not found"));
-        } else {
-            incident = incidentRepository.findById(request.getIncidentId())
-                    .orElseThrow(() -> new IncidentNotFoundException(request.getIncidentId()));
-        }
 
         ticket.setDevice(device);
         ticket.setUser(user);
-        ticket.setIncident(incident);
+        ticket.setPriority(request.getPriority());
+        ticket.setLatitude(request.getLatitude());
+        ticket.setLongitude(request.getLongitude());
 
         // Automatyczne przypisanie technika
         String zmiana = user.getZmiana();
         List<User> technicians = userRepository.findAvailableTechniciansOnShift(Role.TECHNICIAN, zmiana);
 
+        // Wybierz technika z najmniejszym obciążeniem
         Optional<User> selectedTechnician = technicians.stream()
                 .filter(User::isLoggedIn)
                 .min(Comparator.comparingInt(User::getCurrentLoad));
 
         if (selectedTechnician.isEmpty()) {
-            System.out.println("Brak dostępnych techników na zmianie: " + zmiana);
+            logger.warn("Brak dostępnych techników na zmianie: {}", zmiana);
             ticket.setStatus(Status.OCZEKUJACE);
         } else {
             User technician = selectedTechnician.get();
-            System.out.println("Przypisano technika: " + technician.getUserName() + " (load: " + technician.getCurrentLoad() + ")");
+            logger.info("Przypisano technika: {} (load: {})", technician.getUserName(), technician.getCurrentLoad());
             ticket.setTechnician(technician);
 
+            // Zwiększa obciążenie technika
             technician.setCurrentLoad(technician.getCurrentLoad() + 1);
             userRepository.save(technician);
 
             ticket.setStatus(Status.NOWE);
         }
 
+
         Ticket saved = ticketRepository.save(ticket);
+
         return ticketMapper.toResponse(saved);
     }
 
@@ -138,6 +134,9 @@ public class TicketService {
         ticket.setTitle(request.getTitle());
         ticket.setDescription(request.getDescription());
         ticket.setStatus(request.getStatus());
+        ticket.setPriority(request.getPriority());
+        ticket.setLatitude(request.getLatitude());
+        ticket.setLongitude(request.getLongitude());
 
         ticketRepository.save(ticket);
         return ticketMapper.toResponse(ticket);
@@ -158,31 +157,27 @@ public class TicketService {
         ticketRepository.save(ticket);
         return ticketMapper.toResponse(ticket);
     }
-
     public TicketResponse finishTicket(Long id) {
         Ticket ticket = ticketRepository.findById(id).orElseThrow(() -> new TicketNotFoundException(id));
         ticket.setStatus(Status.ZAMKNIETE);
         ticketRepository.save(ticket);
         return ticketMapper.toResponse(ticket);
     }
-
     public List<TicketResponse> getPendingTickets() {
         return ticketRepository.findByStatusIn(List.of(Status.NOWE, Status.W_TRAKCIE)).stream()
                 .map(ticketMapper::toResponse)
                 .toList();
     }
-
     public List<TicketResponse> getTicketsByUsername(String username) {
         List<Ticket> tickets = ticketRepository.findByUserUserName(username);
         return tickets.stream()
                 .map(ticketMapper::toResponse)
                 .toList();
     }
-
     public TicketResponse assignTechnician(Long ticketId, Long technicianId) {
         Ticket ticket = ticketRepository.findById(ticketId)
                 .orElseThrow(() -> new TicketNotFoundException(ticketId));
-        User technician = userRepository.findById(technicianId)
+        User technician = userRepository.findById( technicianId)
                 .orElseThrow(() -> new UserNotFoundException(technicianId));
 
         ticket.setTechnician(technician);
@@ -190,7 +185,6 @@ public class TicketService {
         Ticket saved = ticketRepository.save(ticket);
         return ticketMapper.toResponse(saved);
     }
-
     public List<TicketResponse> getTicketsAssignedTo(String username) {
         return ticketRepository.findByTechnicianUserName(username).stream()
                 .map(ticketMapper::toResponse)

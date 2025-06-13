@@ -1,0 +1,19 @@
+<!--<shape xmlns:android="http://schemas.android.com/apk/res/android"-->
+<!--    android:shape="rectangle">-->
+<!--    <corners android:radius="16dp" />-->
+<!--    <solid android:color="@android:color/white"/>-->
+<!--</shape>-->
+<shape xmlns:android="http://schemas.android.com/apk/res/android"
+android:shape="rectangle">
+
+<!-- Przezroczyste, lekko matowe tło -->
+<solid android:color="#26FFFFFF" /> <!-- biały z 15% przezroczystości -->
+
+<!-- Zaokrąglone rogi -->
+<corners android:radius="16dp" />
+
+<!-- Delikatna ramka -->
+<stroke
+    android:width="2dp"
+    android:color="#40FFFFFF" /> <!-- biała, lekko przezroczysta ramka -->
+</shape>

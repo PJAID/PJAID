@@ -27,4 +27,13 @@
     <string name="toggle_password_visibility">Toggle password visibility</string>
     <string name="wrong_login_or_password">Błędny login lub hasło</string>
     <string name="ticket_title_prefix">Zgłoszenie: %1$s\n</string>
+    <string-array name="tytuly_array">
+        <item>Awaria</item>
+        <item>Przestój</item>
+    </string-array>
+    <string-array name="status_options">
+        <item>NOWE</item>
+        <item>W TRAKCIE</item>
+        <item>ZAKOŃCZONE</item>
+    </string-array>
 </resources>

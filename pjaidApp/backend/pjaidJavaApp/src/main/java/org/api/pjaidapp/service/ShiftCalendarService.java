@@ -140,7 +140,6 @@ public class ShiftCalendarService {
     }
 
 
-
     public List<ShiftDto> getCurrentShifts() {
         return shiftRepository.findAll().stream()
                 .map(shift -> new ShiftDto(

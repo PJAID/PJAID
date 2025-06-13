@@ -12,4 +12,5 @@ public interface ReportRepository {
     Completable sendReport(IssueReport report);
 
     Single<List<ReportItem>> getAllReports();
+    Single<ReportItem> getReportById(String id);
 }

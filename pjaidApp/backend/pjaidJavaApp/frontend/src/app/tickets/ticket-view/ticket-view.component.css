@@ -34,14 +34,14 @@
   padding: 0.6rem 1.2rem;
   border: none;
   border-radius: 6px;
-  background-color: #3f51b5;
+  background-color: #0d47a1;
   color: white;
   cursor: pointer;
   transition: background-color 0.3s;
 }
 
 .button-group button:hover {
-  background-color: #303f9f;
+  background-color: #0d47a1;
 }
 
 .loading-text {

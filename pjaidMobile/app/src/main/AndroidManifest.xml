@@ -56,6 +56,8 @@
             android:name=".presentation.features.report.TicketDetailActivity"
             android:exported="false" />
         <activity android:name=".presentation.features.auth.RegisterActivity" />
+        <activity android:name=".data.model.EditTicketActivity" />
+        <activity android:name=".presentation.features.report.CloseReportActivity" />
 
         <activity
             android:name=".presentation.common.MainActivity"
@@ -65,11 +67,16 @@
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+
         </activity>
+
 
         <meta-data
             android:name="com.google.android.geo.API_KEY"
             android:value="SECRET" />
+
+
+
     </application>
 
 </manifest>

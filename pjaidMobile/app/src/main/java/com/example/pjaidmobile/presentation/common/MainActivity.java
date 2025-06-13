@@ -5,13 +5,11 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.widget.Button;
 import android.widget.TextView;
-
 import androidx.appcompat.app.AppCompatActivity;
 import com.example.pjaidmobile.R;
 import com.example.pjaidmobile.util.ButtonAnimationUtil;
 import com.example.pjaidmobile.presentation.features.auth.LoginActivity;
 import com.example.pjaidmobile.presentation.features.report.ReportListActivity;
-import com.example.pjaidmobile.presentation.features.report.TicketDetailActivity;
 import com.example.pjaidmobile.presentation.features.scan.ScanQRActivity;
 import com.example.pjaidmobile.presentation.features.report.CreateTicketActivity;
 
@@ -31,25 +29,22 @@ public class MainActivity extends AppCompatActivity {
 
         setContentView(R.layout.activity_main);
 
-
         //  przyciski
         Button scanQR = findViewById(R.id.buttonScanQR);
         Button reportIssue = findViewById(R.id.buttonReportIssue);
         Button reportList = findViewById(R.id.buttonReportList);
-        Button reportDetail = findViewById(R.id.buttonReportDetail);
         Button logoutButton = findViewById(R.id.logout_button);
 
         // powiązanie (TextView) dla zalogowanego użytkownika
         TextView loggedUserText = findViewById(R.id.tv_logged_user);
         String loggedUser = prefs.getString("username", "Nieznany użytkownik");
-        loggedUserText.setText("Zalogowano jako: " + loggedUser);  // Wyświetlenie loginu
+        loggedUserText.setText("Zalogowany użytkownik: " + loggedUser);  // Wyświetlenie loginu
 
 
         // animacja przycisków
         ButtonAnimationUtil.applySpringAnimation(scanQR);
         ButtonAnimationUtil.applySpringAnimation(reportIssue);
         ButtonAnimationUtil.applySpringAnimation(reportList);
-        ButtonAnimationUtil.applySpringAnimation(reportDetail);
         ButtonAnimationUtil.applySpringAnimation(logoutButton);
 
         // obsługa kliknięć
@@ -73,11 +68,14 @@ public class MainActivity extends AppCompatActivity {
         reportList.setOnClickListener(v ->
                 startActivity(new Intent(this, ReportListActivity.class)));
 
-        reportDetail.setOnClickListener(v -> {
-            Intent intent = new Intent(this, TicketDetailActivity.class);
-            intent.putExtra("TICKET_ID", "TK001"); // przykładowe ID
-            startActivity(intent);
-        });
+
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.R) {
+            getWindow().setDecorFitsSystemWindows(false);
+
+
+        }
+
+
     }
 
 }

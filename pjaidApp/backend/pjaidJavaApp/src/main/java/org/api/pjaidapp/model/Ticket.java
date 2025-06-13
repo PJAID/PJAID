@@ -6,10 +6,11 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.api.pjaidapp.enums.Priority;
 import org.api.pjaidapp.enums.Status;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
-
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
 @Getter
@@ -29,6 +30,16 @@ public class Ticket {
     @Column(name = "description")
     private String description;
 
+    @Enumerated(EnumType.STRING)
+    @Column(name = "priority")
+    private Priority priority = Priority.MEDIUM;
+
+    @Column(name = "latitude", precision = 10, scale = 8)
+    private BigDecimal latitude;
+
+    @Column(name = "longitude", precision = 11, scale = 8)
+    private BigDecimal longitude;
+
     @ManyToOne
     @JoinColumn(name = "technician_id")
     private User technician;
@@ -43,10 +54,6 @@ public class Ticket {
 
     @Enumerated(EnumType.STRING)
     private Status status;
-
-    @ManyToOne
-    @JoinColumn(name = "incident_id")
-    private Incident incident;
 
     @ManyToOne(optional = false)
     @JoinColumn(name = "device_id")
