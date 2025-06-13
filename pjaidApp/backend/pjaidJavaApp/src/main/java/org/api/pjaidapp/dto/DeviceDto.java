@@ -20,4 +20,5 @@ public class DeviceDto {
     private Status status;
     private Double latitude;
     private Double longitude;
+    private String statusDevice;
 }

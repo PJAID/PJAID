@@ -3,5 +3,5 @@ export interface TicketRequest {
   description: string;
   status: 'NOWE' | 'W_TRAKCIE' | 'ZAMKNIETE';
   deviceId: number;
-  userId: number;
+  userName: string;
 }

@@ -21,7 +21,10 @@ public class TicketRequest {
     private Status status;
     private Priority priority = Priority.MEDIUM;
     private Long deviceId;
+    private String userName;
+    private Long incidentId;
     private Long userId;
     private BigDecimal latitude;
     private BigDecimal longitude;
+
 }

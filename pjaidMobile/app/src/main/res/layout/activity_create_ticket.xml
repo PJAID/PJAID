@@ -4,6 +4,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical">
 
+
     <ImageView
         android:id="@+id/background_image"
         android:layout_width="match_parent"
@@ -12,6 +13,16 @@
         android:src="@drawable/background"
         android:contentDescription="@null" />
 
+    <ImageButton
+        android:id="@+id/buttonBack"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:layout_margin="16dp"
+        android:background="?attr/selectableItemBackgroundBorderless"
+        android:src="@drawable/ic_arrow_back"
+        android:contentDescription="@string/back"
+        android:layout_gravity="start|top" />
+
     <ImageView
         android:id="@+id/logoImage"
         android:layout_width="315dp"
@@ -19,7 +30,7 @@
         android:layout_marginTop="32dp"
         android:layout_gravity="center_horizontal"
         android:src="@drawable/logo"
-        android:contentDescription="Logo"
+        android:contentDescription="@string/logo"
         android:adjustViewBounds="true" />
 
     <ScrollView
@@ -35,78 +46,77 @@
             app:cardElevation="8dp"
             android:background="@android:color/white">
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:padding="24dp">
-
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Rodzaj zgłoszenia:"
-                android:textStyle="bold"
-                android:textSize="24sp"
-                android:layout_marginBottom="8dp"/>
-
-            <com.google.android.material.button.MaterialButtonToggleGroup
-                android:id="@+id/toggleType"
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="16dp"
-                app:singleSelection="true"
-                app:checkedButton="@id/btnAwaria">
+                android:orientation="vertical"
+                android:padding="24dp">
 
-                <com.google.android.material.button.MaterialButton
-                    android:id="@+id/btnAwaria"
-                    android:layout_width="0dp"
+                <TextView
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="Awaria"
-                    app:backgroundTint="@color/toggle_button_selector_awaria"
-                    android:textColor="@color/toggle_button_text_selector"
-                    app:strokeColor="@android:color/transparent"
-                    app:checkedIconTint="@color/white" />
+                    android:text="@string/rodzaj_zg_oszenia"
+                    android:textStyle="bold"
+                    android:textSize="24sp"
+                    android:layout_marginBottom="8dp"/>
 
-                <com.google.android.material.button.MaterialButton
-                    android:id="@+id/btnPrzestoj"
-                    android:layout_width="0dp"
+                <com.google.android.material.button.MaterialButtonToggleGroup
+                    android:id="@+id/toggleType"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="Przestój"
-                    style="@style/Widget.Material3.Button"
-                    app:checkedIconTint="@color/white"
-                    app:backgroundTint="@color/toggle_button_selector_przestoj"
-                    android:textColor="@color/toggle_button_text_selector"/>
-            </com.google.android.material.button.MaterialButtonToggleGroup>
-            <EditText
-                android:id="@+id/editTextTitle"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="Tytuł zgłoszenia"
-                android:layout_marginBottom="8dp" />
+                    android:layout_marginBottom="16dp"
+                    app:singleSelection="true"
+                    app:checkedButton="@id/btnAwaria">
 
-            <EditText
-        android:id="@+id/editTextDescription"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="top"
-        android:hint="Opis zgłoszenia"
-        android:minLines="5" />
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/btnAwaria"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="@string/awaria"
+                        app:backgroundTint="@color/toggle_button_selector_awaria"
+                        android:textColor="@color/toggle_button_text_selector"
+                        app:strokeColor="@android:color/transparent"
+                        app:checkedIconTint="@color/white" />
 
-        <com.google.android.gms.maps.MapView
-        android:id="@+id/mapView"
-        android:layout_width="match_parent"
-        android:layout_height="200dp"
-        android:visibility="visible" />
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/btnPrzestoj"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="@string/przest_j"
+                        style="@style/Widget.Material3.Button"
+                        app:checkedIconTint="@color/white"
+                        app:backgroundTint="@color/toggle_button_selector_przestoj"
+                        android:textColor="@color/toggle_button_text_selector"/>
+                </com.google.android.material.button.MaterialButtonToggleGroup>
+                <EditText
+                    android:id="@+id/editTextTitle"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/tytu_zg_oszenia"
+                    android:layout_marginBottom="8dp" />
 
-        <Button
-        android:id="@+id/buttonSubmitTicket"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Wyślij zgłoszenie" />
-        </LinearLayout>
+                <EditText
+                    android:id="@+id/editTextDescription"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="top"
+                    android:hint="@string/opis_zg_oszenia"
+                    android:minLines="5" />
+
+                <com.google.android.gms.maps.MapView
+                    android:id="@+id/mapView"
+                    android:layout_width="match_parent"
+                    android:layout_height="200dp"
+                    android:visibility="visible" />
+
+                <Button
+                    android:id="@+id/buttonSubmitTicket"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/wy_lij_zg_oszenie" />
+            </LinearLayout>
         </androidx.cardview.widget.CardView>
     </ScrollView>
 </FrameLayout>

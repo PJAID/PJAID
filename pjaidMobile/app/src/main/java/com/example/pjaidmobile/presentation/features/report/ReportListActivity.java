@@ -2,6 +2,7 @@ package com.example.pjaidmobile.presentation.features.report;
 
 import android.os.Bundle;
 import android.util.Log;
+import android.widget.ImageButton;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProvider;
@@ -22,6 +23,10 @@ public class ReportListActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_report_list);
+
+        ImageButton buttonBack = findViewById(R.id.buttonBack);
+        buttonBack.setOnClickListener(v -> finish());
+
 
         RecyclerView recyclerView = findViewById(R.id.recyclerViewReports);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));

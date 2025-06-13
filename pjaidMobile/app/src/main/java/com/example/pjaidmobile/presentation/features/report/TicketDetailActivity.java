@@ -2,21 +2,24 @@ package com.example.pjaidmobile.presentation.features.report;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
+
 import com.example.pjaidmobile.R;
 import com.example.pjaidmobile.data.model.EditTicketActivity;
 import com.example.pjaidmobile.data.model.TicketResponse;
+import com.example.pjaidmobile.data.remote.api.ApiClient;
 import com.example.pjaidmobile.data.remote.api.TicketApi;
 import com.example.pjaidmobile.util.ButtonAnimationUtil;
-import com.example.pjaidmobile.data.remote.api.ApiClient;
+
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
-import android.util.Log;
 
 
 public class TicketDetailActivity extends AppCompatActivity {
@@ -32,6 +35,9 @@ public class TicketDetailActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_ticket_detail);
+
+        ImageButton buttonBack = findViewById(R.id.buttonBack);
+        buttonBack.setOnClickListener(v -> finish());
 
         // powiązanie widoków
         tvTitle = findViewById(R.id.tv_detail_title);
@@ -76,6 +82,7 @@ public class TicketDetailActivity extends AppCompatActivity {
 
 
     }
+
     private void loadTicketFromBackend(int id) {
         ticketApi.getTicket(id).enqueue(new Callback<TicketResponse>() {
             @Override

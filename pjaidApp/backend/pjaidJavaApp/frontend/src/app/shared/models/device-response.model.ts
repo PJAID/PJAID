@@ -7,4 +7,5 @@ export interface DeviceResponse {
   purchaseDate: string;
   lastService: string;
   qrCode: string;
+  status: string;
 }
