@@ -21,9 +21,15 @@ import java.util.Arrays;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import java.util.*;
+import java.util.stream.Collectors;
 
 @Service
 public class TicketService {
+
+    private static final Logger logger = LoggerFactory.getLogger(TicketService.class);
 
     private final TicketRepository ticketRepository;
     private final UserRepository userRepository;
@@ -34,6 +40,7 @@ public class TicketService {
 
 
     public TicketService(TicketRepository ticketRepository, UserRepository userRepository, DeviceRepository deviceRepository, TicketMapper ticketMapper, ShiftCalendarService shiftCalendarService) {
+
         this.ticketRepository = ticketRepository;
         this.userRepository = userRepository;
         this.deviceRepository = deviceRepository;
@@ -62,7 +69,6 @@ public class TicketService {
     }
 
     public TicketResponse createTicket(TicketRequest request) {
-
         if (request.getUserId() == null) {
             throw new IllegalArgumentException("userId is required");
         }
@@ -73,12 +79,9 @@ public class TicketService {
         Ticket ticket = ticketMapper.toEntity(request);
         Device device = deviceRepository.findById(request.getDeviceId())
                 .orElseThrow(() -> new DeviceNotFoundException(request.getDeviceId()));
+
         User user = userRepository.findById(request.getUserId())
                 .orElseThrow(() -> new UserNotFoundException(request.getUserId()));
-
-        //if (user.getRoles().contains(Role.TECHNICIAN) && !user.getRoles().contains(Role.ADMIN)) {
-            //throw new IllegalArgumentException("Technik nie może tworzyć ticketów");
-        //}
 
 
         ticket.setDevice(device);
@@ -87,6 +90,7 @@ public class TicketService {
         ticket.setLatitude(request.getLatitude());
         ticket.setLongitude(request.getLongitude());
 
+        // Automatyczne przypisanie technika
         String zmiana = user.getZmiana();
         List<User> technicians = userRepository.findAvailableTechniciansOnShift(Role.TECHNICIAN, zmiana);
 
@@ -96,11 +100,11 @@ public class TicketService {
                 .min(Comparator.comparingInt(User::getCurrentLoad));
 
         if (selectedTechnician.isEmpty()) {
-            System.out.println("Brak dostępnych techników na zmianie: " + zmiana);
+            logger.warn("Brak dostępnych techników na zmianie: {}", zmiana);
             ticket.setStatus(Status.OCZEKUJACE);
         } else {
             User technician = selectedTechnician.get();
-            System.out.println("Przypisano technika: " + technician.getUserName() + " (load: " + technician.getCurrentLoad() + ")");
+            logger.info("Przypisano technika: {} (load: {})", technician.getUserName(), technician.getCurrentLoad());
             ticket.setTechnician(technician);
 
             // Zwiększa obciążenie technika
@@ -185,5 +189,9 @@ public class TicketService {
         return ticketRepository.findByTechnicianUserName(username).stream()
                 .map(ticketMapper::toResponse)
                 .toList();
+    }
+    public Map<String, Long> getTicketStatusSummary() {
+        return ticketRepository.findAll().stream()
+                .collect(Collectors.groupingBy(t -> t.getStatus().name(), Collectors.counting()));
     }
 }

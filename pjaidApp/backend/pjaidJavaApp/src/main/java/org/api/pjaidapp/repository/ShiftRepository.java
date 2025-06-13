@@ -9,4 +9,3 @@ import java.util.List;
 public interface ShiftRepository extends JpaRepository<Shift, Long> {
     List<Shift> findAllByDate(LocalDate date);
 }
-

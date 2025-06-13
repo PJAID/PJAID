@@ -2,6 +2,10 @@ package org.api.pjaidapp.model;
 
 import jakarta.persistence.*;
         import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
         import java.time.LocalDate;
 
@@ -32,4 +36,3 @@ public class Shift {
     @Column(name = "duration_hours")
     private int duration;    // kolumna E: CZAS
 }
-

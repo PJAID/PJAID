@@ -2,6 +2,11 @@ package com.example.pjaidmobile.data.model;
 
 import com.google.gson.annotations.SerializedName;
 
+import java.time.Instant;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
+import java.util.Locale;
 
 public class TicketResponse {
 
@@ -31,8 +36,12 @@ public class TicketResponse {
 
     @SerializedName("user")
     private User user;
-    public TicketResponse() {}
 
+    public TicketResponse() {
+        // Konstruktor domyślny dla GSON
+    }
+
+    // Gettery
     public Long getId() { return id; }
 
     public String getTitle() { return title; }
@@ -51,6 +60,22 @@ public class TicketResponse {
 
     public User getUser() { return user; }
 
+    // Formatowanie daty
+    public String getFormattedDate() {
+        try {
+            long timestamp = Long.parseLong(createdAt);
+            LocalDateTime dateTime = Instant.ofEpochMilli(timestamp)
+                    .atZone(ZoneId.systemDefault())
+                    .toLocalDateTime();
+
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MM/dd/yyyy HH:mm", Locale.getDefault());
+            return dateTime.format(formatter);
+        } catch (Exception e) {
+            return createdAt != null ? createdAt : "n/a";
+        }
+    }
+
+    // Klasy zagnieżdżone
     public static class Incident {
         @SerializedName("id")
         private int id;
@@ -61,7 +86,10 @@ public class TicketResponse {
         @SerializedName("priority")
         private String priority;
 
+        public int getId() { return id; }
+
         public String getTitle() { return title; }
+
         public String getPriority() { return priority; }
     }
 
@@ -71,6 +99,8 @@ public class TicketResponse {
 
         @SerializedName("name")
         private String name;
+
+        public int getId() { return id; }
 
         public String getName() { return name; }
     }
@@ -82,7 +112,8 @@ public class TicketResponse {
         @SerializedName("userName")
         private String userName;
 
+        public int getId() { return id; }
+
         public String getUserName() { return userName; }
     }
-
 }

@@ -63,11 +63,17 @@ dependencies {
     implementation(libs.play.services.location)
 
 // Hilt
-    implementation (libs.hilt.android) // Użyj najnowszej wersji
-    annotationProcessor (libs.dagger.hilt.compiler) // Jeśli nie używasz Kapt
+    implementation(libs.hilt.android)
+    implementation(libs.androidx.uiautomator)
+    annotationProcessor(libs.dagger.hilt.compiler) // Jeśli nie używasz Kapt
+    testImplementation(libs.espresso.core)
+    testImplementation(libs.ext.junit) // Użyj najnowszej wersji
     testImplementation(libs.junit)
+    testImplementation(libs.mockito.core)
+    testImplementation(libs.mockito.inline)
+// Run espresso tests
+    androidTestImplementation(libs.androidx.runner)
     androidTestImplementation(libs.ext.junit)
     androidTestImplementation(libs.espresso.core)
-
-
+    androidTestImplementation(libs.espresso.intents)
 }

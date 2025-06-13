@@ -24,12 +24,13 @@ public class UserService {
 
     private final ShiftCalendarService shiftCalendarService;
 
-    public UserService(UserRepository userRepository, UserMapper userMapper,PasswordEncoder passwordEncoder, ShiftCalendarService shiftCalendarService) {
+    public UserService(UserRepository userRepository, UserMapper userMapper, PasswordEncoder passwordEncoder, ShiftCalendarService shiftCalendarService) {
         this.userRepository = userRepository;
         this.userMapper = userMapper;
         this.passwordEncoder = passwordEncoder;
         this.shiftCalendarService = shiftCalendarService;
     }
+
     public List<UserDto> getTechnicians() {
         return userRepository.findAll().stream()
                 .filter(user -> user.getRoles().contains(Role.TECHNICIAN))
@@ -74,7 +75,6 @@ public class UserService {
         }
 
         User user = userMapper.toEntity(dto);
-        user.setPassword(passwordEncoder.encode(dto.getPassword()));
 
         if (user.getRoles() == null || user.getRoles().isEmpty()) {
             user.setRoles(Set.of(Role.USER));

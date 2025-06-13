@@ -6,14 +6,21 @@
     <p><strong>Opis:</strong> {{ ticket.description }}</p>
     <p><strong>Status:</strong> {{ ticket.status }}</p>
     <p><strong>Technik:</strong> {{ ticket.technicianName || 'Nieprzypisany' }}</p>
-    <p><strong>Urządzenie:</strong> {{ ticket.device?.name || 'Brak' }}</p>
-    <p><strong>Zgłaszający:</strong> {{ ticket.user?.userName || 'Brak' }}</p>
+    <p><strong>Urządzenie:</strong> {{ ticket.device.name || 'Brak' }}</p>
+    <p><strong>Zgłaszający:</strong> {{ ticket.user.userName || 'Brak' }}</p>
   </div>
 
   <app-technician-list
     [ticketId]="ticket.id"
     (technicianAssigned)="assignTechnician($event)">
   </app-technician-list>
+
+  <ng-container *ngIf="ticket?.device?.latitude !== undefined && ticket?.device?.longitude !== undefined">
+    <app-location-view
+      [latitude]="ticket.device.latitude!"
+      [longitude]="ticket.device.longitude!">
+    </app-location-view>
+  </ng-container>
 
   <div class="button-group">
     <button [routerLink]="['/ticket', ticket.id, 'edit']">Edytuj</button>

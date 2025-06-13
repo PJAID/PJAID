@@ -20,9 +20,11 @@
     <li routerLinkActive="active">
       <a routerLink="/tickets">Lista zgłoszeń</a>
     </li>
-    <li routerLinkActive="active">
+    <li *ngIf="hasAdminRole()" routerLinkActive="active">
       <a routerLink="/users/new">Administracja</a>
     </li>
-
+    <li routerLinkActive="active">
+      <a routerLink="/dashboard">Dashboard awarii</a>
+    </li>
   </ul>
 </nav>

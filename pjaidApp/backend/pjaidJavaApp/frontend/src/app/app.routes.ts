@@ -1,6 +1,7 @@
 import {Routes} from '@angular/router';
 import {authGuard} from './auth/auth.guard';
 
+
 export const routes: Routes = [
   {
     path: '',
@@ -57,7 +58,17 @@ export const routes: Routes = [
         loadComponent: () => import('./devices/device-new/device-new.component').then(m => m.DeviceNewComponent)
       }, {
         path: 'users/new',
+        canMatch: [authGuard],
+        data: { roles: ['ROLE_ADMIN'] },
         loadComponent: () => import('./users/user-new.component').then(m => m.UserNewComponent)
+      },
+      {
+        path: 'dashboard',
+        loadComponent: () => import('./dashboard/dashboard').then(m => m.DashboardComponent)
+      },
+      {
+        path: 'lokalizacje',
+        loadComponent: () => import('./location/location-view/location-view.component').then(m => m.LocationViewComponent)
       }
     ]
   },

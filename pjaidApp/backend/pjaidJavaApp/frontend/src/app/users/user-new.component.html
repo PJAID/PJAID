@@ -27,6 +27,10 @@
     </select>
   </label>
   <br/>
-
+  <div *ngIf="successMessage" class="alert alert-success">
+    {{ successMessage }}
+  </div>
   <button type="submit" [disabled]="form.invalid">Zapisz</button>
 </form>
+
+
