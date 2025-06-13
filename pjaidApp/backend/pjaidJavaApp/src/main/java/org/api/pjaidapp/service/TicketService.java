@@ -15,14 +15,11 @@ import org.api.pjaidapp.repository.DeviceRepository;
 import org.api.pjaidapp.repository.TicketRepository;
 import org.api.pjaidapp.repository.UserRepository;
 import org.api.pjaidapp.repository.specification.TicketSpecifications;
-import org.springframework.data.jpa.domain.Specification;
-import org.springframework.stereotype.Service;
-import java.util.Arrays;
-import java.util.Comparator;
-import java.util.List;
-import java.util.Optional;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.data.jpa.domain.Specification;
+import org.springframework.stereotype.Service;
+
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -36,16 +33,13 @@ public class TicketService {
     private final DeviceRepository deviceRepository;
     private final TicketMapper ticketMapper;
 
-    private final ShiftCalendarService shiftCalendarService;
 
-
-    public TicketService(TicketRepository ticketRepository, UserRepository userRepository, DeviceRepository deviceRepository, TicketMapper ticketMapper, ShiftCalendarService shiftCalendarService) {
+    public TicketService(TicketRepository ticketRepository, UserRepository userRepository, DeviceRepository deviceRepository, TicketMapper ticketMapper) {
 
         this.ticketRepository = ticketRepository;
         this.userRepository = userRepository;
         this.deviceRepository = deviceRepository;
         this.ticketMapper = ticketMapper;
-        this.shiftCalendarService = shiftCalendarService;
     }
 
     public TicketResponse getTicketById(Long id) {
@@ -69,9 +63,6 @@ public class TicketService {
     }
 
     public TicketResponse createTicket(TicketRequest request) {
-        if (request.getUserId() == null) {
-            throw new IllegalArgumentException("userId is required");
-        }
         if (request.getDeviceId() == null) {
             throw new IllegalArgumentException("deviceId is required");
         }
@@ -80,7 +71,7 @@ public class TicketService {
         Device device = deviceRepository.findById(request.getDeviceId())
                 .orElseThrow(() -> new DeviceNotFoundException(request.getDeviceId()));
 
-        User user = userRepository.findById(request.getUserId())
+        User user = userRepository.findByUserName(request.getUserName())
                 .orElseThrow(() -> new UserNotFoundException(request.getUserId()));
 
 
@@ -157,27 +148,31 @@ public class TicketService {
         ticketRepository.save(ticket);
         return ticketMapper.toResponse(ticket);
     }
+
     public TicketResponse finishTicket(Long id) {
         Ticket ticket = ticketRepository.findById(id).orElseThrow(() -> new TicketNotFoundException(id));
         ticket.setStatus(Status.ZAMKNIETE);
         ticketRepository.save(ticket);
         return ticketMapper.toResponse(ticket);
     }
+
     public List<TicketResponse> getPendingTickets() {
         return ticketRepository.findByStatusIn(List.of(Status.NOWE, Status.W_TRAKCIE)).stream()
                 .map(ticketMapper::toResponse)
                 .toList();
     }
+
     public List<TicketResponse> getTicketsByUsername(String username) {
         List<Ticket> tickets = ticketRepository.findByUserUserName(username);
         return tickets.stream()
                 .map(ticketMapper::toResponse)
                 .toList();
     }
+
     public TicketResponse assignTechnician(Long ticketId, Long technicianId) {
         Ticket ticket = ticketRepository.findById(ticketId)
                 .orElseThrow(() -> new TicketNotFoundException(ticketId));
-        User technician = userRepository.findById( technicianId)
+        User technician = userRepository.findById(technicianId)
                 .orElseThrow(() -> new UserNotFoundException(technicianId));
 
         ticket.setTechnician(technician);
@@ -185,11 +180,13 @@ public class TicketService {
         Ticket saved = ticketRepository.save(ticket);
         return ticketMapper.toResponse(saved);
     }
+
     public List<TicketResponse> getTicketsAssignedTo(String username) {
         return ticketRepository.findByTechnicianUserName(username).stream()
                 .map(ticketMapper::toResponse)
                 .toList();
     }
+
     public Map<String, Long> getTicketStatusSummary() {
         return ticketRepository.findAll().stream()
                 .collect(Collectors.groupingBy(t -> t.getStatus().name(), Collectors.counting()));

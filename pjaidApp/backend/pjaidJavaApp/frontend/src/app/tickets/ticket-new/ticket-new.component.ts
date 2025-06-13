@@ -6,6 +6,7 @@ import {Router} from '@angular/router';
 import {DeviceResponse} from '../../shared/models/device-response.model';
 import {TicketRequest} from '../../shared/models/ticket-request.model';
 import {DeviceService} from '../../devices/services/device.service';
+import {AuthService} from '../../auth/services/auth.service';
 
 @Component({
   selector: 'app-ticket-new',
@@ -13,16 +14,18 @@ import {DeviceService} from '../../devices/services/device.service';
   imports: [CommonModule, ReactiveFormsModule],
   templateUrl: './ticket-new.component.html',
   styleUrl: './ticket-new.component.css',
-  providers: [TicketService, DeviceService]
+  providers: [TicketService, DeviceService, AuthService]
 })
 export class TicketNewComponent implements OnInit {
+  private readonly authService = inject(AuthService);
   private readonly fb = inject(NonNullableFormBuilder);
   private readonly ticketService = inject(TicketService);
   private readonly deviceService = inject(DeviceService);
   private readonly router = inject(Router);
+  loggedPerson: string | null = this.authService.getLoggedUser();
 
   devices: DeviceResponse[] = [];
-  userId: number = 1;
+  userName: string = '';
 
   ticketForm = this.fb.group({
     title: ['', Validators.required],
@@ -47,7 +50,7 @@ export class TicketNewComponent implements OnInit {
         description: formValue.description,
         status: formValue.status as 'NOWE' | 'W_TRAKCIE' | 'ZAMKNIETE',
         deviceId: formValue.deviceId,
-        userId: this.userId
+        userName: this.loggedPerson ?? 'defaultUser'
       };
 
       this.ticketService.addTicket(ticketRequest).subscribe(() => {

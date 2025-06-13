@@ -5,6 +5,7 @@ import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.Toast;
 
 import androidx.activity.result.ActivityResultLauncher;
@@ -56,6 +57,9 @@ public class CreateTicketActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create_ticket);
+
+        ImageButton buttonBack = findViewById(R.id.buttonBack);
+        buttonBack.setOnClickListener(v -> finish());
 
         viewModel = new ViewModelProvider(this).get(CreateTicketViewModel.class);
         mapView = findViewById(R.id.mapView);
@@ -169,12 +173,38 @@ public class CreateTicketActivity extends AppCompatActivity {
         }
     }
 
-    // Obsługa cyklu MapView
-    @Override protected void onResume() { super.onResume(); mapView.onResume(); }
-    @Override protected void onPause() { mapView.onPause(); super.onPause(); }
-    @Override protected void onDestroy() { mapView.onDestroy(); super.onDestroy(); }
-    @Override public void onLowMemory() { super.onLowMemory(); mapView.onLowMemory(); }
-    @Override protected void onSaveInstanceState(@NonNull Bundle outState) {
+    @Override
+    public boolean onSupportNavigateUp() {
+        finish();
+        return true;
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        mapView.onResume();
+    }
+
+    @Override
+    protected void onPause() {
+        mapView.onPause();
+        super.onPause();
+    }
+
+    @Override
+    protected void onDestroy() {
+        mapView.onDestroy();
+        super.onDestroy();
+    }
+
+    @Override
+    public void onLowMemory() {
+        super.onLowMemory();
+        mapView.onLowMemory();
+    }
+
+    @Override
+    protected void onSaveInstanceState(@NonNull Bundle outState) {
         super.onSaveInstanceState(outState);
         Bundle mapViewBundle = outState.getBundle(MAPVIEW_BUNDLE_KEY);
         if (mapViewBundle == null) {
@@ -194,7 +224,8 @@ public class CreateTicketActivity extends AppCompatActivity {
             }
         };
 
-        @Override public void onResponse(Call<TicketResponse> call, Response<TicketResponse> response) {
+        @Override
+        public void onResponse(Call<TicketResponse> call, Response<TicketResponse> response) {
             if (response.isSuccessful() && response.body() != null) {
                 handler.onSuccess(response.body());
             } else {
@@ -202,7 +233,8 @@ public class CreateTicketActivity extends AppCompatActivity {
             }
         }
 
-        @Override public void onFailure(Call<TicketResponse> call, Throwable t) {
+        @Override
+        public void onFailure(Call<TicketResponse> call, Throwable t) {
             handler.onFailure(t);
         }
     }

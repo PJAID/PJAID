@@ -1,11 +1,13 @@
 package org.api.pjaidapp.model;
 
+
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.api.pjaidapp.enums.Status;
+import org.api.pjaidapp.enums.DeviceStatus;
 
 @Getter
 @Setter
@@ -36,4 +38,7 @@ public class Device {
 
     @Column(name = "longitude")
     private Double longitude;
+    @Enumerated(EnumType.STRING)
+    @Column(name = "device_status")
+    private DeviceStatus statusDevice;
 }
