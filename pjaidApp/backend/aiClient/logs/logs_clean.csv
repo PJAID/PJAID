@@ -1,0 +1,253 @@
+ID_Urządzenia,Data Naprawy,Typ Naprawy,Opis Naprawy
+IT0003691,2024-08-12 00:00:00.000,kalibracja,brak danych
+IT0021327,2024-08-12 00:00:00.000,problem sieciowy,brak danych
+IT0037698,2024-08-16 00:00:00.000,kalibracja,brak danych
+IT0024849,2024-08-19 00:00:00.000,wymiana czesci,wymiana zasilacza
+IT0028324,2024-08-19 00:00:00.000,kalibracja,brak danych
+IT0027931,2024-08-20 00:00:00.000,kalibracja,"poluźnienie rewindera, kalibracja wydruki testowe, zdjęcie mediów z rewindera i ponowna kalibracja, wypozycjonowanie nadruku"
+IT0027931,2024-08-20 00:00:00.000,kalibracja,"zdjecie zużytych mediów z rewindera, kalibracja, wypozycjonowanie naklejki, ustawienie tear-off"
+IT0027931,2024-08-21 00:00:00.000,kalibracja,brak danych
+IT0016541,2024-08-21 00:00:00.000,wymiana paska,wymiana paska
+IT0018879,2024-08-21 00:00:00.000,kalibracja,przywrócenie ustawień fabrycznych drukarki + kalibracja
+IT0013790,2024-08-23 00:00:00.000,wymiana glowicy,brak danych
+IT0020364,2024-08-23 00:00:00.000,kalibracja,brak danych
+IT0012405,2024-08-23 00:00:00.000,kalibracja,brak danych
+IT0014996,2024-08-23 00:00:00.000,kalibracja,brak danych
+IT0036600,2024-08-25 00:00:00.000,problem sieciowy,Reset default ustawieć
+IT0007520,2024-08-25 00:00:00.000,kalibracja,"reset default settings, kalibracja, zmiana offcetów"
+IT0013366,2024-08-25 00:00:00.000,problem sieciowy,Uszkodzony kabel sieciowy. Wymiana Kabla sieciowego
+IT0004206,2024-08-26 00:00:00.000,wymiana walka,"Wyrobiony wałek, nie dociskał naklejki w jednym miejscu"
+IT0020860,2024-08-27 00:00:00.000,kalibracja,brak danych
+IT0036577,2024-08-27 00:00:00.000,kalibracja,brak danych
+IT0027931,2024-08-26 00:00:00.000,kalibracja,brak danych
+IT0028323,2024-08-27 00:00:00.000,kalibracja,brak danych
+IT0000850,2024-08-28 00:00:00.000,kalibracja,brak danych
+IT0018879,2024-08-28 00:00:00.000,kalibracja,brak danych
+IT0020860,2024-08-28 00:00:00.000,kalibracja,brak danych
+IT0002395,2024-08-29 00:00:00.000,wymiana glowicy,Wymiana głowicy bo poprzednia była przepalona
+IT0020860,2024-08-29 00:00:00.000,czyszczenie,"Głowica była brudna, to ją przetarłem"
+IT0003690,2024-09-03 00:00:00.000,kalibracja,Poprawiono położenie czujnika naklejek.
+IT0038546,2024-09-04 00:00:00.000,kalibracja,brak danych
+IT0028249,2024-09-04 00:00:00.000,kalibracja,brak danych
+IT0017496,2024-09-05 00:00:00.000,kalibracja,Problem został rozwiązany przez przywrócenie ustawień domyślnych drukarki
+IT0020114,2024-09-06 00:00:00.000,kalibracja,Sama kalibracja i sprawdzenie czy media są dobrze założone.
+IT0018390,2024-09-06 00:00:00.000,kalibracja,Przeczyszczenie czujników i media and ribbon calibration
+IT0002426,2024-09-06 00:00:00.000,problem sieciowy,"Reset default ustawień, restart"
+IT0027931,2024-09-09 00:00:00.000,kalibracja,brak danych
+IT0020344,2024-09-09 00:00:00.000,kalibracja,brak danych
+IT0021132,2024-09-09 00:00:00.000,kalibracja,brak danych
+IT0023000,2024-09-10 00:00:00.000,problem sieciowy,Kalibracja podłączenie sieci
+IT0002288,2024-09-10 00:00:00.000,kalibracja,Kalibracja etykiety
+IT0002809,2024-09-11 00:00:00.000,czyszczenie,"Wyczyszczenie głowicy, zmiana speed, darkness, zmiana offcetów"
+IT0028325,2024-09-11 00:00:00.000,problem z czujnikiem,"Zmiana pozycji czujnika etykietm, reset defaults, zmiana szykości, darknessu, offcetów. Kalibracja"
+IT0013873,2024-09-10 00:00:00.000,czyszczenie,Czyszczenie wałka z mediów
+IT0002264,2024-09-10 00:00:00.000,czyszczenie,Czyszczenie wałka z mediów
+IT0028325,2024-09-11 00:00:00.000,kalibracja,Ustawienie czujnika i zmiana ustawień w osi poziomej.
+IT0011935,2024-09-11 00:00:00.000,czyszczenie,"Wyciągnięcie naklejki, która przykleiła się do czujnika"
+IT0002252,2024-09-12 00:00:00.000,kalibracja,brak danych
+IT0028325,2024-09-13 00:00:00.000,kalibracja,brak danych
+IT0028325,2024-09-13 00:00:00.000,kalibracja,"weryfikacja drukarki z Marcinem, wydruki testowe, odstawienie na miejsce, wydruki testowe, ponowna weryfikacja po kolejnym telefonie, restart drukarki, kalibracja, sprawdzenie czujników, sprawdzenie ustawień webowo, ustawienie odpowiedniej wysokości"
+IT0025867,2024-09-13 00:00:00.000,kalibracja,"weryfikacja problemu, restart drukarki, wyzerowanie ustawień, kalibracja wypozycjonowanie wydruku, próba poprawy rozmazanych barcodów, default drukarki, kalibracja, wypozycjonowanie"
+IT0014692,2024-09-16 00:00:00.000,kalibracja,"weryfikacja problemu, podłączenie zewnętrznej karty sieciowej"
+IT0027931,2024-09-16 00:00:00.000,kalibracja,Poluźnienie rewindera
+IT0025047,2024-09-17 00:00:00.000,wymiana glowicy,brak danych
+IT0000840,2024-09-17 00:00:00.000,kalibracja,brak danych
+IT0002491,2024-09-20 00:00:00.000,kalibracja,brak danych
+IT0036572,2024-09-21 00:00:00.000,kalibracja,brak danych
+IT0004133,2024-09-21 00:00:00.000,kalibracja,brak danych
+IT0018879,2024-09-22 00:00:00.000,problem z czujnikiem,"Zmiana offsetów TOP position, Letf Position, reset default, zmiana pozycji czujnika etykiet"
+IT0018879,2024-09-22 00:00:00.000,problem z czujnikiem,"Zmiana pozycji czujnika, kalibracja, zmian offsetów TOP position, Left Position"
+IT0002440,2024-09-25 00:00:00.000,kalibracja,brak danych
+IT0021751,2024-09-25 00:00:00.000,kalibracja,brak danych
+IT0009200,2024-09-25 00:00:00.000,problem z czujnikiem,"Usunięcie przyplejonej etykiety z czujnika etykiet, ustawienie pozycji czujnika, wyczyszczenie czujnika izopropanolem, zmiana offsetów TOP Position, Left Position"
+IT0002288,2024-09-25 00:00:00.000,uszkodzenie mechaniczne,"Dogięcie maskownicy głowycy, zmiana pozycji i siły gocisku docisków, wyczyszczenia wałka"
+IT0023724,2024-09-25 00:00:00.000,kalibracja,"Reset defaults, kalibracja, zmiana offcestów TOP Position Left Position"
+IT0038156,2024-09-27 00:00:00.000,kalibracja,brak danych
+IT0017496,2024-09-27 00:00:00.000,kalibracja,brak danych
+IT0013791,2024-09-27 00:00:00.000,kalibracja,brak danych
+IT0038162,2024-09-27 00:00:00.000,kalibracja,brak danych
+IT0017496,2024-09-30 00:00:00.000,kalibracja,"reset default, kalibracja zmiana offsetów, TOP Position, Left Position,"
+IT0013366,2024-10-03 00:00:00.000,czyszczenie,"Czyszczenie głowicy, zmiana pozycji docisków"
+IT0013366,2024-10-03 00:00:00.000,kalibracja,"Reset Default, kalibracja, zmiana offsetów"
+IT0036370,2024-10-03 00:00:00.000,kalibracja,"Reset default, kalibracja, zmiana offcestów"
+IT0038156,2024-10-03 00:00:00.000,wymiana mediow,Wymiana kalki na poprawną
+IT0038162,2024-10-03 00:00:00.000,wymiana mediow,Wymiana kalki na poprawny item
+IT0038155,2024-10-03 00:00:00.000,.nie jestem w stanie wybrać odpowiedniej kategorii,Wyczyszczenie buforu wydruku w loftwarze
+IT0038160,2024-10-03 00:00:00.000,wymiana mediow,Wymiana kalki na prawidłowy item
+IT0024849,2024-10-04 00:00:00.000,kalibracja,Kalibracja
+IT0027931,2024-10-07 00:00:00.000,kalibracja,Dosłownie kalibracja. Mogłem to zrobić zdalnie. Nawet jej nie otworzyłem
+IT0001070,2024-10-07 00:00:00.000,kalibracja,"Drukarka wymagała ustawienia tej blaszki z przodu, co kalke trzyma"
+IT0025047,2024-10-08 00:00:00.000,problem z czujnikiem,"czujnik był źle wypozycjonowany, nie nachodził na naklejkę"
+IT0024204,2024-10-10 00:00:00.000,kalibracja,brak danych
+IT0038546,2024-10-11 00:00:00.000,kalibracja,Poprawiono media
+IT0002252,2024-10-10 00:00:00.000,kalibracja,brak danych
+IT0003170,2024-10-11 00:00:00.000,problem sieciowy,"Restart drukarki, wyczyszczenie głowicy, zmiana darkness"
+IT0022952,2024-10-11 00:00:00.000,czyszczenie,Czyszcenie głowicy
+IT0000850,2024-10-11 00:00:00.000,kalibracja,brak danych
+IT0019465,2024-10-11 00:00:00.000,kalibracja,brak danych
+IT0000840,2024-10-15 00:00:00.000,wymiana glowicy,brak danych
+IT0012719,2024-10-15 00:00:00.000,problem sieciowy,brak danych
+IT0038543,2024-10-03 00:00:00.000,kalibracja,brak danych
+IT0027031,2024-10-03 00:00:00.000,kalibracja,brak danych
+IT0018879,2024-10-02 00:00:00.000,problem sieciowy,brak danych
+IT0021132,2024-10-02 00:00:00.000,problem sieciowy,problem dotyczy drukarek hellermann podłączonych do switcha TCZTS-PROD-147
+IT0018550,2024-10-02 00:00:00.000,problem sieciowy,problem dotyczy drukarek hellermann podlaczonych do switcha TCZTS-prod-147
+IT0023000,2024-09-29 00:00:00.000,problem sieciowy,brak danych
+IT0013894,2024-09-20 00:00:00.000,kalibracja,brak danych
+IT0022957,2024-09-09 00:00:00.000,kalibracja,brak danych
+IT0021132,2024-09-09 00:00:00.000,kalibracja,brak danych
+IT0028006,2024-08-26 00:00:00.000,kalibracja,brak danych
+IT0027931,2024-08-21 00:00:00.000,kalibracja,brak danych
+IT0038548,2024-10-17 00:00:00.000,problem sieciowy,brak danych
+IT0038154,2024-10-17 00:00:00.000,problem z czujnikiem,brak danych
+IT0038152,2024-10-17 00:00:00.000,problem z czujnikiem,brak danych
+IT0011935,2024-10-18 00:00:00.000,kalibracja,brak danych
+IT0013873,2024-10-18 00:00:00.000,kalibracja,brak danych
+IT0024354,2024-10-18 00:00:00.000,kalibracja,brak danych
+IT0024352,2024-10-19 00:00:00.000,czyszczenie,brak danych
+IT0004133,2024-10-19 00:00:00.000,kalibracja,brak danych
+IT0028006,2024-10-21 00:00:00.000,kalibracja,Kalibracja rozwiązała problem z drukowaniem
+IT0009272,2024-10-21 00:00:00.000,kalibracja,Kalibracja rozwiązała problem
+IT0038585,2024-10-21 00:00:00.000,kalibracja,"kalobracja, reset do defaulta, wypozycjonowanie"
+IT0025047,2024-10-22 00:00:00.000,.nie jestem w stanie wybrać odpowiedniej kategorii,kalibracja i usunięcie nawiniętych naklejek z wałka
+IT0018872,2024-10-22 00:00:00.000,problem sieciowy,brak danych
+IT0036599,2024-10-22 00:00:00.000,kalibracja,Było za dużo kalki chyba i nie równo rozłożone dociski.
+IT0011935,2024-10-22 00:00:00.000,kalibracja,Skalibrowano media and ribbon
+IT0024174,2024-10-21 00:00:00.000,kalibracja,"weryfikacja, zmiana darkness i speed, kalibracja, reset do defaulta, ponowna kalibracja i wypozycjonowanie nadruku"
+IT0036572,2024-10-24 00:00:00.000,kalibracja,"weryfikacja problemu, wydruki testowe, poprawne nałożenie taśmy z naklejkami, ponowne wydruki, zdjęcie nadmiaru zuzytej kalki, wydruki testowe, odkręcenie wygiętej blaszki przy głowicy, wydruki testowe"
+IT0013791,2024-10-16 00:00:00.000,wymiana glowicy,"Drukarka sie zagrzala, byla goraca i smierdziala plastikiem. Prawdopodobnie spowodowane umyciem glowicy plynem esd przez operatra. Pozniej nie wykrywalo zianstalowanej glowicy."
+IT0005223,2024-10-24 00:00:00.000,.nie jestem w stanie wybrać odpowiedniej kategorii,"Reset defaults ustawień, restart drukarki"
+IT0038545,2024-10-24 00:00:00.000,.nie jestem w stanie wybrać odpowiedniej kategorii,"Reset defaults ustawien, restart"
+IT0038543,2024-10-24 00:00:00.000,.nie jestem w stanie wybrać odpowiedniej kategorii,"reset defaults ustawien, restart"
+IT0037738,2024-10-24 00:00:00.000,.nie jestem w stanie wybrać odpowiedniej kategorii,Problem z sesja w IB
+IT0037737,2024-10-24 00:00:00.000,.nie jestem w stanie wybrać odpowiedniej kategorii,Problem z sesja w IB
+IT0037663,2024-10-24 00:00:00.000,.nie jestem w stanie wybrać odpowiedniej kategorii,Problem z sesja w IB
+IT0011927,2024-10-27 00:00:00.000,.nie jestem w stanie wybrać odpowiedniej kategorii,brak danych
+IT0038156,2024-10-29 00:00:00.000,kalibracja,"Głowica nie dociskała naklejek, problemem był wałek który został wyjęty z miejsca i nie włożony odpowiednio"
+IT0017495,2024-10-30 00:00:00.000,kalibracja,brak danych
+IT0011927,2024-10-30 00:00:00.000,.nie jestem w stanie wybrać odpowiedniej kategorii,brak danych
+IT0011935,2024-10-30 00:00:00.000,wymiana mediow,brak danych
+IT0037737,2024-10-31 00:00:00.000,problem sieciowy,brak danych
+IT0017496,2024-10-31 00:00:00.000,kalibracja,brak danych
+IT0037737,2024-10-31 00:00:00.000,kalibracja,brak danych
+IT0024850,2024-10-23 00:00:00.000,.nie jestem w stanie wybrać odpowiedniej kategorii,"Drukarka jest po wymianie płyty głównej i nie trzyma znów ustawień. Podmieniłem baterię, ale nic to nie dało."
+IT0018879,2024-11-04 00:00:00.000,kalibracja,brak danych
+IT0025867,2024-11-04 00:00:00.000,kalibracja,brak danych
+IT0038156,2024-11-04 00:00:00.000,kalibracja,brak danych
+IT0023153,2024-11-05 00:00:00.000,kalibracja,brak danych
+IT0019465,2024-11-05 00:00:00.000,kalibracja,"reset do defaulta, kalibracja, wypozycjonowanie nadruku"
+IT0023140,2024-11-05 00:00:00.000,kalibracja,"weryfikacja problemu, reset do defaulta, kalibracja, wypozycjonowanie nadruku, zmiana docisków"
+IT0002264,2024-11-06 00:00:00.000,kalibracja,brak danych
+IT0021132,2024-11-06 00:00:00.000,problem sieciowy,"reset defaults usawien, wczyszczenie pamieci drukarki"
+IT0024354,2024-11-06 00:00:00.000,wymiana mediow,brak danych
+IT0011927,2024-11-07 00:00:00.000,.nie jestem w stanie wybrać odpowiedniej kategorii,brak danych
+IT0002132,2024-11-07 00:00:00.000,kalibracja,Drukarka ma zyzytą głowicę. Nalezy zakupić nową drukarkę mobilną w zamian za obecną
+IT0037291,2024-11-07 00:00:00.000,kalibracja,brak danych
+IT0002824,2024-11-07 00:00:00.000,kalibracja,brak danych
+IT0027931,2024-11-07 00:00:00.000,kalibracja,brak danych
+IT0020296,2024-11-07 00:00:00.000,kalibracja,brak danych
+IT0024354,2024-11-07 00:00:00.000,wymiana mediow,brak danych
+IT0019465,2024-11-08 00:00:00.000,kalibracja,brak danych
+IT0019465,2024-11-12 00:00:00.000,kalibracja,Kalka była źle zalożona. Poinformowano operatora o błędzie.
+IT0003690,2024-11-12 00:00:00.000,kalibracja,"Drukarka chyba ma problem z trzymaniem ustawień, ale nie zdążyłem zweryfikować. Po defaultcie drukuje trochę lepiej, jednak dalej im nie pasuje"
+IT0024174,2024-11-18 00:00:00.000,.nie jestem w stanie wybrać odpowiedniej kategorii,"Demontaż frontu drukarki od rewindera. Zmiana prarametrów Tear- Off, zmiana offsetów, Kalibracja"
+IT0028325,2024-11-19 00:00:00.000,kalibracja,"Drukarka robi dziwne niedodruki w okolicach krawędzi drukowanego obszaru. Pomogło zwiększenie darknessu, jednak dalej nie jest idealnie."
+IT0014592,2024-11-21 00:00:00.000,kalibracja,"kalibracja, wypozycjonowanie nadruku, ustawienie odpowiedniego poziomu darkness"
+IT0014591,2024-11-21 00:00:00.000,kalibracja,Skalibrowanie drukarki rozwiązało problem
+IT0024204,2024-11-22 00:00:00.000,kalibracja,Złe położenie czujnika
+IT0003422,2024-11-28 00:00:00.000,wymiana glowicy,brak danych
+IT0002771,2024-11-28 00:00:00.000,czyszczenie,"Czyszczenie głowicy, zmiana darkness, speed"
+IT0012260,2024-12-03 00:00:00.000,.nie jestem w stanie wybrać odpowiedniej kategorii,problemem było używanie niewłaściwej stacji FF
+IT0013896,2024-12-04 00:00:00.000,kalibracja,problem z mediami - pomogła kalibracja. Potem pojawił sie problem z brakującyn numerem pod barcodem - tutaj pomógł reset do defaulta.
+IT0000665,2024-12-04 00:00:00.000,.nie jestem w stanie wybrać odpowiedniej kategorii,Problem z był związany z konfiguracja  drukarki w baanie
+IT0036600,2024-12-04 00:00:00.000,kalibracja,"Zmiana pozycji i siły docisków, usuniecie przyklejonych  etykiet z wałka, reset default, zmiana darkness"
+IT0013365,2024-12-04 00:00:00.000,wymiana mediow,"wymiana kalki na poprawny item, czyszczenie głowicy, zmiana offsetów i tear off"
+IT0036575,2024-12-04 00:00:00.000,wymiana glowicy,"wymiana głowicy, kalibracja"
+IT0012405,2024-12-04 00:00:00.000,czyszczenie,brak danych
+IT0003632,2024-12-05 00:00:00.000,kalibracja,brak danych
+IT0024850,2024-12-09 00:00:00.000,kalibracja,brak danych
+IT0024850,2024-12-09 00:00:00.000,kalibracja,brak danych
+IT0023337,2024-12-11 00:00:00.000,.nie jestem w stanie wybrać odpowiedniej kategorii,Reset default ustawień drukarki
+IT0021132,2024-12-13 00:00:00.000,problem sieciowy,wymiana płyty głównej
+IT0018390,2024-12-14 00:00:00.000,kalibracja,brak danych
+IT0024850,2024-12-17 00:00:00.000,kalibracja,brak danych
+IT0018390,2024-12-18 00:00:00.000,kalibracja,Ustawienie docisków i darknessu. Rwało kalkę
+IT0018871,2024-12-20 00:00:00.000,kalibracja,Skalibrowanie drukarki
+IT0018539,2024-12-20 00:00:00.000,kalibracja,"zmiana pozycji docisków, siły docisków, zmiana darkness"
+IT0018041,2024-12-23 00:00:00.000,wymiana glowicy,Wymiana głowicy
+IT0018390,2025-01-02 00:00:00.000,czyszczenie,czyszczenie czujnika obecnosci papieru
+IT0024850,2025-01-07 00:00:00.000,kalibracja,Drukarka po restarcie nie trzyma ustawień.
+IT0023176,2025-01-07 00:00:00.000,kalibracja,zwiększenie docisków i kalibracja
+IT0027931,2025-01-07 00:00:00.000,kalibracja,Poprawa mediów po założeniu przez brygadzistę.
+IT0018390,2025-01-07 00:00:00.000,kalibracja,Zmieniono ustawienia konwersji formatu
+IT0036370,2025-01-07 00:00:00.000,kalibracja,Źle założone media
+IT0018550,2025-01-08 00:00:00.000,problem sieciowy,brak danych
+IT0024780,2025-01-09 00:00:00.000,problem sieciowy,"clean memory printer, reset default, restart drukarki"
+IT0037030,2025-01-09 00:00:00.000,wymiana mediow,"poprawne założenie etykiet, reset default ustawień"
+IT0036573,2025-01-13 00:00:00.000,kalibracja,"kalibracja, poprawa ułożenia kalki, wypozycjonowanie nadruku"
+IT0036577,2025-01-14 00:00:00.000,kalibracja,Drukarka drukowala uciete naklejki. Defautl pomogł
+IT0002779,2025-01-14 00:00:00.000,wymiana glowicy,"Robiły się paski, kody nie skanowały, więc wymieniłem głowicę"
+IT0025877,2025-01-14 00:00:00.000,problem sieciowy,brak danych
+IT0036577,2025-01-14 00:00:00.000,wymiana glowicy,brak danych
+IT0003786,2025-01-16 00:00:00.000,kalibracja,brak danych
+IT0002282,2025-01-17 00:00:00.000,.nie jestem w stanie wybrać odpowiedniej kategorii,brak zasilania
+IT0036456,2025-01-17 00:00:00.000,kalibracja,brak danych
+IT0021327,2025-01-17 00:00:00.000,kalibracja,brak danych
+IT0012260,2025-01-20 00:00:00.000,kalibracja,Kalibracja
+IT0007520,2025-01-20 00:00:00.000,kalibracja,kalibracja
+IT0003691,2025-01-21 00:00:00.000,kalibracja,"zmiana darkness, pozycji docików, wyprosowanie maskownicy głowicy"
+IT0024850,2025-01-22 00:00:00.000,kalibracja,"Drukarka dalej nie trzyma ustawień, ustawiono IP i skalibrowano"
+IT0021112,2025-01-22 00:00:00.000,kalibracja,brak danych
+IT0012410,2025-01-22 00:00:00.000,kalibracja,"Poprawa mediów, lekkie przeczyszczenie drukarki"
+IT0018099,2025-01-23 00:00:00.000,czyszczenie,Nieprawidłowo założone media. Przeczyszczono zalegające naklejki i założono media poprawnie.
+IT0020344,2025-01-23 00:00:00.000,kalibracja,Drukarka coś zamuliła
+IT0003178,2025-01-24 00:00:00.000,wymiana glowicy,"Wymiana głowicy, kalibracja, zmiana offsetów"
+IT0009272,2025-01-24 00:00:00.000,wymiana glowicy,"Wymiana głowicy, kalibracja, zmiana offsetów"
+IT0012019,2025-01-24 00:00:00.000,czyszczenie,"wyczyszczenie głowicy, zmiana darkness, kalibracja, zmiana offsetów"
+IT0011903,2025-01-24 00:00:00.000,czyszczenie,"Czyszczenie głowicy, kalibracja, zmiana darkness, zmiana offsetów"
+IT0021112,2025-01-27 00:00:00.000,kalibracja,brak danych
+IT0021327,2025-01-27 00:00:00.000,kalibracja,brak danych
+IT0018539,2025-01-30 00:00:00.000,kalibracja,brak danych
+IT0004778,2025-01-30 00:00:00.000,czyszczenie,brak danych
+IT0011935,2025-01-30 00:00:00.000,kalibracja,brak danych
+IT0028324,2025-02-01 00:00:00.000,kalibracja,kalibracja pomogła z pływającym wydrukiem
+IT0002777,2025-02-03 00:00:00.000,wymiana glowicy,brak danych
+IT0009394,2025-02-03 00:00:00.000,czyszczenie,brak danych
+IT0021327,2025-02-04 00:00:00.000,kalibracja,brak danych
+IT0028249,2025-02-05 00:00:00.000,czyszczenie,czyszczenie głowicy rozwiązało problem z niedodrukami
+IT0020344,2025-02-07 00:00:00.000,czyszczenie,"Wyczyszczenie czujników, poprawienie mediów, założenie rolki, kalibracja"
+IT0023177,2025-02-11 00:00:00.000,problem z czujnikiem,"Czujnik został ustawiony, drukarka została skalibrowana, tear off został przestawiony"
+IT0027931,2025-02-12 00:00:00.000,czyszczenie,brak danych
+IT0024850,2025-02-12 00:00:00.000,problem sieciowy,"Karta sieciowa została przestawiona na dhcp, dodatkowo potrzebna była kalibracja wydruku"
+IT0021112,2025-02-14 00:00:00.000,czyszczenie,Wyczyszczenie walka Zmiana siły i pozycji docisków.
+IT0024353,2025-02-14 00:00:00.000,kalibracja,"Reset default, kalibracja, zmiana offcetów"
+IT0002447,2025-02-17 00:00:00.000,kalibracja,"Zmiana pozycji i siły docisków, zmiana darkness"
+IT0038156,2025-02-20 00:00:00.000,kalibracja,Kalibracja i czyszczenie głowicy.
+IT0025879,2025-02-26 00:00:00.000,kalibracja,"poprawienie mediow, kalibracja drukarki"
+IT0024850,2025-02-27 00:00:00.000,kalibracja,brak danych
+IT0011935,2025-02-28 00:00:00.000,kalibracja,"Wygląda jakby drukarka się zresetowała do domyślnych, błąd operatora?"
+IT0038156,2025-03-03 00:00:00.000,kalibracja,brak danych
+IT0038162,2025-03-03 00:00:00.000,kalibracja,brak danych
+IT0023176,2025-03-05 00:00:00.000,kalibracja,"Reset default ustawień, kalibracja, zmiana offsetów, zmiana darkness"
+IT0023153,2025-03-06 00:00:00.000,kalibracja,problem z mediami i czytelnoscia nadruku
+IT0023000,2025-03-06 00:00:00.000,kalibracja,problem z siecia
+IT0023724,2025-03-10 00:00:00.000,problem z czujnikiem,"Zmiana pozycji czujnika, kalibracja, wyczyszczenie wałka i głowicy, zmiana offsetów"
+IT0014948,2025-03-10 00:00:00.000,kalibracja,"zmiana konwersji dpi, zmiana offsetów, zmiana tear off"
+IT0012260,2025-03-11 00:00:00.000,problem sieciowy,"Drukarka traciła połączenie przy ruszaniu, zarobienie końcówki."
+IT0018550,2025-03-11 00:00:00.000,problem sieciowy,brak danych
+IT0002289,2025-03-11 00:00:00.000,wymiana glowicy,brak danych
+IT0038159,2025-03-14 00:00:00.000,.nie jestem w stanie wybrać odpowiedniej kategorii,Wymiana kabla zasilajacego
+IT0013894,2025-03-14 00:00:00.000,wymiana glowicy,FLX-PRI-PTR-N00038
+IT0023337,2025-03-14 00:00:00.000,kalibracja,brak danych
+IT0000840,2025-03-17 00:00:00.000,wymiana glowicy,"przepalona głowica, wymieniona na nową"
+IT0003786,2025-03-22 00:00:00.000,wymiana mediow,Nowy typ naklejek nie pasował do założonej kalki
+IT0023175,2025-03-28 00:00:00.000,wymiana walka,wymiana wałka i kalibracja
+IT0024938,2025-04-01 00:00:00.000,uszkodzenie mechaniczne,"Brakowało plastikowej prowadnicy taśmy, podkradłem z jednej z uszkodzonych wybrakowanych drukarek"
+IT0024938,2025-04-01 00:00:00.000,.nie jestem w stanie wybrać odpowiedniej kategorii,"Restart, kalibracja, zmiana offsetów,"
+IT0038546,2025-04-02 00:00:00.000,czyszczenie,Czyszczenie i kalibracja
+IT0020364,2025-04-03 00:00:00.000,.nie jestem w stanie wybrać odpowiedniej kategorii,wymiana płyty głównej
+IT0023175,2025-04-05 00:00:00.000,kalibracja,"Zmiana softu, dostrojenie wydruku, żeby nie ucinała dolnych napisów"
+IT0009187,2025-04-05 00:00:00.000,uszkodzenie mechaniczne,"Skręcenie drukarki, między innymi wypadł wałek z prowadnic, docis kalki wymagał prostowania, plus wykonanie kalibracji. Drukarka nie posiada ogranicznika do naklejek"
+IT0038585,2025-04-05 00:00:00.000,uszkodzenie mechaniczne,"Cały mechanizm został zablokowany, wymagało to rozkręcenia drukarki i przeglądu całego układu napędowego. Awaria została usunięta"
+IT0002491,2025-04-05 00:00:00.000,wymiana walka,"Wymiana wałka, wyeksploatowany, popękany."
+IT0038546,2025-04-08 00:00:00.000,wymiana walka,Wymiana głowicy. Czyszczenie. Kalibracja
