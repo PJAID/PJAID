@@ -1,6 +1,7 @@
 plugins {
     alias(libs.plugins.android.application)
     id("com.google.dagger.hilt.android")
+    id("androidx.navigation.safeargs")
 }
 
 android {
@@ -49,12 +50,12 @@ dependencies {
     implementation(libs.rxandroid) // Użyj najnowszej wersji
     implementation(libs.rxjava)
 // Retrofit RxJava Adapter
-    implementation(libs.retrofit2.adapter.rxjava3) // Użyj wersji pasującej do Retrofit
+    implementation (libs.retrofit2.adapter.rxjava3) // Użyj wersji pasującej do Retrofit
 // Lifecycle (ViewModel, LiveData)
-    implementation(libs.lifecycle.viewmodel) // Użyj najnowszej wersji
-    implementation(libs.androidx.lifecycle.livedata)
+    implementation (libs.lifecycle.viewmodel) // Użyj najnowszej wersji
+    implementation (libs.androidx.lifecycle.livedata)
 // Do integracji Java 8 z Lifecycle (opcjonalnie, ale pomocne)
-    implementation(libs.lifecycle.common.java8)
+    implementation (libs.lifecycle.common.java8)
     // Google Maps
     implementation(libs.play.services.maps)
 

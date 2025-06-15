@@ -29,6 +29,7 @@
       <th>Numer seryjny</th>
       <th>Data zakupu</th>
       <th>Ostatni serwis</th>
+      <th>Status</th>
       <th>Akcje</th>
     </tr>
     </thead>
@@ -38,6 +39,7 @@
       <td>{{ device.serialNumber }}</td>
       <td>{{ device.purchaseDate }}</td>
       <td>{{ device.lastService }}</td>
+      <td>{{ device.status }}</td>
       <td>
         <a [routerLink]="['/devices', device.id]">Szczegóły</a>
       </td>

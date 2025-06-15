@@ -1,43 +1,53 @@
 package com.example.pjaidmobile.data.model;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.EditText;
+import android.widget.ImageButton;
+import android.widget.Spinner;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.pjaidmobile.R;
+import com.example.pjaidmobile.presentation.features.report.CloseReportActivity;
 
 public class EditTicketActivity extends AppCompatActivity {
-
-    private EditText editTitle, editDescription;
-    private Button btnSaveChanges;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit_ticket);
 
-        editTitle = findViewById(R.id.edit_ticket_title);
-        editDescription = findViewById(R.id.edit_ticket_description);
-        btnSaveChanges = findViewById(R.id.button_save_changes);
+        ImageButton buttonBack = findViewById(R.id.buttonBack);
+        buttonBack.setOnClickListener(v -> finish());
 
-        // odbiór przekazanego ID zgłoszenia
-        String ticketId = getIntent().getStringExtra("TICKET_ID");
+        Spinner spinnerStatus = findViewById(R.id.spinner_status);
+        Button btnSaveChanges = findViewById(R.id.button_save_changes);
 
-        // pobieranie danych zgłoszenia na podstawie ticketId (np. z repozytorium)
-        // Na razie wersja demo
+        String ticketId = getIntent().getStringExtra("ticketId");
+
+        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(
+                this,
+                R.array.status_options,
+                android.R.layout.simple_spinner_item
+        );
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinnerStatus.setAdapter(adapter);
 
         btnSaveChanges.setOnClickListener(v -> {
-            String newTitle = editTitle.getText().toString();
-            String newDescription = editDescription.getText().toString();
+            String selectedStatus = spinnerStatus.getSelectedItem().toString().toLowerCase();
 
-            // zapisywanie zmian (np. wysyłasz na serwer, zapisujesz w bazie)
             Toast.makeText(this, "Zapisano zmiany dla zgłoszenia: " + ticketId, Toast.LENGTH_SHORT).show();
 
-            // zamknięcie aktywności
-            finish();
+            if (selectedStatus.contains("zamknięte") || selectedStatus.contains("zakończone")) {
+                Intent intent = new Intent(this, CloseReportActivity.class);
+                intent.putExtra("ticketId", ticketId);
+                startActivity(intent);
+            } else {
+                finish();
+            }
         });
     }
 }

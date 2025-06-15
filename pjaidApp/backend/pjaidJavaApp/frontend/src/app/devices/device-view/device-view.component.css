@@ -1,0 +1,52 @@
+.device-detail-container {
+  background: rgba(255, 255, 255, 0.08);
+  color: white;
+  padding: 2rem;
+  margin: 2rem auto;
+  max-width: 700px;
+  border-radius: 12px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+}
+
+.device-detail-container h2 {
+  font-size: 1.8rem;
+  font-weight: bold;
+  margin-bottom: 1.5rem;
+  text-align: center;
+}
+
+.device-info p {
+  font-size: 1rem;
+  margin: 0.5rem 0;
+}
+
+.device-info strong {
+  color: #cddc39;
+}
+
+.device-back-button {
+  display: flex;
+  justify-content: center;
+  margin-top: 2rem;
+}
+
+.device-back-button button {
+  padding: 0.6rem 1.2rem;
+  border: none;
+  border-radius: 6px;
+  background-color: #0d47a1;
+  color: white;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.device-back-button button:hover {
+  background-color: #0a357a;
+}
+
+.loading-text {
+  color: #ffffff;
+  text-align: center;
+  margin-top: 2rem;
+  font-size: 1.1rem;
+}

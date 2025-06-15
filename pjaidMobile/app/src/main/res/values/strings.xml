@@ -27,4 +27,23 @@
     <string name="toggle_password_visibility">Toggle password visibility</string>
     <string name="wrong_login_or_password">Błędny login lub hasło</string>
     <string name="ticket_title_prefix">Zgłoszenie: %1$s\n</string>
+    <string name="logo">Logo</string>
+    <string name="rodzaj_zg_oszenia">Rodzaj zgłoszenia:</string>
+    <string name="awaria">Awaria</string>
+    <string name="przest_j">Przestój</string>
+    <string name="tytu_zg_oszenia">Tytuł zgłoszenia</string>
+    <string name="opis_zg_oszenia">Opis zgłoszenia</string>
+    <string name="wy_lij_zg_oszenie">Wyślij zgłoszenie</string>
+    <string name="back">Wstecz</string>
+    <string name="wstecz">Wstecz</string>
+    <string name="zapisz_zmiany">Zapisz zmiany</string>
+    <string-array name="tytuly_array">
+        <item>Awaria</item>
+        <item>Przestój</item>
+    </string-array>
+    <string-array name="status_options">
+        <item>NOWE</item>
+        <item>W TRAKCIE</item>
+        <item>ZAKOŃCZONE</item>
+    </string-array>
 </resources>

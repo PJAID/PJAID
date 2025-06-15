@@ -18,4 +18,7 @@ public class DeviceDto {
     private String lastService;
     private String qrCode;
     private Status status;
+    private Double latitude;
+    private Double longitude;
+    private String statusDevice;
 }

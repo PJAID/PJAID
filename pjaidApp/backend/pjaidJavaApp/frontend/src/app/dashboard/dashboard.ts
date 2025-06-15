@@ -1,17 +1,18 @@
-import { Component, OnInit } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
-import { Chart, ChartConfiguration, ChartType, ChartData, ActiveElement } from 'chart.js';
-import { NgChartsModule } from 'ng2-charts';
-
+import {Component, OnInit} from '@angular/core';
+import {HttpClient} from '@angular/common/http';
 import {
+  ActiveElement,
+  ArcElement,
   BarController,
   BarElement,
   CategoryScale,
+  Chart,
+  ChartConfiguration,
+  Legend,
   LinearScale,
-  ArcElement,
-  Tooltip,
-  Legend
+  Tooltip
 } from 'chart.js';
+import {NgChartsModule} from 'ng2-charts';
 import {DatePipe, NgForOf, NgIf} from '@angular/common';
 
 
@@ -34,11 +35,12 @@ Chart.register(
 })
 export class DashboardComponent implements OnInit {
   statusCounts: any = {};
-  ticketChart: ChartConfiguration<'bar'>['data'] = { labels: [], datasets: [] };
+  ticketChart: ChartConfiguration<'bar'>['data'] = {labels: [], datasets: []};
   selectedStatus: string | null = null;
   tickets: any[] = [];
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient) {
+  }
 
   ngOnInit(): void {
     this.fetchStatusData();
@@ -61,9 +63,9 @@ export class DashboardComponent implements OnInit {
 
   onChartClick(event: any, active: {}[] | undefined): void {
     if (active && active.length > 0) {
-      const chartElement = active[0] as ActiveElement;  // 👈 rzutowanie
+      const chartElement = active[0] as ActiveElement;
       const index = chartElement.index;
-      const status = this.ticketChart.labels?.[index] as string;  // 👈 wymuś string
+      const status = this.ticketChart.labels?.[index] as string;
 
       this.selectedStatus = status;
       this.fetchTicketsByStatus(status);
@@ -76,4 +78,7 @@ export class DashboardComponent implements OnInit {
         this.tickets = data;
       });
   }
+}
+
+export class Dashboard {
 }

@@ -1,9 +1,11 @@
 package com.example.pjaidmobile.presentation.features.report;
 
+import android.Manifest;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.Toast;
 
 import androidx.activity.result.ActivityResultLauncher;
@@ -23,6 +25,7 @@ import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapView;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.android.material.button.MaterialButtonToggleGroup;
 
 import dagger.hilt.android.AndroidEntryPoint;
 import retrofit2.Call;
@@ -31,13 +34,14 @@ import retrofit2.Response;
 
 @AndroidEntryPoint
 public class CreateTicketActivity extends AppCompatActivity {
+
     private static final String MAPVIEW_BUNDLE_KEY = "MapViewBundleKey";
 
-    private CreateTicketViewModel viewModel;
     private GoogleMap googleMap;
     private MapView mapView;
     private Double latitude = null;
     private Double longitude = null;
+    private CreateTicketViewModel viewModel;
 
     private final ActivityResultLauncher<String> locationPermissionRequest =
             registerForActivityResult(new ActivityResultContracts.RequestPermission(), isGranted -> {
@@ -54,14 +58,77 @@ public class CreateTicketActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create_ticket);
 
+        ImageButton buttonBack = findViewById(R.id.buttonBack);
+        buttonBack.setOnClickListener(v -> finish());
+
         viewModel = new ViewModelProvider(this).get(CreateTicketViewModel.class);
         mapView = findViewById(R.id.mapView);
+
         setupMap(savedInstanceState);
         setupForm();
         observeViewModel();
 
         Device device = DeviceIntentHelper.extractDeviceFromIntent(getIntent());
         populateFormFromDevice(device);
+    }
+
+    private void setupForm() {
+        EditText title = findViewById(R.id.editTextTitle);
+        EditText description = findViewById(R.id.editTextDescription);
+        Button sendButton = findViewById(R.id.buttonSubmitTicket);
+        MaterialButtonToggleGroup toggleType = findViewById(R.id.toggleType);
+
+        sendButton.setOnClickListener(v -> {
+            String titleText = title.getText().toString().trim();
+            String descriptionText = description.getText().toString().trim();
+
+            if (titleText.isEmpty()) {
+                title.setError("Tytuł nie może być pusty");
+                return;
+            }
+
+            if (descriptionText.isEmpty()) {
+                description.setError("Opis nie może być pusty");
+                return;
+            }
+
+            String status = toggleType.getCheckedButtonId() == R.id.btnPrzestoj ? "wysoki" : "normalny";
+
+            TicketRequest request = new TicketRequest(
+                    titleText,
+                    descriptionText,
+                    status,
+                    125, // TODO: dynamiczne userId
+                    2,   // TODO: dynamiczne deviceId
+                    latitude != null ? latitude : 53.1234804d,
+                    longitude != null ? longitude : 18.004378d
+            );
+
+            viewModel.submitTicket(request, new TicketCallback());
+        });
+    }
+
+    private void populateFormFromDevice(Device device) {
+        EditText titleEditText = findViewById(R.id.editTextTitle);
+        EditText descriptionEditText = findViewById(R.id.editTextDescription);
+
+        if (device != null) {
+            if (device.getName() != null) {
+                titleEditText.setText(getString(R.string.ticket_title_prefix, device.getName()));
+            }
+
+            StringBuilder descriptionBuilder = new StringBuilder();
+            if (device.getSerialNumber() != null) {
+                descriptionBuilder.append("Numer seryjny: ").append(device.getSerialNumber()).append("\n");
+            }
+            if (device.getPurchaseDate() != null) {
+                descriptionBuilder.append("Data zakupu: ").append(device.getPurchaseDate());
+            }
+
+            if (descriptionBuilder.length() > 0) {
+                descriptionEditText.setText(descriptionBuilder.toString());
+            }
+        }
     }
 
     private void observeViewModel() {
@@ -81,71 +148,18 @@ public class CreateTicketActivity extends AppCompatActivity {
         });
     }
 
-    private void setupForm() {
-        EditText title = findViewById(R.id.editTextTitle);
-        EditText description = findViewById(R.id.editTextDescription);
-        Button sendButton = findViewById(R.id.buttonSubmitTicket);
-
-        sendButton.setOnClickListener(v -> {
-            String titleText = title.getText().toString().trim();
-            String descriptionText = description.getText().toString().trim();
-
-            if (titleText.isEmpty()) {
-                title.setError("Tytuł nie może być pusty");
-                return;
-            }
-
-            if (descriptionText.isEmpty()) {
-                description.setError("Opis nie może być pusty");
-                return;
-            }
-
-            TicketRequest request = new TicketRequest(
-                    titleText,
-                    descriptionText,
-                    "NOWE",
-                    125, // TODO: dynamiczne userId
-                    2,   // TODO: dynamiczne deviceId
-                    latitude != null ? latitude : 53.1234804d,
-                    longitude != null ? longitude : 18.004378d
-            );
-            viewModel.submitTicket(request, new TicketCallback());
-        });
-    }
-
-    private void populateFormFromDevice(Device device) {
-        EditText titleEditText = findViewById(R.id.editTextTitle);
-        EditText descriptionEditText = findViewById(R.id.editTextDescription);
-
-        if (device.getName() != null) {
-            titleEditText.setText(getString(R.string.ticket_title_prefix, device.getName()));
-        }
-
-        StringBuilder descriptionBuilder = new StringBuilder();
-        if (device.getSerialNumber() != null) {
-            descriptionBuilder.append("Numer seryjny: ").append(device.getSerialNumber()).append("\n");
-        }
-        if (device.getPurchaseDate() != null) {
-            descriptionBuilder.append("Data zakupu: ").append(device.getPurchaseDate());
-        }
-
-        if (descriptionBuilder.length() > 0) {
-            descriptionEditText.setText(descriptionBuilder.toString());
-        }
-    }
-
     private void checkLocationPermission() {
-        if (ContextCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION)
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)
                 == PackageManager.PERMISSION_GRANTED) {
             enableUserLocation();
             viewModel.getCurrentLocation();
         } else {
-            locationPermissionRequest.launch(android.Manifest.permission.ACCESS_FINE_LOCATION);
+            locationPermissionRequest.launch(Manifest.permission.ACCESS_FINE_LOCATION);
         }
     }
 
     private void enableUserLocation() {
-        if (googleMap != null && ContextCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION)
+        if (googleMap != null && ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)
                 == PackageManager.PERMISSION_GRANTED) {
             googleMap.setMyLocationEnabled(true);
         }
@@ -157,6 +171,12 @@ public class CreateTicketActivity extends AppCompatActivity {
             googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(userLocation, 15));
             googleMap.addMarker(new MarkerOptions().position(userLocation).title("Twoja lokalizacja"));
         }
+    }
+
+    @Override
+    public boolean onSupportNavigateUp() {
+        finish();
+        return true;
     }
 
     @Override
@@ -194,6 +214,7 @@ public class CreateTicketActivity extends AppCompatActivity {
         mapView.onSaveInstanceState(mapViewBundle);
     }
 
+    // Callback do obsługi odpowiedzi z API
     private class TicketCallback implements Callback<TicketResponse> {
         private final TicketCallbackHandler handler = new TicketCallbackHandler(CreateTicketActivity.this) {
             @Override
@@ -218,3 +239,5 @@ public class CreateTicketActivity extends AppCompatActivity {
         }
     }
 }
+
+                 

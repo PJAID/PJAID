@@ -79,13 +79,6 @@
         android:backgroundTint="#4D5A88D1"
         android:text="Lista zgłoszeń" />
 
-        <Button
-            android:id="@+id/buttonReportDetail"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            android:backgroundTint="#4D5A88D1"
-            android:text="Szczegóły zgłoszenia" />
 
         <Button
             android:id="@+id/logout_button"
@@ -93,7 +86,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
             android:layout_marginTop="24dp"
-            android:backgroundTint="#F44336"
+            android:backgroundTint="#B81E30"
             android:text="Wyloguj się" />
 
     </LinearLayout>

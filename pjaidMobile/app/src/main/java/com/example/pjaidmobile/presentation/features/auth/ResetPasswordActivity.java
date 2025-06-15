@@ -23,7 +23,6 @@ public class ResetPasswordActivity extends AppCompatActivity {
         ButtonAnimationUtil.applySpringAnimation(resetPasswordButton);
 
         resetPasswordButton.setOnClickListener(v -> {
-            // obsługa resetowania hasła
         });
     }
 }

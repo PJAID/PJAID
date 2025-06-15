@@ -17,7 +17,6 @@ public class TicketAssignmentService {
 
     @Autowired private TicketQueueRepository ticketQueueRepo;
     @Autowired private TicketRepository ticketRepo;
-    @Autowired private IncidentRepository incidentRepo;
     @Autowired private TechnicianShiftRepository shiftRepo;
     @Autowired private TechnicianLoginStatusRepository loginRepo;
     @Autowired private TechnicianTaskStatusRepository taskStatusRepo;
@@ -49,10 +48,7 @@ public class TicketAssignmentService {
     }
 
     private Priority getIncidentPriority(Ticket ticket) {
-        return Optional.ofNullable(ticket.getIncident())
-                .flatMap(incident -> incidentRepo.findById(incident.getId()))
-                .map(Incident::getPriority)
-                .orElse(Priority.LOW);
+        return ticket.getPriority() != null ? ticket.getPriority() : Priority.LOW;
     }
 
     private List<User> getAvailableTechnicians(LocalDateTime now) {
