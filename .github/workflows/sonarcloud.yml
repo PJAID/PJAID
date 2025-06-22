@@ -43,6 +43,19 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up JDK 21
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'temurin'
+          java-version: '21'
+
+      - name: Build project with Maven
+        working-directory: pjaidApp/backend/pjaidJavaApp
+        run: mvn clean install -DskipTests
+        
       - name: Analyze with SonarCloud
 
         # You can pin the exact commit or the version.
@@ -57,6 +70,7 @@ jobs:
             # mandatory
             -Dsonar.projectKey=PJAID_PJAID
             -Dsonar.organization=pjaid
+            -Dsonar.java.binaries=target/classes
             # Comma-separated paths to directories containing main source files.
             #-Dsonar.sources= # optional, default is project base directory
             # Comma-separated paths to directories containing test source files.
@@ -64,4 +78,4 @@ jobs:
             # Adds more detail to both client and server-side analysis logs, activating DEBUG mode for the scanner, and adding client-side environment variables and system properties to the server-side log of analysis report processing.
             #-Dsonar.verbose= # optional, default is false
           # When you need the analysis to take place in a directory other than the one from which it was launched, default is .
-          projectBaseDir: .
+          projectBaseDir: pjaidApp/backend/pjaidJavaApp
