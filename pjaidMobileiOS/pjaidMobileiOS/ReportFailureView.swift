@@ -119,6 +119,51 @@ struct ReportFailureView: View {
         }
         return nil
     }
+    func sendTicketToBackend(ticket: Ticket) {
+        guard let url = URL(string: "http://localhost:8080/ticket") else {
+            print("Błąd: Niepoprawny URL")
+            return
+        }
+
+        var request = URLRequest(url: url)
+        request.httpMethod = "POST"
+        request.setValue("application/json", forHTTPHeaderField: "Content-Type")
+
+        let encoder = JSONEncoder()
+        encoder.dateEncodingStrategy = .iso8601
+
+        do {
+            let jsonData = try encoder.encode(ticket)
+            
+            if let jsonString = String(data: jsonData, encoding: .utf8) {
+                print("Wysyłany JSON:\n\(jsonString)")
+            }
+
+            request.httpBody = jsonData
+        } catch {
+            print("Błąd kodowania JSON: \(error)")
+            return
+        }
+
+        URLSession.shared.dataTask(with: request) { data, response, error in
+            if let error = error {
+                print("Błąd wysyłania zgłoszenia: \(error)")
+                return
+            }
+
+            guard let httpResponse = response as? HTTPURLResponse,
+                  (200...299).contains(httpResponse.statusCode) else {
+                print("Błąd HTTP: \(response.debugDescription)")
+                return
+            }
+
+            DispatchQueue.main.async {
+                showConfirmation = true
+            }
+
+            print("Zgłoszenie zostało pomyślnie wysłane na backend.")
+        }.resume()
+    }
     
     var body: some View {
         VStack(spacing: 20) {
@@ -175,20 +220,28 @@ struct ReportFailureView: View {
 
 
             Button(action: {
+                print("Aktualny użytkownik: '\(appState.currentUser)'")
+                guard !appState.currentUser.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty else {
+                    print("❌ Brak użytkownika – nie można wysłać zgłoszenia")
+                    return
+                }
+
                 let newTicket = Ticket(
                     id: Int.random(in: 1000...9999),
                     title: title,
                     description: description,
                     status: selectedStatus.rawValue,
-                    user: appState.currentUser,
+                    user: UserDTO(id: 0, userName: appState.currentUser),
                     timestamp: Date(),
                     latitude: locationManager.location?.latitude,
                     longitude: locationManager.location?.longitude,
-                    building: assignedBuilding?.name
+                    building: assignedBuilding?.name,
+                    technician: nil
                 )
-                appState.userTickets.insert(newTicket, at: 0)
-                showConfirmation = true
+
+                sendTicketToBackend(ticket: newTicket)
                 print("Wysłano: \(title) - \(description), status: \(selectedStatus.rawValue)")
+
             }) {
                 Text("Wyślij zgłoszenie")
                     .frame(maxWidth: .infinity)
