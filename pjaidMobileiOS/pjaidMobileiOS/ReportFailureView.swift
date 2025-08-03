@@ -222,7 +222,7 @@ struct ReportFailureView: View {
             Button(action: {
                 print("Aktualny użytkownik: '\(appState.currentUser)'")
                 guard !appState.currentUser.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty else {
-                    print("❌ Brak użytkownika – nie można wysłać zgłoszenia")
+                    print("Brak użytkownika – nie można wysłać zgłoszenia")
                     return
                 }
 
