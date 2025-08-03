@@ -21,7 +21,7 @@ struct Ticket: Identifiable, Codable {
     let id: Int
     let title: String
     let description: String
-    let status: String
+    var status: String
     var user: UserDTO?
     var timestamp: Date?
     let latitude: Double?

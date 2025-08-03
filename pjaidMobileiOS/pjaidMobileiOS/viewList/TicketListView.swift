@@ -10,7 +10,8 @@ struct TicketListView: View {
     @EnvironmentObject var appState: AppState
     @State private var apiTickets: [Ticket] = []
     @State private var isLoading = true
-    @State private var selectedTab = 0 // 0 = Wszystkie, 1 = Moje zgłoszenia
+    @State private var selectedTab = 0
+    @State private var shouldRefresh = false
 
     var body: some View {
         NavigationView {
@@ -27,7 +28,9 @@ struct TicketListView: View {
                         .padding()
                 } else {
                     List(filteredTickets()) { ticket in
-                        NavigationLink(destination: TicketDetailView(ticket: ticket)) {
+                        NavigationLink(
+                            destination: TicketDetailView(ticket: ticket, shouldRefresh: $shouldRefresh)
+                        ) {
                             TicketRowView(ticket: ticket, currentUser: appState.currentUser)
                         }
                     }
@@ -35,9 +38,12 @@ struct TicketListView: View {
             }
             .navigationTitle("Zgłoszenia")
             .onAppear {
-                fetchTickets { loadedTickets in
-                    self.apiTickets = loadedTickets
-                    self.isLoading = false
+                if isLoading || shouldRefresh {
+                    fetchTickets { loadedTickets in
+                        self.apiTickets = loadedTickets
+                        self.isLoading = false
+                        self.shouldRefresh = false
+                    }
                 }
             }
         }
@@ -62,7 +68,7 @@ struct TicketListView: View {
             return
         }
 
-        URLSession.shared.dataTask(with: url) { data, response, error in
+        URLSession.shared.dataTask(with: url) { data, _, error in
             guard let data = data else {
                 print("Brak danych z serwera")
                 return
