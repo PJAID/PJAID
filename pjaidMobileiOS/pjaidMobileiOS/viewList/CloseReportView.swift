@@ -62,12 +62,10 @@ struct CloseReportView: View {
                 }
             )
         }
-        .alert(isPresented: $showConfirmation) {
-            Alert(
-                title: Text("Eksport XLS"),
-                message: Text("Eksport do XLS niezaimplementowany"),
-                dismissButton: .default(Text("OK"))
-            )
+        .confirmationDialog("Eksport XLS", isPresented: $showConfirmation) {
+            Button("OK", role: .cancel) {}
+        } message: {
+            Text("Eksport do XLS niezaimplementowany")
         }
     }
 
@@ -94,14 +92,25 @@ struct CloseReportView: View {
 
         isSubmitting = true
 
-        URLSession.shared.dataTask(with: request) { _, _, error in
+        URLSession.shared.dataTask(with: request) { data, response, error in
             DispatchQueue.main.async {
                 isSubmitting = false
+
                 if let error = error {
-                    print("Błąd: \(error)")
+                    print("Błąd: \(error.localizedDescription)")
                     return
                 }
-                showSuccessAlert = true
+
+                if let httpResponse = response as? HTTPURLResponse {
+                    print("Kod odpowiedzi: \(httpResponse.statusCode)")
+                    if httpResponse.statusCode == 200 {
+                        showSuccessAlert = true
+                    } else {
+                        print("Serwer zwrócił kod inny niż 200")
+                    }
+                } else {
+                    print("Brak odpowiedzi HTTP")
+                }
             }
         }.resume()
     }
