@@ -1,1 +1,104 @@
-<div id="map" style="height: 400px;"></div>
+<!--<div id="map" style="height: 400px;"></div>-->
+<div class="map">
+  <app-location-map [highlightedHallId]="selectedHallId"></app-location-map>
+</div>
+<h2>Lista aktywnych zgłoszeń</h2>
+<div *ngIf="isLoading" class="loading-indicator">Ładowanie...</div>
+<!-- TABELA -->
+<div *ngIf="!isLoading && tickets.length > 0" class="ticket-table-container">
+  <table>
+    <thead>
+    <tr>
+      <th>
+        <button (click)="sortBy('title')" class="sortable">
+          Tytuł
+          <span class="sort-icon">
+          <ng-container *ngIf="sortColumn !== 'title'">↕️</ng-container>
+          <ng-container *ngIf="sortColumn === 'title'">
+            {{ sortDirection === 'asc' ? '🔼' : '🔽' }}
+          </ng-container>
+        </span>
+        </button>
+      </th>
+      <th>
+        <button (click)="sortBy('status')" class="sortable">
+          Status
+          <span class="sort-icon">
+          <ng-container *ngIf="sortColumn !== 'status'">↕️</ng-container>
+          <ng-container *ngIf="sortColumn === 'status'">
+            {{ sortDirection === 'asc' ? '🔼' : '🔽' }}
+          </ng-container>
+        </span>
+        </button>
+      </th>
+      <th>
+        <button (click)="sortBy('userName')" class="sortable">
+          Użytkownik
+          <span class="sort-icon">
+          <ng-container *ngIf="sortColumn !== 'userName'">↕️</ng-container>
+          <ng-container *ngIf="sortColumn === 'userName'">
+            {{ sortDirection === 'asc' ? '🔼' : '🔽' }}
+          </ng-container>
+        </span>
+        </button>
+      </th>
+      <th>
+        <button (click)="sortBy('deviceName')" class="sortable">
+          Urządzenie
+          <span class="sort-icon">
+          <ng-container *ngIf="sortColumn !== 'deviceName'">↕️</ng-container>
+          <ng-container *ngIf="sortColumn === 'deviceName'">
+            {{ sortDirection === 'asc' ? '🔼' : '🔽' }}
+          </ng-container>
+        </span>
+        </button>
+      </th>
+      <th>
+        <button (click)="sortBy('technicianName')" class="sortable">
+          Technik
+          <span class="sort-icon">
+          <ng-container *ngIf="sortColumn !== 'technicianName'">↕️</ng-container>
+          <ng-container *ngIf="sortColumn === 'technicianName'">
+            {{ sortDirection === 'asc' ? '🔼' : '🔽' }}
+          </ng-container>
+        </span>
+        </button>
+      </th>
+      <th>
+        <button (click)="sortBy('createdAt')" class="sortable">
+          Data utworzenia
+          <span class="sort-icon">
+          <ng-container *ngIf="sortColumn !== 'createdAt'">↕️</ng-container>
+          <ng-container *ngIf="sortColumn === 'createdAt'">
+            {{ sortDirection === 'asc' ? '🔼' : '🔽' }}
+          </ng-container>
+        </span>
+        </button>
+      </th>
+      <th>
+        LOKALIZACJA
+      </th>
+    </tr>
+    </thead>
+
+    <tbody>
+    <tr *ngFor="let ticket of tickets"
+        (click)="selectHall(ticket.hall, ticket.id)"
+        [style.cursor]="'pointer'"
+        [style.background]="selectedTicketId === ticket.id ? '#0872d8' : ''">
+      <td>{{ ticket.title }}</td>
+      <td>{{ ticket.status }}</td>
+      <td>{{ ticket.user.userName || 'Brak' }}</td>
+      <td>{{ ticket.device.name || 'Brak' }}</td>
+      <td>{{ ticket.technicianName || 'Nieprzypisany' }}</td>
+      <td>{{ ticket.createdAt | date: 'yyyy-MM-dd HH:mm' }}</td>
+      <td>{{ ticket.hall }}</td>
+    </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- BRAK WYNIKÓW -->
+<div *ngIf="!isLoading && tickets.length === 0" class="no-results">
+  Brak ticketów spełniających podane kryteria.
+</div>

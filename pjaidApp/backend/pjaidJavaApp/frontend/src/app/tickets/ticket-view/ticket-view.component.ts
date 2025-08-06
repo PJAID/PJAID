@@ -5,12 +5,13 @@ import { HttpClient } from '@angular/common/http';
 import { TicketService } from '../services/ticket.service';
 import { TicketResponse } from '../../shared/models/ticket-response.model';
 import { TechnicianListComponent } from '../technician-list/technician-list.component';
-import {LocationViewComponent} from '../../location/location-view/location-view.component';
+import {LocationDetailsMapComponent} from '../../location/location-details-map/location-details-map.component';
+
 
 @Component({
   selector: 'app-ticket-view',
   standalone: true,
-  imports: [CommonModule, RouterModule, TechnicianListComponent, LocationViewComponent],
+  imports: [CommonModule, RouterModule, TechnicianListComponent, LocationDetailsMapComponent],
   templateUrl: './ticket-view.component.html',
   styleUrls: ['./ticket-view.component.css'],
   providers: [TicketService]

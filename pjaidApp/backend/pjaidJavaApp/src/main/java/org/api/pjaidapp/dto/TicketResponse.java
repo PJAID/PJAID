@@ -30,5 +30,6 @@ public class TicketResponse {
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
     private String assignee;
+    private String hall;
 
 }

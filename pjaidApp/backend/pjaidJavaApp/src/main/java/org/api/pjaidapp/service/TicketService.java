@@ -32,14 +32,16 @@ public class TicketService {
     private final UserRepository userRepository;
     private final DeviceRepository deviceRepository;
     private final TicketMapper ticketMapper;
+    private final LocationService locationService;
 
 
-    public TicketService(TicketRepository ticketRepository, UserRepository userRepository, DeviceRepository deviceRepository, TicketMapper ticketMapper) {
+    public TicketService(TicketRepository ticketRepository, UserRepository userRepository, DeviceRepository deviceRepository, TicketMapper ticketMapper, LocationService locationService) {
 
         this.ticketRepository = ticketRepository;
         this.userRepository = userRepository;
         this.deviceRepository = deviceRepository;
         this.ticketMapper = ticketMapper;
+        this.locationService = locationService;
     }
 
     public TicketResponse getTicketById(Long id) {
@@ -51,7 +53,17 @@ public class TicketService {
     public List<TicketResponse> getAllActiveTickets() {
         return ticketRepository.findByStatusIn(Arrays.asList(Status.NOWE, Status.W_TRAKCIE))
                 .stream()
-                .map(ticketMapper::toResponse)
+                .map(ticket -> {
+                    TicketResponse ticketResponse = ticketMapper.toResponse(ticket);
+                    Double latitude = ticketResponse.getDevice().getLatitude();
+                    Double longitude = ticketResponse.getDevice().getLongitude();
+                    if (Objects.nonNull(latitude) && Objects.nonNull(longitude)) {
+                        ticketResponse.setHall(locationService.findHallId(latitude, longitude));
+                    } else {
+                        ticketResponse.setHall("Brak lokalizacji");
+                    }
+                    return ticketResponse;
+                })
                 .toList();
     }
 
@@ -71,7 +83,7 @@ public class TicketService {
         Device device = deviceRepository.findById(request.getDeviceId())
                 .orElseThrow(() -> new DeviceNotFoundException(request.getDeviceId()));
 
-        User user = userRepository.findByUserName(request.getUserName())
+        User user = userRepository.findByUserName("admin")
                 .orElseThrow(() -> new UserNotFoundException(request.getUserId()));
 
 

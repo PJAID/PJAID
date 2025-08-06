@@ -16,10 +16,10 @@
   </app-technician-list>
 
   <ng-container *ngIf="ticket?.device?.latitude !== undefined && ticket?.device?.longitude !== undefined">
-    <app-location-view
+    <app-location-details-map
       [latitude]="ticket.device.latitude!"
       [longitude]="ticket.device.longitude!">
-    </app-location-view>
+    </app-location-details-map>
   </ng-container>
 
   <div class="button-group">
