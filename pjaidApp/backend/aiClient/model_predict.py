@@ -1,118 +1,108 @@
-#Model logic
 import pandas as pd
-import chardet
-from sklearn.preprocessing import StandardScaler
-from sklearn.metrics import classification_report, confusion_matrix
-from tensorflow.keras.models import Model
-from tensorflow.keras.layers import Input, Dense
-import matplotlib.pyplot as plt
 import numpy as np
+import os
+import re
+import json
+from datetime import datetime, timedelta
+from sklearn.preprocessing import StandardScaler
+from tensorflow.keras.models import Model, load_model
+from tensorflow.keras.layers import Input, Dense
+from keras.losses import MeanSquaredError
 
-with open("/Users/adriangoik/PycharmProjects/PJAID/pjaidApp/backend/aiClient/logs/logi_clean.csv", "rb") as f:
-    result = chardet.detect(f.read(100000))
-    encoding = result["encoding"]
-    print("Detected encoding:", encoding)
-
-logi = pd.read_csv("/Users/adriangoik/PycharmProjects/PJAID/pjaidApp/backend/aiClient/logs/logi_clean.csv", encoding=encoding,sep=";",
-    on_bad_lines="skip")
-drukarki_1 = pd.read_csv("/Users/adriangoik/PycharmProjects/PJAID/pjaidApp/backend/aiClient/logs/drukarki_produkcyjne_clean.csv", encoding=encoding, sep=";",
-    on_bad_lines="skip")
-drukarki_2 = pd.read_csv("/Users/adriangoik/PycharmProjects/PJAID/pjaidApp/backend/aiClient/logs/drukarki_clean_2.csv", encoding=encoding, sep=";",
-    on_bad_lines="skip")
-
-
-LICZBA_NAPRAW_COL = "Liczba Napraw"
+CSV_PATH = "logs/fresh_fake_logs.csv"
+MODEL_PATH = "autoencoder_model.h5"
+JSON_OUTPUT_PATH = "predykcje_awarii.json"
+RETRAIN_AFTER_DAYS = 7
 
 
-drukarki_1.columns=drukarki_1.columns.str.strip()
-drukarki_2.columns=drukarki_2.columns.str.strip()
-logi.columns=logi.columns.str.strip()
+def predict_failures(csv_path):
+    df = pd.read_csv(csv_path)
+    df.columns = df.columns.str.strip()
+    df['Data Naprawy'] = pd.to_datetime(df['Data Naprawy'])
+    df['month'] = df['Data Naprawy'].dt.to_period('M')
+    df['Liczba Napraw'] = df.groupby('ID_Urządzenia')['ID_Urządzenia'].transform('count')
 
-drukarki_all = pd.concat([drukarki_1, drukarki_2], ignore_index=True)
+    summary = df.groupby('ID_Urządzenia').agg({'Liczba Napraw': 'max'})
+    repair_counts = pd.get_dummies(df[['ID_Urządzenia', 'Typ Naprawy']], columns=['Typ Naprawy']) \
+        .groupby('ID_Urządzenia').sum()
+    model_df = summary.join(repair_counts, how='left').fillna(0)
 
-merged = logi.merge(drukarki_all, left_on="ITNumber", right_on="Numer IT", how="left")
-print("Połączone dane: ")
-print(merged)
-print(drukarki_all)
-merged.to_csv("logi_połączone.csv", index=False, sep=";")
-drukarki_all = drukarki_all.set_index('Numer IT')
-naprawy_count = merged.groupby("ITNumber").size().rename(LICZBA_NAPRAW_COL)
+    numeric_cols = model_df.select_dtypes(include='number').columns
+    X = model_df[numeric_cols]
+    scaler = StandardScaler()
+    X_scaled = scaler.fit_transform(X)
+    X_train = X_scaled[model_df['Liczba Napraw'] <= 1]
 
-df = drukarki_all.copy()
-df = df.join(naprawy_count, how="left").fillna(0)
+    retrain = (
+        not os.path.exists(MODEL_PATH) or
+        (datetime.now() - datetime.fromtimestamp(os.path.getmtime(MODEL_PATH))).days >= RETRAIN_AFTER_DAYS
+    )
+    if retrain:
+        input_dim = X_train.shape[1]
+        input_layer = Input(shape=(input_dim,))
+        encoded = Dense(8, activation="relu")(input_layer)
+        decoded = Dense(input_dim, activation="linear")(encoded)
+        autoencoder = Model(inputs=input_layer, outputs=decoded)
+        autoencoder.compile(optimizer="adam", loss="mse")
+        autoencoder.fit(X_train, X_train, epochs=30, batch_size=8, verbose=0)
+        autoencoder.save(MODEL_PATH)
+    else:
+        autoencoder = load_model(MODEL_PATH, compile=False)
+        autoencoder.compile(optimizer="adam", loss=MeanSquaredError())
 
-numeric_cols = df.select_dtypes(include="number").columns
-print("Kolumny numeryczne do modelu:", list(numeric_cols))
-df["Łączna liczba napraw"] = df[numeric_cols].sum(axis=1)
-print("Podgląd danych wejściowych:")
-print(df.head())
+    X_pred = autoencoder.predict(X_scaled)
+    mse = np.mean(np.square(X_scaled - X_pred), axis=1)
+    model_df["rekonstrukcja_mse"] = mse
+    threshold = model_df["rekonstrukcja_mse"].quantile(0.60)
+    model_df["Anomalia"] = model_df["rekonstrukcja_mse"] > threshold
 
-for col in df.columns:
-    print(f"{col} → {df[col].dtype}")
+    result_jsons = []
 
+    for device in model_df[model_df["Anomalia"]].index:
+        device_logs = df[df['ID_Urządzenia'] == device].sort_values("Data Naprawy")
+        if len(device_logs) < 2:
+            continue
 
-# Skalowanie danych
-X = df[numeric_cols]
-scaler = StandardScaler()
-X_scaled = scaler.fit_transform(X)
+        monthly_counts = device_logs.groupby(device_logs['Data Naprawy'].dt.to_period("M")).size()
+        avg_monthly_failures = monthly_counts.mean()
+        deltas = device_logs['Data Naprawy'].diff().dropna().dt.days
+        if deltas.empty:
+            continue
+        avg_delta = int(deltas.mean())
+        now = pd.Timestamp.now()
+        last_repair = device_logs['Data Naprawy'].max()
+        proposed_next = last_repair + timedelta(days=avg_delta)
+        if proposed_next < now:
+            proposed_next = now + timedelta(days=avg_delta)
 
-# Trening na "zdrowych drukarkach"
-X_train = X_scaled[df[LICZBA_NAPRAW_COL] <= 1]
-X_test = X_scaled
+        if (avg_monthly_failures >= 4 and avg_delta <= 7) or \
+                (avg_monthly_failures >= 3 and avg_delta <= 10) or \
+                (avg_monthly_failures >= 2 and avg_delta <= 14):
+            last_entry = device_logs.iloc[-1]
+            raw_text = str(last_entry["Opis Naprawy"]).strip()
+            description_points = re.split(r"[;\n•●]\s*", raw_text)
 
-# Autoenkoder
-input_dim = X_train.shape[1]
-input_layer = Input(shape=(input_dim,))
-encoded = Dense(8, activation="relu")(input_layer)
-decoded = Dense(input_dim, activation="linear")(encoded)
-autoencoder = Model(inputs=input_layer, outputs=decoded)
-autoencoder.compile(optimizer="adam", loss="mse")
+            merged_points = []
+            for point in description_points:
+                point = point.strip()
+                if not point:
+                    continue
+                if len(point) < 20 and merged_points:
+                    merged_points[-1] += ". " + point[0].lower() + point[1:]
+                else:
+                    merged_points.append(point.capitalize())
 
-# Trening
-autoencoder.fit(X_train, X_train, epochs=50, batch_size=8, verbose=1)
+            merged_points = list(dict.fromkeys(merged_points))
+            full_description = "\n- " + "\n- ".join(merged_points)
+            full_description += f"\n- Przewidywana kolejna awaria: {proposed_next.date()}"
 
-# Rekonstrukcja i MSE
-X_pred = autoencoder.predict(X_test)
-mse = np.mean(np.square(X_test - X_pred), axis=1)
-df["rekonstrukcja_mse"] = mse
+            result_jsons.append({
+                "ticket_type": "PJAID",
+                "device_number": device,
+                "repair_type": last_entry["Typ Naprawy"],
+                "description": full_description,
+                "next_failure_date": proposed_next.strftime("%Y-%m-%d"),
+                "status": "przegląd"
+            })
 
-# Faktyczne awarie i predykcja
-df["Faktyczna_Awaria"] = df[LICZBA_NAPRAW_COL] >= 3
-threshold = df["rekonstrukcja_mse"].quantile(0.80)
-df["Model_predicted_fault"] = df["rekonstrukcja_mse"] > threshold
-
-# Wyniki
-print("Confusion Matrix:")
-print(confusion_matrix(df["Faktyczna_Awaria"], df["Model_predicted_fault"]))
-
-print("Raport klasyfikacji:")
-print(classification_report(df["Faktyczna_Awaria"], df["Model_predicted_fault"]))
-
-
-
-def analyze_model():
-    plt.figure(figsize=(10, 6))
-    plt.scatter(df[LICZBA_NAPRAW_COL], df["rekonstrukcja_mse"], alpha=0.6, c=df["Faktyczna_Awaria"].astype(int),
-                cmap="coolwarm")
-    plt.xlabel(LICZBA_NAPRAW_COL)
-    plt.ylabel("Błąd rekonstrukcji (MSE)")
-    plt.title("Wykrywanie potencjalnych awarii drukarek")
-    plt.grid(True)
-    plt.colorbar(label="Faktyczna Awaria")
-    plt.tight_layout()
-    plt.show()
-
-def predict_faults():
-    faults = df[df["Model_predicted_fault"] == True][[LICZBA_NAPRAW_COL, "rekonstrukcja_mse"]].copy()
-    faults["ITNumber"] = faults.index
-    faults["Model"] = df.loc[faults.index, "Model"]
-    return faults.reset_index()
-
-def get_top_10_faults():
-    faults = df[df["Model_predicted_fault"] == True][[LICZBA_NAPRAW_COL, "rekonstrukcja_mse"]].copy()
-    faults["Numer IT"] = faults.index
-    faults["Model"] = df.loc[faults.index, "Model"]
-    return faults.sort_values(by="rekonstrukcja_mse", ascending=False).head(10).reset_index(drop=True)
-
-#analiza pyplotem wystarczy wywołanie odcomentować
-# analyze_model(autoencoder)
+    return result_jsons

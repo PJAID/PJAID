@@ -4,8 +4,8 @@ from fastapi import FastAPI, HTTPException
 from pydantic import BaseModel #for validation and serialization of data in FastAPI
 from starlette.responses import JSONResponse
 
-from model_predict import predict_faults
-from model_predict import get_top_10_faults
+from model_predict import predict_failures
+
 import uvicorn
 
 app = FastAPI()
@@ -40,10 +40,12 @@ async def process_task(request: RequestData):
         return {"task_id":request.task_id, "result":result}
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
+
 @app.get("/predict")
-def get_suspected_devices():
-    faults = predict_faults()
-    return df_to_response(faults)
+async def predict():
+    csv_path = "logs/fresh_fake_logs.csv"  # <-- zawsze najnowszy log!
+    result = predict_failures(csv_path)
+    return result
 @app.get("/predict/top10")
 def top_10_predictions():
     top_10_faults = get_top_10_faults()
