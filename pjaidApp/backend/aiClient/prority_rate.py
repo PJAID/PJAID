@@ -92,7 +92,7 @@ def readFromExel():
                 device_list.append(device)
             return device_list
     except Exception as e:
-        print(f"❌ Błąd podczas czytania z bazy danych: {e}")
+        print(f" Błąd podczas czytania z bazy danych: {e}")
         return []
 def saveToExcel(name,device_list):
     data = []
@@ -126,7 +126,7 @@ def showPrinterInfo(printer_id):
                 print("Nie znaleziono urządzenia o tym ID.")
         connection.close()
     except Exception as e:
-        print(f"❌ Błąd podczas pobierania informacji: {e}")
+        print(f" Błąd podczas pobierania informacji: {e}")
 def add_pages(data, printer_list):
     pages, id = data.split(",")
     pages = int(pages)
@@ -162,7 +162,7 @@ def break_device(device_id):
         #     cursor.close()
         # connection.close()
     except Exception as e:
-        print(f"❌ Błąd podczas operacji na bazie: {e}")
+        print(f" Błąd podczas operacji na bazie: {e}")
 def fix_device(device_id):
     try:
         connection = f_connection()
@@ -188,7 +188,7 @@ def fix_device(device_id):
 
 
     except Exception as e:
-        print(f"❌ Błąd podczas operacji na bazie: {e}")
+        print(f" Błąd podczas operacji na bazie: {e}")
 def f_connection():
     connection = mysql.connector.connect(
         host="localhost",
