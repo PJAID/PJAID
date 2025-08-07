@@ -47,7 +47,7 @@ public class AuthController {
         String accessToken = jwtUtils.generateJwtToken(user.getUserName());
         RefreshToken refreshToken = refreshTokenService.createRefreshToken(user);
 
-        return ResponseEntity.ok(new AuthResponse(accessToken, refreshToken.getToken()));
+        return ResponseEntity.ok(new AuthResponse(accessToken, refreshToken.getToken(), user.getUserName()));
     }
 
     @PostMapping("/refresh")
@@ -58,7 +58,11 @@ public class AuthController {
 
         if (tokenOpt.isPresent() && !refreshTokenService.isTokenExpired(tokenOpt.get())) {
             String newAccessToken = jwtUtils.generateJwtToken(tokenOpt.get().getUser().getUserName());
-            return ResponseEntity.ok(new AuthResponse(newAccessToken, tokenOpt.get().getToken()));
+            return ResponseEntity.ok(new AuthResponse(
+                    newAccessToken,
+                    tokenOpt.get().getToken(),
+                    tokenOpt.get().getUser().getUserName()
+            ));
         } else {
             return ResponseEntity.badRequest().body("Invalid or expired refresh token");
         }

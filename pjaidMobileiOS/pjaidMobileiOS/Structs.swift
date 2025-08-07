@@ -18,19 +18,20 @@ struct LocalTicket: Identifiable{ //Do ujednolicenia LocalTicket i deklaracja ti
 } //try to implement location later on in SPRINT 8
 
 struct Ticket: Identifiable, Codable {
-    let id: Int //nie lepiej zmienić na UUID?
+    let id: Int
     let title: String
     let description: String
-    let status: String
-    var user: String? = nil // lokalne zgłoszenia
-    var timestamp: Date? = nil
+    var status: String
+    var user: UserDTO?
+    var timestamp: Date?
     let latitude: Double?
     let longitude: Double?
     let building: String?
-    
+    var technician: TechnicianDTO?
+
     enum CodingKeys: String, CodingKey {
-        case id, title, description, status, latitude, longitude, building
-    }
+            case id, title, description, status, user, timestamp, latitude, longitude, building, technician
+        }
 }
 struct Building: Identifiable, Hashable {
     let id: Int
@@ -43,4 +44,12 @@ struct User{
     let name: String
     let email: String
 }
+struct UserDTO: Codable {
+    let id: Int
+    let userName: String?
+}
 
+struct TechnicianDTO: Codable {
+    let id: Int?
+    let userName: String?
+}

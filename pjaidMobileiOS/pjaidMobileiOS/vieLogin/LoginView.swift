@@ -155,20 +155,11 @@ struct LoginView: View {
         request.httpBody = jsonData
 
         URLSession.shared.dataTask(with: request) { data, response, error in
-            DispatchQueue.main.async {
-                isLoading = false
-            }
+            DispatchQueue.main.async { isLoading = false }
 
             if let error = error {
                 DispatchQueue.main.async {
                     loginError = "Błąd połączenia: \(error.localizedDescription)"
-                }
-                return
-            }
-
-            guard let httpResponse = response as? HTTPURLResponse else {
-                DispatchQueue.main.async {
-                    loginError = "Brak odpowiedzi z serwera"
                 }
                 return
             }
@@ -180,38 +171,41 @@ struct LoginView: View {
                 return
             }
 
-            if httpResponse.statusCode == 200 {
-                do {
-                    if let decoded = try JSONSerialization.jsonObject(with: data) as? [String: String],
-                       let accessToken = decoded["accessToken"] {
+            do {
+                if let httpResponse = response as? HTTPURLResponse {
+                    if httpResponse.statusCode == 200 {
+                        // poprawne dane logowania
+                        if let decoded = try JSONSerialization.jsonObject(with: data) as? [String: Any],
+                           let userLogin = decoded["username"] as? String {
+                            DispatchQueue.main.async {
+                                print("Zalogowano jako: \(userLogin)")
+                                appState.currentUser = userLogin.lowercased()
+                                appState.isLoggedIn = true
+                            }
+                        } else {
+                            DispatchQueue.main.async {
+                                loginError = "Błąd w danych użytkownika"
+                            }
+                        }
+                    } else if httpResponse.statusCode == 401 {
                         DispatchQueue.main.async {
-                            // Można dodać Keychain lub UserDefaults
-                            print("Zalogowano: \(accessToken)")
-                            appState.currentUser = email
-                            appState.isLoggedIn = true
+                            loginError = "Niepoprawny login lub hasło"
                         }
                     } else {
                         DispatchQueue.main.async {
-                            loginError = "Nieprawidłowa odpowiedź z serwera"
+                            loginError = "Nieznany błąd (kod \(httpResponse.statusCode))"
                         }
                     }
-                } catch {
+                } else {
                     DispatchQueue.main.async {
-                        loginError = "Błąd dekodowania odpowiedzi"
+                        loginError = "Nieprawidłowa odpowiedź z serwera"
                     }
                 }
-            } else {
+            } catch {
                 DispatchQueue.main.async {
-                    if httpResponse.statusCode == 401 {
-                        loginError = "Nieprawidłowa nazwa użytkownika lub hasło"
-                    } else if httpResponse.statusCode == 500 {
-                        loginError = "Nieprawidłowa nazwa użytkownika lub hasło"
-                    } else {
-                        loginError = "Wystąpił błąd (\(httpResponse.statusCode))"
-                    }
+                    loginError = "Błąd dekodowania odpowiedzi"
                 }
             }
-
         }.resume()
     }
 

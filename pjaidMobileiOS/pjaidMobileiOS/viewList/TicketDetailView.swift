@@ -8,7 +8,10 @@
 import SwiftUI
 
 struct TicketDetailView: View {
-    let ticket: Ticket
+    @State var ticket: Ticket
+    @Binding var shouldRefresh: Bool
+    @EnvironmentObject var appState: AppState
+    @State private var showCloseReport = false
 
     var body: some View {
         VStack(alignment: .leading, spacing: 16) {
@@ -21,44 +24,72 @@ struct TicketDetailView: View {
 
             Text("Status: \(ticket.status)")
                 .foregroundColor(.blue)
-            
+
             if let building = ticket.building {
                 Text("Budynek: \(building)")
                     .font(.subheadline)
                     .foregroundColor(.secondary)
             }
-            
+
             Text("Brak daty utworzenia w API")
                 .font(.footnote)
                 .foregroundColor(.gray)
-            
-            if let lat = ticket.latitude, let lon = ticket.longitude {
-                            Text("Lokalizacja:")
-                                .font(.subheadline)
-                                .padding(.top)
 
-                            Text("Szerokość: \(lat)")
-                            Text("Długość: \(lon)")
+            if let lat = ticket.latitude,
+               let lon = ticket.longitude,
+               lat.isFinite,
+               lon.isFinite {
+                Text("Lokalizacja:")
+                    .font(.subheadline)
+                    .padding(.top)
 
-                            Button("Pokaż w Mapach") {
-                                if let url = URL(string: "http://maps.apple.com/?ll=\(lat),\(lon)") {
-                                    UIApplication.shared.open(url)
-                                }
-                            }
-                            .foregroundColor(.blue)
-                        }
-            
+                Text("Szerokość: \(lat)")
+                Text("Długość: \(lon)")
+
+                Button("Pokaż w Mapach") {
+                    if let url = URL(string: "http://maps.apple.com/?ll=\(lat),\(lon)") {
+                        UIApplication.shared.open(url)
+                    }
+                }
+                .foregroundColor(.blue)
+            }
+
+            if ticket.status.uppercased() != "ZAMKNIETE" {
+                Button("Zamknij zgłoszenie") {
+                    showCloseReport = true
+                }
+                .foregroundColor(.red)
+                .padding(.top)
+            }
+
             Spacer()
         }
         .padding()
         .navigationTitle("Szczegóły")
+        .sheet(isPresented: $showCloseReport) {
+            CloseReportView(ticketId: ticket.id) {
+                refreshTicket()
+                shouldRefresh = true
+            }
+        }
     }
 
-    private func formattedDate(_ date: Date) -> String {
-        let formatter = DateFormatter()
-        formatter.dateStyle = .medium
-        formatter.timeStyle = .short
-        formatter.locale = Locale(identifier: "pl_PL")
-        return formatter.string(from: date)
+    private func refreshTicket() {
+        guard let url = URL(string: "http://localhost:8080/ticket/\(ticket.id)") else { return }
+
+        URLSession.shared.dataTask(with: url) { data, _, error in
+            if let data = data {
+                do {
+                    let updatedTicket = try JSONDecoder().decode(Ticket.self, from: data)
+                    DispatchQueue.main.async {
+                        self.ticket = updatedTicket
+                    }
+                } catch {
+                    print("Błąd dekodowania: \(error)")
+                }
+            } else if let error = error {
+                print("Błąd pobierania zgłoszenia: \(error)")
+            }
+        }.resume()
     }
 }

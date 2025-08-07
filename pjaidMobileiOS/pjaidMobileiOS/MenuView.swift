@@ -6,8 +6,6 @@ import SwiftUI
 import CodeScanner
 import UserNotifications
 
-
-
 struct MenuView: View {
     
     @EnvironmentObject var appState: AppState

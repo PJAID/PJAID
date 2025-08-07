@@ -4,53 +4,75 @@
 //
 //  Created by Jakub Marcinkowski on 20/04/2025.
 //
-
 import SwiftUI
 
 struct TicketListView: View {
     @EnvironmentObject var appState: AppState
     @State private var apiTickets: [Ticket] = []
-    //@State private var tickets: [Ticket] = []
     @State private var isLoading = true
+    @State private var selectedTab = 0
+    @State private var shouldRefresh = false
 
     var body: some View {
         NavigationView {
-            List(appState.userTickets + apiTickets) { ticket in
-                NavigationLink(destination: TicketDetailView(ticket: ticket)) {
-                    VStack(alignment: .leading, spacing: 4) {
-                        Text(ticket.title)
-                            .font(.headline)
-                        if let building = ticket.building {
-                                Text("Budynek: \(building)")
-                                    .font(.caption)
-                                    .foregroundColor(.gray)
-                            }
-                        if ticket.user == appState.currentUser {
-                            Text("Twoje zgłoszenie")
-                                .font(.caption)
-                                .foregroundColor(.purple)
+            VStack {
+                Picker("Widok zgłoszeń", selection: $selectedTab) {
+                    Text("Wszystkie").tag(0)
+                    Text("Moje zgłoszenia").tag(1)
+                }
+                .pickerStyle(SegmentedPickerStyle())
+                .padding()
+
+                if isLoading {
+                    ProgressView("Ładowanie zgłoszeń...")
+                        .padding()
+                } else {
+                    List(filteredTickets()) { ticket in
+                        NavigationLink(
+                            destination: TicketDetailView(ticket: ticket, shouldRefresh: $shouldRefresh)
+                        ) {
+                            TicketRowView(ticket: ticket, currentUser: appState.currentUser)
                         }
                     }
-                    .padding(5)
-                    .background(ticket.user == appState.currentUser ? Color.purple.opacity(0.1) : Color.clear)
-                    .cornerRadius(8)
                 }
             }
             .navigationTitle("Zgłoszenia")
             .onAppear {
-                fetchTickets { loadedTickets in
+                if isLoading || shouldRefresh {
+                    fetchTickets { loadedTickets in
                         self.apiTickets = loadedTickets
                         self.isLoading = false
+                        self.shouldRefresh = false
                     }
+                }
             }
         }
     }
 
-    func fetchTickets(completion: @escaping ([Ticket]) -> Void) {
-        let url = URL(string: "http://localhost:8080/ticket")! // lub IP Maca
+    func filteredTickets() -> [Ticket] {
+        switch selectedTab {
+        case 0:
+            return apiTickets
+        case 1:
+            return apiTickets.filter {
+                $0.technician?.userName?.lowercased() == appState.currentUser
+            }
+        default:
+            return []
+        }
+    }
 
-        URLSession.shared.dataTask(with: url) { data, response, error in
-            guard let data = data else { return }
+    func fetchTickets(completion: @escaping ([Ticket]) -> Void) {
+        guard let url = URL(string: "http://localhost:8080/ticket") else {
+            print("Niepoprawny URL")
+            return
+        }
+
+        URLSession.shared.dataTask(with: url) { data, _, error in
+            guard let data = data else {
+                print("Brak danych z serwera")
+                return
+            }
 
             do {
                 let decoder = JSONDecoder()
@@ -60,7 +82,7 @@ struct TicketListView: View {
                     completion(tickets)
                 }
             } catch {
-                print("Decode error: \(error)")
+                print("Błąd dekodowania: \(error)")
             }
         }.resume()
     }
