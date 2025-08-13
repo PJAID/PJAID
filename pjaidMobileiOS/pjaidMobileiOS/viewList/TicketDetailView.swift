@@ -7,6 +7,7 @@
 
 import SwiftUI
 
+
 struct TicketDetailView: View {
     @State var ticket: Ticket
     @Binding var shouldRefresh: Bool
@@ -45,7 +46,8 @@ struct TicketDetailView: View {
 
                 Text("Szerokość: \(lat)")
                 Text("Długość: \(lon)")
-
+                MiniMapView(coord: .init(latitude: lat, longitude: lon))
+                    .padding(.vertical, 8)
                 Button("Pokaż w Mapach") {
                     if let url = URL(string: "http://maps.apple.com/?ll=\(lat),\(lon)") {
                         UIApplication.shared.open(url)

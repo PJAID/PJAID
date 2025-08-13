@@ -191,15 +191,10 @@ struct ReportFailureView: View {
 
                     Text("N/S: \(location.latitude)")
                     Text("W/E: \(location.longitude)")
-                    if let building = assignedBuilding {
-                        Text("Przypisany budynek: \(building.name)")
-                            .font(.headline)
-                            .foregroundColor(.blue)
-                    } else if showManualSelection {
-                        Text("Nie znaleziono budynku. Wybierz ręcznie.")
-                            .foregroundColor(.red)
-                    }
+                    let coord = CLLocationCoordinate2D(latitude: location.latitude, longitude: location.longitude)
 
+                    MiniMapView(coord: coord)
+                        .padding(.vertical, 8)
                     Button("Otwórz w mapach") {
                         let lat = location.latitude
                             let lon = location.longitude

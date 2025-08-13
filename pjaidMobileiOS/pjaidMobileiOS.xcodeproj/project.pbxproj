@@ -34,7 +34,7 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
-		825BE15E2DD878F700A2D638 /* Exceptions for "pjaidMobileiOS" folder in "pjaidMobileiOS" target */ = {
+		827709C12E474CB30008D25D /* Exceptions for "pjaidMobileiOS" folder in "pjaidMobileiOS" target */ = {
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
 				Info.plist,
@@ -47,7 +47,7 @@
 		823214482DB44644000C740E /* pjaidMobileiOS */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
 			exceptions = (
-				825BE15E2DD878F700A2D638 /* Exceptions for "pjaidMobileiOS" folder in "pjaidMobileiOS" target */,
+				827709C12E474CB30008D25D /* Exceptions for "pjaidMobileiOS" folder in "pjaidMobileiOS" target */,
 			);
 			path = pjaidMobileiOS;
 			sourceTree = "<group>";
