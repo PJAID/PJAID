@@ -17,10 +17,12 @@ struct LoginView: View {
     @State private var rememberMe: Bool = false
     @State private var faceIDError: String?
     @State private var showingFaceIDError = false
+    @State private var showForgotDialog = false
 
     @State private var loginError: String?
     @State private var isLoading = false
-
+    private let adminEmail = "it-admin@pjaid.pl"
+    private let adminPhone = "+48123456789"
     var body: some View {
         NavigationStack {
             ZStack {
@@ -71,7 +73,7 @@ struct LoginView: View {
                         Spacer()
 
                         Button("Forgot password?") {
-                            // implement later
+                            showForgotDialog = true
                         }
                         .font(.footnote)
                         .foregroundColor(.white.opacity(0.7))
@@ -126,6 +128,20 @@ struct LoginView: View {
                         dismissButton: .default(Text("OK"))
                     )
                 }
+                .confirmationDialog("Reset hasła", isPresented: $showForgotDialog, titleVisibility: .visible) {
+                    Button("Napisz e-mail: \(adminEmail)") {
+                        let encoded = "mailto:\(adminEmail)".addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) ?? ""
+                        if let url = URL(string: encoded) { UIApplication.shared.open(url) }
+                    }
+                    Button("Zadzwoń: \(adminPhone)") {
+                        let digits = adminPhone.replacingOccurrences(of: " ", with: "")
+                        if let url = URL(string: "tel://\(digits)") { UIApplication.shared.open(url) }
+                    }
+                    Button("Anuluj", role: .cancel) {}
+                } message: {
+                    Text("Skontaktuj się z administratorem, aby zresetować hasło.")
+                }
+
                 .padding(.top)
                 .padding(.horizontal)
             }
