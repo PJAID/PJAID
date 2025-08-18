@@ -10,6 +10,8 @@ import CodeScanner
 struct QRScannerScreen: View {
     @State private var isPresentingScanner = false
     @State private var scannedCode: String?
+    @State private var showScanner = false
+    @State private var showDeniedAlert = false
 
     var body: some View {
         NavigationStack {
@@ -38,6 +40,16 @@ struct QRScannerScreen: View {
                     completion: handleScan
                 )
             }
+            .alert("Brak dostępu do aparatu", isPresented: $showDeniedAlert) {
+                    Button("Ustawienia") {
+                        if let url = URL(string: UIApplication.openSettingsURLString) {
+                            UIApplication.shared.open(url)
+                        }
+                    }
+                    Button("OK", role: .cancel) {}
+                } message: {
+                    Text("Nadaj uprawnienie Aparat w Ustawieniach > Prywatność > Aparat.")
+                }
         }
     }
 

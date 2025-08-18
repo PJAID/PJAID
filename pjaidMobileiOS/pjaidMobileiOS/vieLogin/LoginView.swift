@@ -149,6 +149,14 @@ struct LoginView: View {
     }
 
     func login() {
+        //use in debug
+//        #if DEBUG
+//        DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
+//            appState.currentUser = email.isEmpty ? "demo@pjaid" : email
+//            appState.isLoggedIn = true
+//        }
+//        return
+//        #endif
         isLoading = true
         loginError = nil
 
