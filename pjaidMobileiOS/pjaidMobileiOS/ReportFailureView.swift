@@ -191,15 +191,10 @@ struct ReportFailureView: View {
 
                     Text("N/S: \(location.latitude)")
                     Text("W/E: \(location.longitude)")
-                    if let building = assignedBuilding {
-                        Text("Przypisany budynek: \(building.name)")
-                            .font(.headline)
-                            .foregroundColor(.blue)
-                    } else if showManualSelection {
-                        Text("Nie znaleziono budynku. Wybierz ręcznie.")
-                            .foregroundColor(.red)
-                    }
+                    let coord = CLLocationCoordinate2D(latitude: location.latitude, longitude: location.longitude)
 
+                    MiniMapView(coord: coord)
+                        .padding(.vertical, 8)
                     Button("Otwórz w mapach") {
                         let lat = location.latitude
                             let lon = location.longitude
@@ -258,19 +253,39 @@ struct ReportFailureView: View {
                         .foregroundColor(.gray)
                         .padding(.horizontal)
 
-                    Picker("Wybierz budynek", selection: $assignedBuilding) {
-                        ForEach(polygonBuildings.map {
-                            Building(id: $0.id, name: $0.name, latitude: $0.corners[0].latitude, longitude: $0.corners[0].longitude)
-                        }) { building in
-                            Text(building.name).tag(Optional(building))
+                    Menu {
+                        ForEach(polygonBuildings, id: \.id) { b in
+                            Button(b.name) {
+                                // ustawiamy wybrany budynek – mapujemy z PolygonBuilding na Building
+                                assignedBuilding = Building(
+                                    id: b.id,
+                                    name: b.name,
+                                    latitude: b.corners.first?.latitude ?? 0,
+                                    longitude: b.corners.first?.longitude ?? 0
+                                )
+                            }
                         }
+                    } label: {
+                        HStack {
+                            Text(assignedBuilding?.name ?? "Brak wybranego budynku")
+                                .foregroundColor(assignedBuilding == nil ? .gray : .primary)
+                            Spacer()
+                            Image(systemName: "chevron.down")
+                                .foregroundColor(.blue)
+                        }
+                        .padding()
+                        .frame(maxWidth: .infinity)
+                        .background(Color(UIColor.secondarySystemBackground))
+                        .cornerRadius(10)
+                        .overlay(
+                            RoundedRectangle(cornerRadius: 10)
+                                .stroke(Color.gray.opacity(0.3), lineWidth: 1)
+                        )
+                        .padding(.horizontal)
                     }
-                    .pickerStyle(MenuPickerStyle())
-                    .padding(.horizontal)
-                    .background(Color(.systemGray6))
-                    .cornerRadius(8)
                 }
             }
+
             Spacer()
         }
         .padding(.top)
