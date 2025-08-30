@@ -12,4 +12,5 @@ class AppState: ObservableObject {
     @Published var isLoggedIn = false
     @Published var currentUser: String = ""
     @Published var userTickets: [Ticket] = []
+    @Published var lastScannedDeviceId: String? = nil
 }

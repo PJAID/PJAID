@@ -1,15 +1,14 @@
-//Editing:
-//Jakub Marcinkowski
-//Adrian Goik
+// Editing:
+// Jakub Marcinkowski
+// Adrian Goik
 
 import SwiftUI
 import CodeScanner
 import UserNotifications
 
 struct MenuView: View {
-    
     @EnvironmentObject var appState: AppState
-    
+
     var body: some View {
         NavigationStack {
             ZStack {
@@ -31,7 +30,11 @@ struct MenuView: View {
                         .font(.subheadline)
                         .padding(.bottom)
 
-                    NavigationLink(destination: QRScannerScreen()) {
+                    // JEDEN link do skanera, z identyfikatorem dla UI testów
+                    NavigationLink {
+                        let useFake = ProcessInfo.processInfo.environment["UITEST_FAKE_QR"] != nil
+                        QRScannerScreen(useFake: useFake)
+                    } label: {
                         VStack {
                             Image(systemName: "qrcode.viewfinder")
                                 .font(.largeTitle)
@@ -41,6 +44,7 @@ struct MenuView: View {
                         }
                         .primaryButtonStyle(color: .blue)
                     }
+                    .accessibilityIdentifier("scanTile")
 
                     NavigationLink(destination: ReportFailureView().environmentObject(appState)) {
                         VStack {
@@ -52,16 +56,17 @@ struct MenuView: View {
                         }
                         .primaryButtonStyle(color: .blue)
                     }
-                        NavigationLink(destination: TicketListView()) {
-                            VStack {
-                                Image(systemName: "list.bullet")
-                                    .font(.largeTitle)
-                                    .padding()
-                                Text("Lista zgłoszeń")
-                                    .font(.headline)
-                            }
-                            .primaryButtonStyle(color: .indigo)
+
+                    NavigationLink(destination: TicketListView()) {
+                        VStack {
+                            Image(systemName: "list.bullet")
+                                .font(.largeTitle)
+                                .padding()
+                            Text("Lista zgłoszeń")
+                                .font(.headline)
                         }
+                        .primaryButtonStyle(color: .indigo)
+                    }
 
                     Spacer()
                 }

@@ -28,9 +28,10 @@ struct Ticket: Identifiable, Codable {
     let longitude: Double?
     let building: String?
     var technician: TechnicianDTO?
+    let deviceId: Int64?
 
     enum CodingKeys: String, CodingKey {
-            case id, title, description, status, user, timestamp, latitude, longitude, building, technician
+            case id, title, description, status, user, timestamp, latitude, longitude, building, technician, deviceId
         }
 }
 struct Building: Identifiable, Hashable {

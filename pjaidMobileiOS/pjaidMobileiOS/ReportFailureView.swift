@@ -19,15 +19,17 @@ enum TicketStatus: String, CaseIterable, Identifiable {
 }
 
 struct PolygonBuilding: Identifiable {
-    let id: Int
-    let name: String
-    let corners: [CLLocationCoordinate2D] // dokładnie 4 punkty, kolejność: zgodnie z ruchem wskazówek
+let id: Int
+let name: String
+let corners: [CLLocationCoordinate2D]
 }
 
-
+// MARK: - Główny widok
 struct ReportFailureView: View {
     @EnvironmentObject var appState: AppState
     @StateObject private var locationManager = LocationManager()
+    
+    // Konfiguracja poligonów hal
     let polygonBuildings: [PolygonBuilding] = [
         PolygonBuilding(
             id: 1,
@@ -79,102 +81,127 @@ struct ReportFailureView: View {
                 CLLocationCoordinate2D(latitude: 54.1092, longitude: 18.7898)
             ]
         ),
-        
     ]
+    
+    // MARK: - Stan UI
     @State private var title: String = ""
     @State private var description: String = ""
-    @State private var showConfirmation = false
-    @State private var navigateToList = false
+    @State private var deviceIdText: String = ""
     @State private var selectedStatus: TicketStatus = .nowe
+    
     @State private var assignedBuilding: Building? = nil
     @State private var showManualSelection = false
-
+    
+    @State private var showConfirmation = false
+    @State private var navigateToList = false
+    
+    @State private var isSending = false
+    @State private var validationError: String?
+    
     func isPointInsidePolygon(point: CLLocationCoordinate2D, polygon: [CLLocationCoordinate2D]) -> Bool {
+        guard polygon.count >= 3 else { return false }
+        
+        let px = point.longitude
+        let py = point.latitude
         var inside = false
         var j = polygon.count - 1
-
+        
         for i in 0..<polygon.count {
-            let xi = polygon[i].latitude
-            let yi = polygon[i].longitude
-            let xj = polygon[j].latitude
-            let yj = polygon[j].longitude
-
-            if ((yi > point.longitude) != (yj > point.longitude)) {
-                let x = (xj - xi) * (point.longitude - yi) / (yj - yi) + xi
-                if point.latitude < x {
-                    inside.toggle()
-                }
-            }
+            let xi = polygon[i].longitude
+            let yi = polygon[i].latitude
+            let xj = polygon[j].longitude
+            let yj = polygon[j].latitude
+            
+            let intersect = ((yi > py) != (yj > py)) &&
+            (px < (xj - xi) * (py - yi) / (yj - yi + 0.0000001) + xi)
+            if intersect { inside.toggle() }
             j = i
         }
-
         return inside
     }
-
+    
     func matchedBuilding(for location: CLLocationCoordinate2D) -> PolygonBuilding? {
-        for building in polygonBuildings {
-            if isPointInsidePolygon(point: location, polygon: building.corners) {
-                return building
-            }
-        }
-        return nil
+        polygonBuildings.first { isPointInsidePolygon(point: location, polygon: $0.corners) }
     }
+    
+    // MARK: - Wysyłka
     func sendTicketToBackend(ticket: Ticket) {
         guard let url = URL(string: "http://localhost:8080/ticket") else {
             print("Błąd: Niepoprawny URL")
             return
         }
-
+        
         var request = URLRequest(url: url)
         request.httpMethod = "POST"
         request.setValue("application/json", forHTTPHeaderField: "Content-Type")
-
+        
+        
         let encoder = JSONEncoder()
         encoder.dateEncodingStrategy = .iso8601
-
+        
         do {
             let jsonData = try encoder.encode(ticket)
-            
+#if DEBUG
             if let jsonString = String(data: jsonData, encoding: .utf8) {
                 print("Wysyłany JSON:\n\(jsonString)")
             }
-
+#endif
             request.httpBody = jsonData
         } catch {
             print("Błąd kodowania JSON: \(error)")
             return
         }
-
+        
+        isSending = true
         URLSession.shared.dataTask(with: request) { data, response, error in
+            DispatchQueue.main.async {
+                isSending = false
+            }
+            
             if let error = error {
                 print("Błąd wysyłania zgłoszenia: \(error)")
                 return
             }
-
-            guard let httpResponse = response as? HTTPURLResponse,
-                  (200...299).contains(httpResponse.statusCode) else {
-                print("Błąd HTTP: \(response.debugDescription)")
+            
+            guard let httpResponse = response as? HTTPURLResponse else {
+                print("Brak poprawnej odpowiedzi HTTP")
                 return
             }
-
+            
+            guard (200...299).contains(httpResponse.statusCode) else {
+                print("Błąd HTTP: \(httpResponse.statusCode)")
+                return
+            }
+            
             DispatchQueue.main.async {
                 showConfirmation = true
             }
-
             print("Zgłoszenie zostało pomyślnie wysłane na backend.")
         }.resume()
     }
     
+    // MARK: - UI
     var body: some View {
-        VStack(spacing: 20) {
+        VStack(spacing: 16) {
+            // Tytuł
             TextField("Tytuł zgłoszenia", text: $title)
                 .textFieldStyle(.roundedBorder)
                 .padding(.horizontal)
             
-            TextField("Opis zgłoszenia", text: $description)
+            // Opis
+            TextField("Opis zgłoszenia", text: $description, axis: .vertical)
                 .textFieldStyle(.roundedBorder)
                 .padding(.horizontal)
+        
+            // Urządzenie
+            Section(header: Text("Urządzenie").font(.footnote).foregroundColor(.gray).frame(maxWidth: .infinity, alignment: .leading).padding(.horizontal)) {
+                TextField("ID urządzenia", text: $deviceIdText)
+                    .keyboardType(.numberPad)
+                    .textFieldStyle(.roundedBorder)
+                    .padding(.horizontal)
+            }
             
+            // Status
             Picker("Status awarii", selection: $selectedStatus) {
                 ForEach(TicketStatus.allCases) { status in
                     Text(status.rawValue).tag(status)
@@ -182,15 +209,17 @@ struct ReportFailureView: View {
             }
             .pickerStyle(.segmented)
             .padding(.horizontal)
-          
-               if let location = locationManager.location {
-                VStack(alignment: .leading) {
+            
+            // Lokalizacja
+            if let location = locationManager.location {
+                VStack(alignment: .leading, spacing: 6) {
                     Text("Lokalizacja zgłoszenia:")
                         .font(.subheadline)
                         .foregroundColor(.gray)
-
+                    
                     Text("N/S: \(location.latitude)")
                     Text("W/E: \(location.longitude)")
+                    
                     if let building = assignedBuilding {
                         Text("Przypisany budynek: \(building.name)")
                             .font(.headline)
@@ -199,33 +228,51 @@ struct ReportFailureView: View {
                         Text("Nie znaleziono budynku. Wybierz ręcznie.")
                             .foregroundColor(.red)
                     }
-
+                    
                     Button("Otwórz w mapach") {
                         let lat = location.latitude
-                            let lon = location.longitude
-                            if let url = URL(string: "http://maps.apple.com/?ll=\(lat),\(lon)") {
-                                UIApplication.shared.open(url)
-                            }
+                        let lon = location.longitude
+                        if let url = URL(string: "http://maps.apple.com/?ll=\(lat),\(lon)") {
+                            UIApplication.shared.open(url)
                         }
+                    }
                     .font(.footnote)
                 }
-                 
-                .padding()
-               }
+                .padding(.horizontal)
+            }
+            
             if let building = assignedBuilding {
                 Text("Wybrany budynek: \(building.name)")
                     .font(.subheadline)
                     .foregroundColor(.blue)
+                    .frame(maxWidth: .infinity, alignment: .leading)
+                    .padding(.horizontal)
             }
-
-
+            
+            // Komunikat walidacji
+            if let validationError {
+                Text(validationError)
+                    .font(.footnote)
+                    .foregroundColor(.red)
+                    .padding(.horizontal)
+            }
+            
+            // Submit
             Button(action: {
-                print("Aktualny użytkownik: '\(appState.currentUser)'")
+                validationError = nil
+                
+                // Prosta walidacja
                 guard !appState.currentUser.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty else {
-                    print("Brak użytkownika – nie można wysłać zgłoszenia")
+                    validationError = "Brak zalogowanego użytkownika."
                     return
                 }
-
+                guard !title.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty else {
+                    validationError = "Podaj tytuł zgłoszenia."
+                    return
+                }
+                
+                let parsedDeviceId = Int64(deviceIdText.trimmingCharacters(in: .whitespacesAndNewlines))
+                
                 let newTicket = Ticket(
                     id: Int.random(in: 1000...9999),
                     title: title,
@@ -236,48 +283,62 @@ struct ReportFailureView: View {
                     latitude: locationManager.location?.latitude,
                     longitude: locationManager.location?.longitude,
                     building: assignedBuilding?.name,
-                    technician: nil
+                    technician: nil,
+                    deviceId: parsedDeviceId
                 )
-
+                
                 sendTicketToBackend(ticket: newTicket)
+#if DEBUG
                 print("Wysłano: \(title) - \(description), status: \(selectedStatus.rawValue)")
-
+#endif
             }) {
-                Text("Wyślij zgłoszenie")
-                    .frame(maxWidth: .infinity)
-                    .padding()
-                    .background(Color.purple)
-                    .foregroundColor(.white)
-                    .cornerRadius(24)
-                    .padding(.horizontal)
+                HStack(spacing: 8) {
+                    if isSending {
+                        ProgressView()
+                    }
+                    Text(isSending ? "Wysyłanie..." : "Wyślij zgłoszenie")
+                }
+                .frame(maxWidth: .infinity)
+                .padding()
+                .background(isSending ? Color.gray : Color.purple)
+                .foregroundColor(.white)
+                .cornerRadius(24)
+                .padding(.horizontal)
             }
+            .disabled(isSending)
+            
+            // Ręczny wybór budynku, jeśli nie dopasowano
             if showManualSelection {
                 VStack(alignment: .leading, spacing: 6) {
                     Text("Wybierz budynek:")
                         .font(.subheadline)
                         .foregroundColor(.gray)
                         .padding(.horizontal)
-
+                    
                     Picker("Wybierz budynek", selection: $assignedBuilding) {
                         ForEach(polygonBuildings.map {
-                            Building(id: $0.id, name: $0.name, latitude: $0.corners[0].latitude, longitude: $0.corners[0].longitude)
+                            Building(id: $0.id,
+                                     name: $0.name,
+                                     latitude: $0.corners[0].latitude,
+                                     longitude: $0.corners[0].longitude)
                         }) { building in
                             Text(building.name).tag(Optional(building))
                         }
                     }
-                    .pickerStyle(MenuPickerStyle())
+                    .pickerStyle(.menu)
                     .padding(.horizontal)
                     .background(Color(.systemGray6))
                     .cornerRadius(8)
                 }
             }
-            Spacer()
+            
+            Spacer(minLength: 8)
         }
         .padding(.top)
         .navigationTitle("Zgłoś awarię")
         .onReceive(locationManager.$location) { newLocation in
             guard let location = newLocation else { return }
-
+            
             if let match = matchedBuilding(for: location) {
                 assignedBuilding = Building(
                     id: match.id,

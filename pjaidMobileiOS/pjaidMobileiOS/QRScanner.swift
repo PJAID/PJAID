@@ -2,14 +2,20 @@
 //  QRScanner.swift
 //  pjaidMobileiOS
 //
-//  Created by Adrian Goik on 20/04/2025.
-//
+
 import SwiftUI
 import CodeScanner
 
 struct QRScannerScreen: View {
     @State private var isPresentingScanner = false
     @State private var scannedCode: String?
+
+    // NOWE: przełącznik testowy (domyślnie false, czyli realny skaner)
+    let useFake: Bool
+
+    init(useFake: Bool = false) {
+        self.useFake = useFake
+    }
 
     var body: some View {
         NavigationStack {
@@ -33,10 +39,25 @@ struct QRScannerScreen: View {
             }
             .navigationTitle("Skaner QR")
             .sheet(isPresented: $isPresentingScanner) {
-                CodeScannerView(
-                    codeTypes: [.qr],
-                    completion: handleScan
-                )
+                if useFake {
+                    // FAKE – tylko do testów UI
+                    FakeScannerView { result in
+                        switch result {
+                        case .success(let code):
+                            scannedCode = code
+                            print("FAKE wynik: \(code)")
+                        case .failure(let error):
+                            print("Błąd fake: \(error.localizedDescription)")
+                        }
+                        isPresentingScanner = false
+                    }
+                } else {
+                    // REALNY skaner – normalna praca aplikacji
+                    CodeScannerView(
+                        codeTypes: [.qr],
+                        completion: handleScan
+                    )
+                }
             }
         }
     }
@@ -54,3 +75,17 @@ struct QRScannerScreen: View {
     }
 }
 
+// Prosty „fejkowy” skaner do testów – zwraca z góry ustalony kod
+struct FakeScannerView: View {
+    let onComplete: (Result<String, ScanError>) -> Void
+
+    var body: some View {
+        VStack(spacing: 12) {
+            Text("FAKE SCANNER").font(.headline)
+            Button("Zwróć wynik") {
+                onComplete(.success("device:123"))
+            }
+        }
+        .padding()
+    }
+}
