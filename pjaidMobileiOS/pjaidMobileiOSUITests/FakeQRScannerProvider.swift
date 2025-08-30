@@ -8,16 +8,16 @@
 import SwiftUI
 import CodeScanner
 
-struct FakeQRScannerProvider: QRScannerProviding {
-    let fakeCode: String
-    func makeScanner(completion: @escaping (Result<ScanResult, ScanError>) -> Void) -> some View {
-        // Zastępujemy sheet prostym widokiem z przyciskiem „Zwróć wynik”
-        return VStack {
+struct FakeQRScannerProvider: View {
+    let onComplete: (Result<String, ScanError>) -> Void
+
+    var body: some View {
+        VStack {
             Text("FAKE SCANNER")
             Button("Zwróć wynik") {
-                completion(.success(ScanResult(string: fakeCode, type: .qr)))
+                onComplete(.success("device:123"))
             }
-        }.padding()
+        }
+        .padding()
     }
 }
-
