@@ -54,3 +54,8 @@ struct TechnicianDTO: Codable {
     let id: Int?
     let userName: String?
 }
+
+struct Device: Identifiable, Codable {
+    let id: Int
+    let name: String
+}
