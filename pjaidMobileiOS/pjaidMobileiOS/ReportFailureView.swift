@@ -88,7 +88,40 @@ struct ReportFailureView: View {
     @State private var selectedStatus: TicketStatus = .nowe
     @State private var assignedBuilding: Building? = nil
     @State private var showManualSelection = false
+    
+    @State private var devices: [Device] = []
+    @State private var selectedDeviceId: Int? = nil
 
+    func fetchDevices() {
+        guard let url = URL(string: "http://localhost:8080/devices") else {
+            print("Niepoprawny URL urządzeń")
+            return
+        }
+
+        URLSession.shared.dataTask(with: url) { data, response, error in
+            if let error = error {
+                print("Błąd pobierania urządzeń: \(error)")
+                return
+            }
+
+            guard let data = data else {
+                print("Brak danych z backendu")
+                return
+            }
+
+            do {
+                let decoded = try JSONDecoder().decode([Device].self, from: data)
+                DispatchQueue.main.async {
+                    self.devices = decoded
+                    self.selectedDeviceId = nil
+                    print("Pobrane urządzenia: \(decoded)")
+                }
+            } catch {
+                print("Błąd dekodowania urządzeń: \(error)")
+            }
+        }.resume()
+    }
+    
     func isPointInsidePolygon(point: CLLocationCoordinate2D, polygon: [CLLocationCoordinate2D]) -> Bool {
         var inside = false
         var j = polygon.count - 1
@@ -175,6 +208,23 @@ struct ReportFailureView: View {
                 .textFieldStyle(.roundedBorder)
                 .padding(.horizontal)
             
+            Section(header: Text("Urządzenie")
+                .font(.footnote)
+                .foregroundColor(.gray)
+                .frame(maxWidth: .infinity, alignment: .leading)
+                .padding(.horizontal)
+            ) {
+                Picker("Wybierz urządzenie", selection: $selectedDeviceId) {
+                    Text("Wybierz urządzenie").tag(nil as Int?)
+
+                    ForEach(devices, id: \.id) { device in
+                        Text(device.name).tag(device.id as Int?)
+                    }
+                }
+                .pickerStyle(.menu)
+                .padding(.horizontal)
+            }
+            
             Picker("Status awarii", selection: $selectedStatus) {
                 ForEach(TicketStatus.allCases) { status in
                     Text(status.rawValue).tag(status)
@@ -220,6 +270,10 @@ struct ReportFailureView: View {
                     print("Brak użytkownika – nie można wysłać zgłoszenia")
                     return
                 }
+                guard let selectedDeviceId else {
+                    print("Nie wybrano urządzenia")
+                    return
+                }
 
                 let newTicket = Ticket(
                     id: Int.random(in: 1000...9999),
@@ -231,7 +285,8 @@ struct ReportFailureView: View {
                     latitude: locationManager.location?.latitude,
                     longitude: locationManager.location?.longitude,
                     building: assignedBuilding?.name,
-                    technician: nil
+                    technician: nil,
+                    deviceId: Int64(selectedDeviceId)
                 )
 
                 sendTicketToBackend(ticket: newTicket)
@@ -319,5 +374,8 @@ struct ReportFailureView: View {
                 EmptyView()
             }
         )
+        .onAppear {
+            fetchDevices()
+        }
     }
 }
