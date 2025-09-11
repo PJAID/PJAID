@@ -54,4 +54,5 @@ export class TicketViewComponent implements OnInit {
       }
     });
   }
+
 }

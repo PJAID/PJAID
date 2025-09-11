@@ -182,3 +182,32 @@ button.sortable:focus {
 .sort-icon {
   font-size: 0.9em;
 }
+.pagination {
+  margin-top: 20px;
+  text-align: center;
+}
+
+.pagination button {
+  margin: 0 4px;
+  padding: 6px 12px;
+  border: 1px solid #ccc;
+  background: white;
+  cursor: pointer;
+  border-radius: 10px;
+}
+
+.pagination button:hover:not(:disabled) {
+  background: #0d47a1;
+  color: white;
+}
+
+.pagination button.active {
+  background: #0d47a1;
+  color: white;
+  font-weight: bold;
+}
+
+.pagination button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}

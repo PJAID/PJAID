@@ -28,6 +28,15 @@ public class TicketResponse {
     @SerializedName("createdAt")
     private String createdAt;
 
+    @SerializedName("reportDescription")
+    private String reportDescription;
+
+    @SerializedName("reportDuration")
+    private String reportDuration;
+
+    @SerializedName("reportNotes")
+    private String reportNotes;
+
     @SerializedName("incident")
     private Incident incident;
 
@@ -38,10 +47,10 @@ public class TicketResponse {
     private User user;
 
     public TicketResponse() {
-        // Konstruktor domyślny dla GSON
+
     }
 
-    // Gettery
+
     public Long getId() { return id; }
 
     public String getTitle() { return title; }
@@ -54,11 +63,33 @@ public class TicketResponse {
 
     public String getCreatedAt() { return createdAt; }
 
-    public Incident getIncident() { return incident; }
-
     public Device getDevice() { return device; }
 
-    public User getUser() { return user; }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
+    public void setTechnicianName(String technicianName) {
+        this.technicianName = technicianName;
+    }
+
+    public void setReportDescription(String reportDescription) {
+        this.reportDescription = reportDescription;
+    }
+
+    public void setReportDuration(String reportDuration) {
+        this.reportDuration = reportDuration;
+    }
+
+    public void setReportNotes(String reportNotes) {
+        this.reportNotes = reportNotes;
+    }
+
 
     // Formatowanie daty
     public String getFormattedDate() {
@@ -75,7 +106,6 @@ public class TicketResponse {
         }
     }
 
-    // Klasy zagnieżdżone
     public static class Incident {
         @SerializedName("id")
         private int id;

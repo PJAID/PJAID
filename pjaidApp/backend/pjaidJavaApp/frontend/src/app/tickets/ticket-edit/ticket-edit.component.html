@@ -24,4 +24,11 @@
     <button type="submit" [disabled]="ticketForm.invalid">Zapisz</button>
     <button type="button" (click)="goBack()">Anuluj</button>
   </div>
+
+  <div class="extra-actions" *ngIf="ticketForm.get('status')?.value === 'ZAMKNIETE'">
+    <button type="button" class="csv-btn" (click)="downloadCsv()">
+      Pobierz CSV
+    </button>
+  </div>
+
 </form>

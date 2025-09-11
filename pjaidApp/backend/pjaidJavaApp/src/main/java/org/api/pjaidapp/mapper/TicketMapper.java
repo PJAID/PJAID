@@ -21,6 +21,7 @@ public interface TicketMapper {
     @Mapping(source = "technician.id", target = "technicianId")
     @Mapping(source = "device", target = "device")
     @Mapping(source = "user", target = "user")
+    @Mapping(source = "user.userName", target = "username")
     @Mapping(source = "createdAt", target = "createdAt")
     @Mapping(source = "updatedAt", target = "updatedAt")
     @Mapping(source = "id", target = "id")

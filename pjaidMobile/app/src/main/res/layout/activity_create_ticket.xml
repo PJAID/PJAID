@@ -88,24 +88,25 @@
                 android:layout_marginBottom="8dp" />
 
             <EditText
-        android:id="@+id/editTextDescription"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="top"
-        android:hint="Opis zgłoszenia"
-        android:minLines="5" />
+              android:id="@+id/editTextDescription"
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:gravity="top"
+              android:hint="Opis zgłoszenia"
+              android:minLines="5" />
 
-        <com.google.android.gms.maps.MapView
-        android:id="@+id/mapView"
-        android:layout_width="match_parent"
-        android:layout_height="200dp"
-        android:visibility="visible" />
+            <com.google.android.gms.maps.MapView
+             android:id="@+id/mapView"
+             android:layout_width="match_parent"
+             android:layout_height="200dp"
+             android:visibility="visible" />
 
-        <Button
-        android:id="@+id/buttonSubmitTicket"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Wyślij zgłoszenie" />
+           <Button
+            android:id="@+id/buttonSubmitTicket"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Wyślij zgłoszenie"
+            android:backgroundTint="@color/material_dynamic_primary20"/>
         </LinearLayout>
         </androidx.cardview.widget.CardView>
     </ScrollView>

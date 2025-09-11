@@ -1,11 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <!-- tło -->
+    <!-- Tło -->
     <ImageView
         android:id="@+id/background_image"
         android:layout_width="0dp"
@@ -18,7 +17,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
 
-    <!-- logo -->
+    <!-- Logo -->
     <ImageView
         android:id="@+id/img_logo"
         android:layout_width="315dp"
@@ -30,7 +29,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         android:layout_marginTop="32dp" />
 
-    <!-- treść do przewijania -->
+    <!-- Scroll -->
     <ScrollView
         android:id="@+id/scroll_container"
         android:layout_width="0dp"
@@ -55,7 +54,7 @@
                 android:background="#FCFDFF"
                 android:padding="24dp">
 
-                <!-- tytuł -->
+                <!-- Tytuł -->
                 <TextView
                     android:id="@+id/tv_detail_title"
                     android:layout_width="match_parent"
@@ -65,86 +64,177 @@
                     android:textSize="23sp"
                     android:textStyle="bold"
                     android:gravity="center_horizontal"
-                    android:layout_marginBottom="12dp" />
+                    android:layout_marginBottom="8dp" />
 
-                <!-- opis -->
+                <!-- Opis -->
                 <TextView
                     android:id="@+id/tv_detail_description"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="Opis zgłoszenia:"
-                    android:textSize="17sp"
-                    android:textColor="#333333"
-                    android:layout_marginBottom="8dp" />
+                    android:textSize="16sp"
+                    android:textColor="#555555"
+                    android:layout_marginBottom="4dp" />
 
-                <!-- status -->
+                <com.google.android.material.textfield.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Edytuj opis zgłoszenia"
+                    app:boxBackgroundMode="none"
+                    android:layout_marginBottom="0dp">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/et_description"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:visibility="gone" />
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="#DDDDDD"
+                    android:layout_marginBottom="16dp" />
+
+                <!-- Status -->
                 <TextView
                     android:id="@+id/tv_detail_status"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="Status:"
                     android:textSize="16sp"
-                    android:textColor="#333333"
+                    android:textColor="#555555"
                     android:layout_marginBottom="4dp" />
 
-                <!-- przekierowanie -->
+                <Spinner
+                    android:id="@+id/spinner_status"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="0dp"
+                    android:visibility="gone" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="#DDDDDD"
+                    android:layout_marginBottom="16dp" />
+
+                <!-- Przypisany -->
                 <TextView
                     android:id="@+id/tv_detail_assignee"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="Assigned to:"
                     android:textSize="16sp"
-                    android:textColor="#333333"
+                    android:textColor="#555555"
                     android:layout_marginBottom="4dp" />
 
-                <!-- data -->
+                <Spinner
+                    android:id="@+id/spinner_assignee"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="0dp"
+                    android:visibility="gone" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="#DDDDDD"
+                    android:layout_marginBottom="16dp" />
+
+                <!-- Data -->
                 <TextView
                     android:id="@+id/tv_detail_date"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="Created:"
-                    android:textSize="16sp"
+                    android:textSize="14sp"
                     android:textColor="#888888"
                     android:layout_marginBottom="16dp" />
 
-                <!-- przyciski -->
+                <!-- Raport -->
+                <LinearLayout
+                    android:id="@+id/report_section"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:visibility="gone"
+                    android:layout_marginTop="16dp">
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="Opis działań"
+                        app:boxBackgroundMode="none">
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/et_report_description"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content" />
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="Czas trwania (minuty)"
+                        app:boxBackgroundMode="none">
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/et_report_duration"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:inputType="number" />
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="Uwagi końcowe"
+                        app:boxBackgroundMode="none">
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/et_report_notes"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content" />
+                    </com.google.android.material.textfield.TextInputLayout>
+                </LinearLayout>
+
+                <!-- Przyciski -->
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal"
-                    android:gravity="center">
+                    android:gravity="center"
+                    android:layout_marginTop="16dp">
 
                     <Button
                         android:id="@+id/btn_edit_ticket"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginEnd="12dp"
-                        android:backgroundTint="@color/material_dynamic_primary20"
                         android:text="Edytuj"
                         android:textColor="#FFFFFF"
+                        android:backgroundTint="@color/material_dynamic_primary20"
                         android:paddingStart="32dp"
                         android:paddingEnd="32dp"
                         android:paddingTop="8dp"
-                        android:paddingBottom="8dp" />
+                        android:paddingBottom="8dp"
+                        android:layout_marginEnd="12dp" />
 
                     <Button
-                        android:id="@+id/btn_delete_ticket"
+                        android:id="@+id/btn_save_changes"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:backgroundTint="#D32F2F"
-                        android:text="Usuń"
+                        android:text="Zapisz"
                         android:textColor="#FFFFFF"
+                        android:backgroundTint="#173517"
                         android:paddingStart="32dp"
                         android:paddingEnd="32dp"
                         android:paddingTop="8dp"
-                        android:paddingBottom="8dp" />
-
+                        android:paddingBottom="8dp"
+                        android:layout_marginStart="12dp"
+                        android:visibility="gone" />
                 </LinearLayout>
-
             </LinearLayout>
-
         </androidx.cardview.widget.CardView>
-
     </ScrollView>
-
 </androidx.constraintlayout.widget.ConstraintLayout>

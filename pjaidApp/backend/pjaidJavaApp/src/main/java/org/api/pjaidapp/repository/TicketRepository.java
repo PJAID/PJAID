@@ -4,7 +4,8 @@ import org.api.pjaidapp.enums.Status;
 import org.api.pjaidapp.model.Ticket;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
-
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import java.util.Collection;
 import java.util.List;
 
@@ -14,5 +15,9 @@ public interface TicketRepository extends JpaRepository<Ticket, Long>, JpaSpecif
     List<Ticket> findByTechnicianUserName(String userName);
 
     long countByTechnicianAndStatus(org.api.pjaidapp.model.User technician, Status status);
+
+    Page<Ticket> findByUserUserNameOrTechnicianUserName(String userUsername, String technicianUsername, Pageable pageable);
+
+
 
 }

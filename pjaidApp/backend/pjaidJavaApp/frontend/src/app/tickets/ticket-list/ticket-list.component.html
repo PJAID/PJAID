@@ -145,3 +145,26 @@
 <div *ngIf="!isLoading && tickets.length === 0" class="no-results">
   Brak ticketów spełniających podane kryteria.
 </div>
+
+<!-- PAGINACJA -->
+<div *ngIf="!isLoading && tickets.length > 0" class="pagination">
+  <button class="page-btn"
+          (click)="goToPage(currentPage - 1)"
+          [disabled]="currentPage === 0">
+    ⟨ Poprzednia
+  </button>
+
+  <button *ngFor="let i of [].constructor(totalPages); let idx = index"
+          class="page-btn"
+          [class.active]="idx === currentPage"
+          (click)="goToPage(idx)">
+    {{ idx + 1 }}
+  </button>
+
+  <button class="page-btn"
+          (click)="goToPage(currentPage + 1)"
+          [disabled]="currentPage === totalPages - 1">
+    Następna ⟩
+  </button>
+</div>
+

@@ -47,4 +47,40 @@ export class TicketEditComponent implements OnInit {
   goBack() {
     this.router.navigate(['/tickets', this.ticketId]);
   }
+
+  // closeTicket(): void {
+  //   if (!this.ticketId) return;
+  //
+  //   this.ticketService.updateTicketStatus(this.ticketId, 'ZAMKNIETE').subscribe({
+  //     next: updated => {
+  //       this.ticketForm.patchValue(updated);
+  //       alert('Zgłoszenie zostało zamknięte');
+  //     },
+  //     error: err => {
+  //       console.error('Błąd zamykania zgłoszenia:', err);
+  //       alert('Nie udało się zamknąć zgłoszenia');
+  //     }
+  //   });
+  // }
+
+  downloadCsv(): void {
+    if (!this.ticketId) return;
+
+    this.ticketService.downloadTicketReport(this.ticketId).subscribe({
+      next: (blob) => {
+        const url = window.URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = `ticket_${this.ticketId}.csv`;
+        a.click();
+        window.URL.revokeObjectURL(url);
+      },
+      error: err => {
+        console.error('Błąd pobierania CSV:', err);
+        alert('Nie udało się pobrać raportu');
+      }
+    });
+  }
+
+
 }

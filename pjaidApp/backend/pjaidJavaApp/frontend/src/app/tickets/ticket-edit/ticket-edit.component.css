@@ -70,7 +70,7 @@ button[type="submit"] {
   color: white;
 }
 
-button[type="button"] {
+button[type="button"]:not(.csv-btn){
   background-color: #cd2419;
   color: white;
 }
@@ -79,3 +79,19 @@ button[disabled] {
   background-color: #aaa;
   cursor: not-allowed;
 }
+.csv-btn {
+  background-color:#1b5e20;
+  color: white;
+  padding: 10px 20px;
+  font-weight: bold;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 14px;
+  transition: background-color 0.2s ease-in-out;
+}
+
+.csv-btn:hover {
+  background-color:#2e7d32;
+}
+

@@ -4,6 +4,7 @@ import org.api.pjaidapp.dto.TicketRequest;
 import org.api.pjaidapp.dto.TicketResponse;
 import org.api.pjaidapp.enums.Status;
 import org.api.pjaidapp.service.TicketService;
+import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -96,5 +97,92 @@ public class TicketController {
     public Map<String, Long> getTicketStatusSummary() {
         return ticketService.getTicketStatusSummary();
     }
+
+    @GetMapping("/mine")
+    public ResponseEntity<List<TicketResponse>> getTicketsRelatedToUser(@RequestParam String username) {
+        List<TicketResponse> tickets = ticketService.getTicketsByUserOrTechnician(username);
+        return ResponseEntity.ok(tickets);
+    }
+    @GetMapping("/user-or-technician-paged")
+    public ResponseEntity<Page<TicketResponse>> getTicketsByUserOrTechnicianPaged(
+            @RequestParam String username,
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "10") int size
+    ) {
+        return ResponseEntity.ok(ticketService.getTicketsByUserOrTechnicianPaged(username, page, size));
+    }
+    @GetMapping("/paged")
+    public ResponseEntity<Page<TicketResponse>> getAllTicketsPaged(
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "10") int size
+    ) {
+        return ResponseEntity.ok(ticketService.getAllTicketsPaged(page, size));
+    }
+    @GetMapping("/mine-paged")
+    public ResponseEntity<Page<TicketResponse>> getTicketsMinePaged(
+            @RequestParam String username,
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "10") int size
+    ) {
+        return ResponseEntity.ok(ticketService.getTicketsByUserOrTechnicianPaged(username, page, size));
+    }
+
+    @GetMapping("/{id}/report")
+    public ResponseEntity<byte[]> exportTicketReport(@PathVariable Long id) {
+        byte[] csvData = ticketService.generateCsvReportForTicket(id);
+
+        return ResponseEntity.ok()
+                .header("Content-Disposition", "attachment; filename=\"ticket_" + id + ".csv\"")
+                .contentType(org.springframework.http.MediaType.parseMediaType("text/csv"))
+                .body(csvData);
+    }
+
+
+    @PatchMapping("/{id}/status")
+    public ResponseEntity<TicketResponse> updateTicketStatus(
+            @PathVariable Long id,
+            @RequestBody Map<String, String> updates
+    ) {
+        System.out.println("[BACKEND] Otrzymano PATCH /ticket/" + id + "/status z danymi: " + updates);
+
+
+        if (!updates.containsKey("status")) {
+            return ResponseEntity.badRequest().build();
+        }
+
+
+        String newStatus = updates.get("status");
+        try {
+            Status statusEnum = Status.valueOf(newStatus);
+            TicketResponse updatedTicket = ticketService.updateTicketStatus(id, statusEnum);
+            return ResponseEntity.ok(updatedTicket);
+        } catch (IllegalArgumentException e) {
+            System.err.println("[BACKEND] Błędny status: " + newStatus);
+            return ResponseEntity.badRequest().build();
+        }
+    }
+
+    @PatchMapping("/{id}/assignee")
+    public ResponseEntity<TicketResponse> updateTicketAssignee(
+            @PathVariable Long id,
+            @RequestBody Map<String, String> updates
+    ) {
+        System.out.println("[BACKEND] Otrzymano PATCH /ticket/" + id + "/assignee z danymi: " + updates);
+
+        if (!updates.containsKey("assignee")) {
+            return ResponseEntity.badRequest().build();
+        }
+
+        String newAssignee = updates.get("assignee");
+        try {
+            TicketResponse updatedTicket = ticketService.updateTicketAssignee(id, newAssignee);
+            return ResponseEntity.ok(updatedTicket);
+        } catch (Exception e) {
+            System.err.println("[BACKEND] Błąd przypisania technika: " + newAssignee);
+            return ResponseEntity.badRequest().build();
+        }
+    }
+
+
 }
 

@@ -17,6 +17,8 @@ import org.api.pjaidapp.repository.UserRepository;
 import org.api.pjaidapp.repository.specification.TicketSpecifications;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
+
+import java.nio.charset.StandardCharsets;
 import java.util.Arrays;
 import java.util.Comparator;
 import java.util.List;
@@ -25,6 +27,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import java.util.*;
 import java.util.stream.Collectors;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 
 @Service
 public class TicketService {
@@ -106,6 +111,7 @@ public class TicketService {
             User technician = selectedTechnician.get();
             logger.info("Przypisano technika: {} (load: {})", technician.getUserName(), technician.getCurrentLoad());
             ticket.setTechnician(technician);
+
 
             // Zwiększa obciążenie technika
             technician.setCurrentLoad(technician.getCurrentLoad() + 1);
@@ -190,8 +196,80 @@ public class TicketService {
                 .map(ticketMapper::toResponse)
                 .toList();
     }
+
+    public List<TicketResponse> getTicketsByUserOrTechnician(String username) {
+        Pageable pageable = PageRequest.of(0, 50);
+        List<Ticket> tickets = ticketRepository.findByUserUserNameOrTechnicianUserName(username, username, pageable)
+                .getContent();
+        return tickets.stream()
+                .map(ticketMapper::toResponse)
+                .toList();
+    }
+
+    public Page<TicketResponse> getTicketsByUserOrTechnicianPaged(String username, int page, int size) {
+        Pageable pageable = PageRequest.of(page, size);
+        Page<Ticket> paged = ticketRepository.findByUserUserNameOrTechnicianUserName(username, username, pageable);
+        return paged.map(ticketMapper::toResponse);
+    }
+
+    public Page<TicketResponse> getAllTicketsPaged(int page, int size) {
+        Pageable pageable = PageRequest.of(page, size);
+        Page<Ticket> paged = ticketRepository.findAll(pageable);
+        return paged.map(ticketMapper::toResponse);
+    }
+
+
     public Map<String, Long> getTicketStatusSummary() {
         return ticketRepository.findAll().stream()
                 .collect(Collectors.groupingBy(t -> t.getStatus().name(), Collectors.counting()));
     }
+    public TicketResponse updateTicketStatus(Long id, Status newStatus) {
+        Ticket ticket = ticketRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Ticket not found"));
+
+        ticket.setStatus(newStatus);
+        ticketRepository.save(ticket);
+        return ticketMapper.toResponse(ticket);
+
+    }
+
+    public TicketResponse updateTicketAssignee(Long id, String assigneeName) {
+        Ticket ticket = ticketRepository.findById(id)
+                .orElseThrow(() -> new TicketNotFoundException(id));
+
+        User technician = userRepository.findByUserName(assigneeName)
+                .orElseThrow(() -> new UserNotFoundException("Technician with username " + assigneeName + " not found"));
+
+        ticket.setTechnician(technician);
+        ticketRepository.save(ticket);
+
+        return ticketMapper.toResponse(ticket);
+    }
+
+    public byte[] generateCsvReportForTicket(Long id) {
+        Ticket ticket = ticketRepository.findById(id)
+                .orElseThrow(() -> new TicketNotFoundException(id));
+
+        StringBuilder sb = new StringBuilder();
+        sb.append("ID;Tytuł;Opis;Status;Technik;Data utworzenia\n");
+
+        sb.append(ticket.getId()).append(";")
+                .append(safe(ticket.getTitle())).append(";")
+                .append(safe(ticket.getDescription())).append(";")
+                .append(ticket.getStatus() != null ? ticket.getStatus().name() : "Brak").append(";")
+                .append(ticket.getTechnician() != null ? ticket.getTechnician().getUserName() : "Brak").append(";")
+                .append(ticket.getCreatedAt() != null ? ticket.getCreatedAt().toString() : "Brak")
+                .append("\n");
+
+        return sb.toString().getBytes(StandardCharsets.UTF_8);
+    }
+
+    private String safe(String text) {
+        return text == null ? "" : text.replace(";", ",");
+    }
+
+
+
+
+
 }

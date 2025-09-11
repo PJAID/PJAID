@@ -1,7 +1,7 @@
 import {Component, inject, OnInit} from '@angular/core';
 import {CommonModule} from '@angular/common';
 import {RouterModule} from '@angular/router';
-import {TicketService} from '../services/ticket.service';
+import {TicketService, PageResponse} from '../services/ticket.service';
 import {TicketResponse} from '../../shared/models/ticket-response.model';
 import {FormsModule} from '@angular/forms';
 
@@ -20,6 +20,9 @@ export class TicketListComponent implements OnInit {
   sortColumn: string = '';
   sortDirection: 'asc' | 'desc' = 'asc';
 
+  totalPages = 0;
+  currentPage = 0;
+
   statusCounts = {
     NOWE: 0,
     W_TRAKCIE: 0,
@@ -33,10 +36,10 @@ export class TicketListComponent implements OnInit {
   filterTitle: string = '';
 
   ngOnInit(): void {
-    this.loadTickets();
+    this.loadTickets(0);
   }
 
-  loadTickets(): void {
+  loadTickets(page: number): void {
     this.isLoading = true;
 
     const currentFilters = {
@@ -46,9 +49,13 @@ export class TicketListComponent implements OnInit {
       titleContains: this.filterTitle
     };
 
-    this.ticketService.getAllTickets(currentFilters).subscribe({
-      next: data => {
-        this.tickets = data;
+    this.ticketService.getPagedTickets(page, 10, currentFilters).subscribe({
+      next: (data: PageResponse<TicketResponse>) => {
+        console.log('PageResponse:', data);
+
+        this.tickets = data.content;
+        this.totalPages = data.totalPages;
+        this.currentPage = data.number;
         this.countStatuses();
         this.isLoading = false;
       },
@@ -57,6 +64,11 @@ export class TicketListComponent implements OnInit {
         this.isLoading = false;
       }
     });
+  }
+  goToPage(page: number): void {
+    if (page >= 0 && page < this.totalPages) {
+      this.loadTickets(page);
+    }
   }
 
   private countStatuses(): void {
@@ -74,7 +86,7 @@ export class TicketListComponent implements OnInit {
   }
 
   applyFilters(): void {
-    this.loadTickets();
+    this.loadTickets(0);
     this.sortTickets();
   }
 
@@ -83,7 +95,7 @@ export class TicketListComponent implements OnInit {
     this.filterUserName = '';
     this.filterDeviceName = '';
     this.filterTitle = '';
-    this.loadTickets();
+    this.loadTickets(0);
   }
 
   sortBy(column: string): void {
@@ -132,7 +144,7 @@ export class TicketListComponent implements OnInit {
   startTicket(ticketId: number): void {
     this.ticketService.startTicket(ticketId).subscribe({
       next: updatedTicket => {
-        this.loadTickets();
+        this.loadTickets(this.currentPage);
       },
       error: err => {
         console.error("Błąd podczas rozpoczynania zgłoszenia:", err);
